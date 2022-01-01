@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.model.dao;
 
 import com.model.Room;
@@ -52,9 +48,34 @@ public class RoomDAO {
 //    public List<Room> searchRooms(String key) {
 //
 //    }
-    public Room getRoom(int id) {
-        Room room = new Room();
+    public Room getRoom(String roomNumber) {
+        Room room = null;
+        Connection conn = null;
+        ResultSet rs = null;
+        PreparedStatement stm = null;
+        try {
+            conn = db.conn();
+            String query = "SELECT * FROM room WHERE roomNumber = ?";
+            stm = conn.prepareStatement(query);
+            stm.setString(1, roomNumber);
+            rs = stm.executeQuery();
+            if (rs.next()) {
+                room = new Room(
+                        rs.getInt("id"),
+                        rs.getString("roomNumber"),
+                        rs.getInt("price"),
+                        rs.getInt("square"),
+                        rs.getString("description"),
+                        rs.getInt("status"),
+                        rs.getInt("electricCounter"),
+                        rs.getInt("waterCounter")
+                );
+            }
+        } catch (SQLException e) {
 
+        } finally {
+            db.closeAll(conn, stm, rs);
+        }
         return room;
     }
 
@@ -107,15 +128,17 @@ public class RoomDAO {
         return status;
     }
 
+    //Update room info:
     public boolean updateRoom(Room room) {
         boolean status = false;
         Connection conn = null;
         PreparedStatement stm = null;
         try {
             conn = db.conn();
-            String query = "UPDATE ROOM SET price = ?, square = ?, description = ?, electricCounter = ?, "
+            String query = "UPDATE ROOM SET price = ?, square = ?, "
+                    + "description = ?, electricCounter = ?, "
                     + "waterCounter = ?, status = ? "
-                    + "WHERE id = ?";
+                    + "WHERE roomNumber = ?";
             stm = conn.prepareStatement(query);
             stm.setInt(1, room.getPrice());
             stm.setInt(2, room.getSquare());
@@ -123,7 +146,7 @@ public class RoomDAO {
             stm.setInt(4, room.getElectricCounter());
             stm.setInt(5, room.getWaterCounter());
             stm.setInt(6, room.getStatus());
-            stm.setInt(7, room.getId());
+            stm.setString(7, room.getRoomNumber());
             int res = stm.executeUpdate();
             status = res > 0;
         } catch (SQLException e) {
@@ -131,9 +154,7 @@ public class RoomDAO {
         } finally {
             db.closeAll(conn, stm, null);
         }
-
         return status;
-
     }
 
     //test:

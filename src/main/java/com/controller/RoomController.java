@@ -27,6 +27,10 @@ public class RoomController {
 //    public static RoomDTO searchRoom(String key) {
 //
 //    }
+    public static RoomDTO getRoom(String roomNumber) {
+        return RoomModelToDTO(roomDAO.getRoom(roomNumber));
+    }
+
     public static boolean addRoomObj(String roomNumber, String price, String square, String description) {
         Room r = new Room();
 
@@ -38,10 +42,26 @@ public class RoomController {
         return roomDAO.addRoom(r);
     }
 
+    public static boolean updateRoomObj(String roomNumber, String price, String square, String description, String elec, String water) {
+        Room r = new Room();
+
+        r.setRoomNumber(roomNumber);
+        price = price.replace(",", "");
+        r.setPrice(Integer.parseInt(price));
+
+        r.setSquare(Integer.parseInt(square));
+        r.setDescription(description);
+        r.setElectricCounter(Integer.parseInt(elec));
+        r.setWaterCounter(Integer.parseInt(water));
+
+        return roomDAO.updateRoom(r);
+    }
+
     public static RoomDTO RoomModelToDTO(Room r) {
-
+        if (r == null) {
+            return null;
+        }
         NumberFormat numFormat = NumberFormat.getInstance();
-
         RoomDTO rdto = new RoomDTO();
         rdto.setId(r.getId());
         rdto.setRoomNumber(r.getRoomNumber());

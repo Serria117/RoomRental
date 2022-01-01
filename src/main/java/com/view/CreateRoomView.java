@@ -171,16 +171,12 @@ public class CreateRoomView extends javax.swing.JFrame {
             String roomNumberErr = !validateRoomNumber(roomNumber) ? "Số phòng không hợp lệ. Số phòng phải có cấu trúc: \"P0000\".\n" : "";
             String squareErr = !validateSquare(square) ? "Diện tích phòng không hợp lệ. Diện tích phải là số >0.\n" : "";
             String priceErr = !validatePrice(price) ? "Giá phòng không hợp lệ. Giá phòng phải là số >0." : "";
-            JOptionPane.showMessageDialog(
-                    null,
-                    roomNumberErr
-                    + squareErr
-                    + priceErr
-            );
+            JOptionPane.showMessageDialog(null, roomNumberErr + squareErr + priceErr);
         } else {
             if (RoomController.addRoomObj(roomNumber, price, square, description)) {
                 JOptionPane.showMessageDialog(null, "Phòng " + roomNumber + " tạo thành công.");
                 this.dispose();
+
             }
         }
     }//GEN-LAST:event_btnAddActionPerformed
