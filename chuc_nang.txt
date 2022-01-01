@@ -1,0 +1,43 @@
+Quản lý Phòng:
+	- Thêm phòng (admin only)
+	- Hiển thị danh sách phòng:
+		+ Tất cả
+		+ Chỉ phòng chống
+	- Tìm kiếm phòng theo:
+		+ Diện tích
+		+ Mô tả
+		+ Giá tiền
+	- Xem chi tiết 1 phòng, với mỗi phòng có thể:
+		+ Sửa thông tin (giá, mô tả v.v...) (admin only)
+		+ Tạo hợp đồng (với phòng ở trạng thái "trống")
+		+ Tạo hóa đơn (với phòng ở trạng thái "có khách")
+		+ Tra cứu hợp đồng
+		+ Tra cứu hóa đơn và lịch sử thanh toán
+		+ Tra cứu đồng hồ điện, nước
+		+ Điều chỉnh hợp đồng đang thực hiện (với phòng ở trạng thái "có khách"):
+			* Thêm, bớt khách
+			* Thay đổi người đại diện hợp đồng
+		+ Trả phòng (với phòng ở trạng thái "có khách")
+			* Khi trả phòng tự động thanh lý hợp đồng và chuyển tất cả trạng thái của khách theo 			hợp đồng thành "0";
+
+Quản lý Khách:
+	- Tìm kiếm khách theo:
+		+ Tên, số CCCD, điện thoại
+		+ Số phòng ???
+
+
+Quản lý Dịch vụ:
+	- Thêm dịch vụ (admin only)
+	- Sửa nội dung dịch vụ (giá, đơn vị tính v.v...) (admin only)
+	- Xóa dịch vụ (admin only)
+
+Báo cáo:
+	- Số phòng đang thuê
+	- Số phòng trống
+	- Danh sách phòng đến hạn/quá hạn thanh toán
+
+Hệ thống:
+	- Thêm tài khoản (admin only)
+	- Đổi mật khẩu
+	- Xem lịch sử đăng nhập, lịch sử tạo giao dịch của user (admin only)
+	- Logout/Exit

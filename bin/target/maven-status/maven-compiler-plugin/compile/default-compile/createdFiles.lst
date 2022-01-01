@@ -1,0 +1,6 @@
+com\model\dao\Database.class
+com\model\Contract.class
+com\model\Guest.class
+com\model\dao\DAOInterface.class
+com\model\dao\RoomDAO.class
+com\model\Room.class
