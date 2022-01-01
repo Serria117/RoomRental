@@ -107,14 +107,23 @@ public class RoomDAO {
         return status;
     }
 
-    public boolean updateRoom(int id) {
+    public boolean updateRoom(Room room) {
         boolean status = false;
         Connection conn = null;
         PreparedStatement stm = null;
         try {
             conn = db.conn();
-            String query = "UPDATE ROOM SET price = ?, square = ?, description = ?, electricCounter = ?, waterCounter = ?, status = ?";
+            String query = "UPDATE ROOM SET price = ?, square = ?, description = ?, electricCounter = ?, "
+                    + "waterCounter = ?, status = ? "
+                    + "WHERE id = ?";
             stm = conn.prepareStatement(query);
+            stm.setInt(1, room.getPrice());
+            stm.setInt(2, room.getSquare());
+            stm.setString(3, room.getDescription());
+            stm.setInt(4, room.getElectricCounter());
+            stm.setInt(5, room.getWaterCounter());
+            stm.setInt(6, room.getStatus());
+            stm.setInt(7, room.getId());
             int res = stm.executeUpdate();
             status = res > 0;
         } catch (SQLException e) {
