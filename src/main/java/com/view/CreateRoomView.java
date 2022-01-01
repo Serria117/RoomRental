@@ -64,6 +64,11 @@ public class CreateRoomView extends javax.swing.JFrame {
         });
 
         btnCancel.setText("Hủy");
+        btnCancel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelActionPerformed(evt);
+            }
+        });
 
         jLabel5.setText("Giá thuê:");
 
@@ -163,9 +168,9 @@ public class CreateRoomView extends javax.swing.JFrame {
         String square = txtRoomSquare.getText();
         String description = txtRoomDescription.getText();
         if (!validateRoomNumber(roomNumber) || !validatePrice(price) || !validateSquare(square)) {
-            String roomNumberErr = !validateRoomNumber(roomNumber) ? "Số phòng không hợp lệ. Số phòng phải có cấu trúc: \"P999\"\n" : "";
+            String roomNumberErr = !validateRoomNumber(roomNumber) ? "Số phòng không hợp lệ. Số phòng phải có cấu trúc: \"P0000\".\n" : "";
             String squareErr = !validateSquare(square) ? "Diện tích phòng không hợp lệ. Diện tích phải là số >0.\n" : "";
-            String priceErr = !validatePrice(price) ? "Giá phòng không hợp lệ. Giá phòng phải là số >0" : "";
+            String priceErr = !validatePrice(price) ? "Giá phòng không hợp lệ. Giá phòng phải là số >0." : "";
             JOptionPane.showMessageDialog(
                     null,
                     roomNumberErr
@@ -178,8 +183,14 @@ public class CreateRoomView extends javax.swing.JFrame {
                 this.dispose();
             }
         }
-
     }//GEN-LAST:event_btnAddActionPerformed
+
+    private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
+        txtRoomNumber.setText("");
+        txtRoomSquare.setText("");
+        txtPrice.setText("");
+        txtRoomDescription.setText("");
+    }//GEN-LAST:event_btnCancelActionPerformed
 
     /**
      * @param args the command line arguments
@@ -226,9 +237,9 @@ public class CreateRoomView extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextField txtPrice;
-    private javax.swing.JTextArea txtRoomDescription;
-    private javax.swing.JTextField txtRoomNumber;
-    private javax.swing.JTextField txtRoomSquare;
+    public javax.swing.JTextField txtPrice;
+    public javax.swing.JTextArea txtRoomDescription;
+    public javax.swing.JTextField txtRoomNumber;
+    public javax.swing.JTextField txtRoomSquare;
     // End of variables declaration//GEN-END:variables
 }

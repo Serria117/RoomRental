@@ -171,6 +171,10 @@ public final class RoomListView extends javax.swing.JFrame {
 
     private void btnNewRoomFormActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNewRoomFormActionPerformed
         createRoomView.setVisible(true);
+        createRoomView.txtRoomNumber.setText("");
+        createRoomView.txtPrice.setText("");
+        createRoomView.txtRoomSquare.setText("");
+        createRoomView.txtRoomDescription.setText("");
         createRoomView.pack();
         createRoomView.setLocationRelativeTo(null);
         createRoomView.setDefaultCloseOperation(DISPOSE_ON_CLOSE);

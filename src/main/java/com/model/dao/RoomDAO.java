@@ -109,6 +109,19 @@ public class RoomDAO {
 
     public boolean updateRoom(int id) {
         boolean status = false;
+        Connection conn = null;
+        PreparedStatement stm = null;
+        try {
+            conn = db.conn();
+            String query = "UPDATE ROOM SET price = ?, square = ?, description = ?, electricCounter = ?, waterCounter = ?, status = ?";
+            stm = conn.prepareStatement(query);
+            int res = stm.executeUpdate();
+            status = res > 0;
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        } finally {
+            db.closeAll(conn, stm, null);
+        }
 
         return status;
 
