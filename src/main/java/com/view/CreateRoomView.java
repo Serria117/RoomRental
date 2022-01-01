@@ -163,9 +163,9 @@ public class CreateRoomView extends javax.swing.JFrame {
         String square = txtRoomSquare.getText();
         String description = txtRoomDescription.getText();
         if (!validateRoomNumber(roomNumber) || !validatePrice(price) || !validateSquare(square)) {
-            String roomNumberErr = !validateRoomNumber(roomNumber) ? "Số phòng không hợp lệ\n" : "";
-            String squareErr = !validateSquare(square) ? "Diện tích phòng không hợp lệ\n" : "";
-            String priceErr = !validatePrice(price) ? "Giá phòng không hợp lệ" : "";
+            String roomNumberErr = !validateRoomNumber(roomNumber) ? "Số phòng không hợp lệ. Số phòng phải có cấu trúc: \"P999\"\n" : "";
+            String squareErr = !validateSquare(square) ? "Diện tích phòng không hợp lệ. Diện tích phải là số >0.\n" : "";
+            String priceErr = !validatePrice(price) ? "Giá phòng không hợp lệ. Giá phòng phải là số >0" : "";
             JOptionPane.showMessageDialog(
                     null,
                     roomNumberErr
