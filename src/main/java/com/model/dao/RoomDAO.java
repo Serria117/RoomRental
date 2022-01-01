@@ -137,7 +137,7 @@ public class RoomDAO {
             conn = db.conn();
             String query = "UPDATE ROOM SET price = ?, square = ?, "
                     + "description = ?, electricCounter = ?, "
-                    + "waterCounter = ?, status = ? "
+                    + "waterCounter = ? "
                     + "WHERE roomNumber = ?";
             stm = conn.prepareStatement(query);
             stm.setInt(1, room.getPrice());
@@ -145,8 +145,7 @@ public class RoomDAO {
             stm.setString(3, room.getDescription());
             stm.setInt(4, room.getElectricCounter());
             stm.setInt(5, room.getWaterCounter());
-            stm.setInt(6, room.getStatus());
-            stm.setString(7, room.getRoomNumber());
+            stm.setString(6, room.getRoomNumber());
             int res = stm.executeUpdate();
             status = res > 0;
         } catch (SQLException e) {

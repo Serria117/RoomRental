@@ -98,6 +98,7 @@ public final class RoomView extends javax.swing.JFrame {
         jTable5 = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Quản lý phòng");
 
         jLabel1.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
         jLabel1.setText("QUẢN LÝ PHÒNG");

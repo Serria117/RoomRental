@@ -34,6 +34,7 @@ public class MainMenu extends javax.swing.JFrame {
         btnSetting = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Phần mềm quản lý thuê phòng");
 
         jLabel1.setFont(new java.awt.Font("sansserif", 1, 18)); // NOI18N
         jLabel1.setText("RENT MANAGER");

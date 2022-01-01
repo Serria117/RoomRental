@@ -48,6 +48,7 @@ public final class RoomListView extends javax.swing.JFrame {
         btnReload = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Danh sách phòng");
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         jLabel1.setText("DANH SÁCH PHÒNG");
@@ -80,7 +81,7 @@ public final class RoomListView extends javax.swing.JFrame {
 
         jButton1.setText("Tìm kiếm");
 
-        jButton2.setText("Xem phòng");
+        jButton2.setText("Quản lý phòng");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);
