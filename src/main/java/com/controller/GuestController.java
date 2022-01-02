@@ -29,7 +29,7 @@ public class GuestController {
         if (g == null) {
             gdto = null;
         } else {
-            SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
             gdto = new GuestDTO();
             gdto.setId(g.getId());
             gdto.setFullName(g.getFullName());
