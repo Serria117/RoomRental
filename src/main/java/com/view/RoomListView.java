@@ -8,7 +8,6 @@ import com.controller.RoomController;
 import com.controller.RoomDTO;
 import java.util.ArrayList;
 import java.util.List;
-import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -168,10 +167,11 @@ public final class RoomListView extends javax.swing.JFrame {
             roomView.setVisible(true);
             roomView.pack();
             roomView.setLocationRelativeTo(null);
-            roomView.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+            roomView.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
             roomView.roomNum.setText(roomNo);
             roomView.displayRoomInfo();
+            this.setVisible(false);
 //            roomView.txtElectric.setEnabled(false);
 
         } catch (ArrayIndexOutOfBoundsException e) {
