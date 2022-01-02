@@ -6,6 +6,10 @@ package com.view;
 
 import com.controller.RoomController;
 import com.controller.RoomDTO;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 /**
@@ -17,6 +21,24 @@ public final class RoomView extends javax.swing.JFrame {
     /**
      * Creates new form RoomView
      */
+    //Ẩn/Hiện cửa sổ trước
+    private JFrame roomList;
+    WindowListener exitListener = new WindowAdapter() {
+        @Override
+        public void windowClosing(WindowEvent e) {
+            roomList.setVisible(true);
+            dispose();
+        }
+    };
+
+    public RoomView(JFrame roomList) {
+        initComponents();
+        this.roomList = roomList;
+        displayRoomInfo();
+        this.addWindowListener(exitListener);
+        this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+    }
+
     public RoomView() {
         initComponents();
         displayRoomInfo();
@@ -98,7 +120,7 @@ public final class RoomView extends javax.swing.JFrame {
         jTable5 = new javax.swing.JTable();
         btnBack = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Quản lý phòng");
 
         jLabel1.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
@@ -628,9 +650,8 @@ public final class RoomView extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
-        // TODO add your handling code here:
-        this.setVisible(false);
-        new RoomListView().setVisible(true);
+        this.roomList.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btnBackActionPerformed
 
     /**
@@ -666,6 +687,7 @@ public final class RoomView extends javax.swing.JFrame {
                 new RoomView().setVisible(true);
             }
         });
+
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

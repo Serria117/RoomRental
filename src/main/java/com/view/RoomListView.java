@@ -155,7 +155,7 @@ public final class RoomListView extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-    RoomView roomView = new RoomView();
+    RoomView roomView = new RoomView(this);
     CreateRoomView createRoomView = new CreateRoomView();
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
