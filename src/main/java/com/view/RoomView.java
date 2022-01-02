@@ -629,17 +629,39 @@ public final class RoomView extends javax.swing.JFrame {
         }
     }
 
+    //Validate:
+    private boolean validateNumber(String value) {
+        boolean res = true;
+        try {
+            int intValue = Integer.parseInt(value);
+            if (intValue <= 0) {
+                res = false;
+            }
+        } catch (NumberFormatException e) {
+            res = false;
+        }
+        return res;
+    }
+
     public void updateRoom() {
         String roomNumber = roomNum.getText();
         String price = txtPrice.getText();
+        price = price.replaceAll("\\s|,|\\.", "");
         String square = txtSquare.getText();
         String description = txtDescription.getText();
         String elec = txtElectric.getText();
         String water = txtWater.getText();
-        boolean res = RoomController.updateRoomObj(roomNumber, price, square, description, elec, water);
-        if (res) {
-            JOptionPane.showMessageDialog(null, "Cập nhật thành công");
+        if (!validateNumber(price) || !validateNumber(square)) {
+            String squareErr = !validateNumber(square) ? "Diện tích phòng không hợp lệ. Diện tích phải là số >0.\n" : "";
+            String priceErr = !validateNumber(price) ? "Giá phòng không hợp lệ. Giá phòng phải là số >0.\n" : "";
+            JOptionPane.showMessageDialog(null, squareErr + priceErr);
+        } else {
+            boolean res = RoomController.updateRoomObj(roomNumber, price, square, description, elec, water);
+            if (res) {
+                JOptionPane.showMessageDialog(null, "Cập nhật thành công");
+            }
         }
+
     }
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
@@ -683,10 +705,8 @@ public final class RoomView extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new RoomView().setVisible(true);
-            }
+        java.awt.EventQueue.invokeLater(() -> {
+            new RoomView().setVisible(true);
         });
 
     }

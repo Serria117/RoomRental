@@ -172,7 +172,9 @@ public final class RoomListView extends javax.swing.JFrame {
             roomView.roomNum.setText(roomNo);
             roomView.displayRoomInfo();
             this.setVisible(false);
-//            roomView.txtElectric.setEnabled(false);
+            //Không cho phép tự ý sửa số điện nước:
+            roomView.txtElectric.setEnabled(false);
+            roomView.txtWater.setEnabled(false);
 
         } catch (ArrayIndexOutOfBoundsException e) {
             JOptionPane.showMessageDialog(null, "Vui lòng chọn phòng để xem thông tin.", "Thông báo", 1);
@@ -200,7 +202,7 @@ public final class RoomListView extends javax.swing.JFrame {
     }//GEN-LAST:event_btnReloadActionPerformed
     static List<RoomDTO> rList = new ArrayList<>();
 
-    void loadRoomDTO() {
+    public void loadRoomDTO() {
         tableModel.setRowCount(0);
         rList = RoomController.displayRooms(!ckBoxAll.isSelected());
         rList.stream().forEach(r -> {

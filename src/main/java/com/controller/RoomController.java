@@ -46,7 +46,6 @@ public class RoomController {
         Room r = new Room();
 
         r.setRoomNumber(roomNumber);
-        price = price.replace(",", "");
         r.setPrice(Integer.parseInt(price));
 
         r.setSquare(Integer.parseInt(square));
