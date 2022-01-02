@@ -24,9 +24,12 @@ public class RoomController {
                 .collect(Collectors.toList());
     }
 
-//    public static RoomDTO searchRoom(String key) {
-//
-//    }
+    public static List<RoomDTO> searchRoom(String key) {
+        return roomDAO.searchRooms(key).stream()
+                .map(r -> RoomModelToDTO(r))
+                .collect(Collectors.toList());
+    }
+
     public static RoomDTO getRoom(String roomNumber) {
         return RoomModelToDTO(roomDAO.getRoom(roomNumber));
     }
@@ -82,7 +85,7 @@ public class RoomController {
     }
 
     public static void main(String[] args) {
-        List<RoomDTO> list = displayRooms(true);
+        List<RoomDTO> list = searchRoom("phòng khách");
         list.forEach(r -> System.out.println(r));
     }
 }

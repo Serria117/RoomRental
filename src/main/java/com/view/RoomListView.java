@@ -39,8 +39,8 @@ public final class RoomListView extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tbRoom = new javax.swing.JTable();
-        jTextField1 = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
+        txtSearch = new javax.swing.JTextField();
+        btnSearch = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         ckBoxAll = new javax.swing.JCheckBox();
         btnNewRoomForm = new javax.swing.JButton();
@@ -78,7 +78,12 @@ public final class RoomListView extends javax.swing.JFrame {
         tbRoom.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(tbRoom);
 
-        jButton1.setText("Tìm kiếm");
+        btnSearch.setText("Tìm kiếm");
+        btnSearch.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSearchActionPerformed(evt);
+            }
+        });
 
         jButton2.setText("Quản lý phòng");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
@@ -127,9 +132,9 @@ public final class RoomListView extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(btnReload)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButton1)))
+                                .addComponent(btnSearch)))
                         .addGap(18, 18, 18))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 911, Short.MAX_VALUE)
@@ -142,8 +147,8 @@ public final class RoomListView extends javax.swing.JFrame {
                 .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 64, Short.MAX_VALUE)
                 .addGap(35, 35, 35)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1)
+                    .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnSearch)
                     .addComponent(ckBoxAll)
                     .addComponent(btnNewRoomForm)
                     .addComponent(btnReload)
@@ -171,6 +176,7 @@ public final class RoomListView extends javax.swing.JFrame {
 
             roomView.roomNum.setText(roomNo);
             roomView.displayRoomInfo();
+            roomView.displayCurrentGuest();
             this.setVisible(false);
             //Không cho phép tự ý sửa số điện nước:
             roomView.txtElectric.setEnabled(false);
@@ -200,11 +206,29 @@ public final class RoomListView extends javax.swing.JFrame {
     private void btnReloadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReloadActionPerformed
         loadRoomDTO();
     }//GEN-LAST:event_btnReloadActionPerformed
+
+    private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
+        search(txtSearch.getText());
+    }//GEN-LAST:event_btnSearchActionPerformed
     static List<RoomDTO> rList = new ArrayList<>();
 
     public void loadRoomDTO() {
         tableModel.setRowCount(0);
         rList = RoomController.displayRooms(!ckBoxAll.isSelected());
+        rList.stream().forEach(r -> {
+            tableModel.addRow(new String[]{
+                r.getRoomNumber(),
+                r.getSquare(),
+                r.getDescription(),
+                r.getPrice(),
+                r.getStatus()
+            });
+        });
+    }
+
+    public void search(String key) {
+        tableModel.setRowCount(0);
+        rList = RoomController.searchRoom(key);
         rList.stream().forEach(r -> {
             tableModel.addRow(new String[]{
                 r.getRoomNumber(),
@@ -253,12 +277,12 @@ public final class RoomListView extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnNewRoomForm;
     private javax.swing.JButton btnReload;
+    private javax.swing.JButton btnSearch;
     private javax.swing.JCheckBox ckBoxAll;
-    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JTable tbRoom;
+    private javax.swing.JTextField txtSearch;
     // End of variables declaration//GEN-END:variables
 }

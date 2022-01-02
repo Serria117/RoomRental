@@ -15,7 +15,7 @@ public class Guest {
     public Guest() {
     }
 
-    public Guest(int id, String fullName, String phone, String picture, Date dateOfBirth, int status, String citizenld) {
+    public Guest(int id, String fullName, String phone, String picture, Date dateOfBirth, int status, String citizenId) {
         this.id = id;
         this.fullName = fullName;
         this.phone = phone;
@@ -61,7 +61,7 @@ public class Guest {
         return dateOfBirth;
     }
 
-    public void setDateOfBirth(Date DateOfBirth) {
+    public void setDateOfBirth(Date dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
     }
 
@@ -73,7 +73,7 @@ public class Guest {
         this.status = status;
     }
 
-    public String getCitizenld() {
+    public String getCitizenId() {
         return citizenId;
     }
 

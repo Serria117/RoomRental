@@ -45,9 +45,48 @@ public class RoomDAO {
         return roomList;
     }
 
-//    public List<Room> searchRooms(String key) {
-//
-//    }
+    public List<Room> searchRooms(String key) {
+        List<Room> result = null;
+        Connection conn = null;
+        ResultSet rs = null;
+        PreparedStatement stm = null;
+
+        try {
+            conn = db.conn();
+            result = new ArrayList<>();
+            String query = "SELECT * FROM ROOM WHERE roomNumber LIKE CONCAT('%',?,'%') OR description LIKE CONCAT('%',?,'%') OR price <= ? HAVING status = 1";
+            stm = conn.prepareStatement(query);
+            int intKey;
+            try {
+                intKey = Integer.parseInt(key);
+            } catch (NumberFormatException e) {
+                intKey = 0;
+            }
+            stm.setString(1, key);
+            stm.setString(2, key);
+            stm.setInt(3, intKey);
+            rs = stm.executeQuery();
+            while (rs.next()) {
+                Room room = new Room(
+                        rs.getInt("id"),
+                        rs.getString("roomNumber"),
+                        rs.getInt("price"),
+                        rs.getInt("square"),
+                        rs.getString("description"),
+                        rs.getInt("status"),
+                        rs.getInt("electricCounter"),
+                        rs.getInt("waterCounter")
+                );
+                result.add(room);
+            }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        } finally {
+            db.closeAll(conn, stm, rs);
+        }
+        return result;
+    }
+
     public Room getRoom(String roomNumber) {
         Room room = null;
         Connection conn = null;
@@ -72,7 +111,7 @@ public class RoomDAO {
                 );
             }
         } catch (SQLException e) {
-
+            JOptionPane.showMessageDialog(null, e.getMessage());
         } finally {
             db.closeAll(conn, stm, rs);
         }
@@ -158,6 +197,10 @@ public class RoomDAO {
 
     //test:
     public static void main(String[] args) {
+        RoomDAO rdao = new RoomDAO();
+        List<Room> rList;
+        rList = rdao.searchRooms("phòng khách");
+        rList.stream().forEach(r -> System.out.println(r));
 
     }
 
