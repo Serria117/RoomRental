@@ -22,21 +22,22 @@ public final class RoomView extends javax.swing.JFrame {
      * Creates new form RoomView
      */
     //Ẩn/Hiện cửa sổ trước
-    private JFrame roomList;
+    private JFrame roomListViewFrame;
+    //Sử dụng WindowListener để overide sự kiện bấm nút "X" (close)
     WindowListener exitListener = new WindowAdapter() {
         @Override
         public void windowClosing(WindowEvent e) {
-            roomList.setVisible(true);
-            dispose();
+            roomListViewFrame.setVisible(true); //Hiển thị lại form cha
+            dispose(); //Đóng form hiện tại
         }
     };
 
     public RoomView(JFrame roomList) {
         initComponents();
-        this.roomList = roomList;
+        this.roomListViewFrame = roomList;
         displayRoomInfo();
-        this.addWindowListener(exitListener);
-        this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+        this.addWindowListener(exitListener); //Gọi sự kiện đóng nút "X"
+        this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE); //Set nút "X" không đóng chương trình theo mặc định
     }
 
     public RoomView() {
@@ -650,7 +651,7 @@ public final class RoomView extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
-        this.roomList.setVisible(true);
+        this.roomListViewFrame.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnBackActionPerformed
 
