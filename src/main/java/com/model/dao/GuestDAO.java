@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
 
-public class GuestDAO {
+public class GuestDAO extends Database {
 
     public static Database db = new Database();
 
@@ -19,7 +19,7 @@ public class GuestDAO {
         ResultSet rs = null;
         PreparedStatement stm = null;
         try {
-            conn = db.conn();
+            conn = this.conn();
             String query = "SELECT g.id, g.`fullName`, g.phone, g.picture, g.`dateOfBirth`, g.status, g.`citizenId` "
                     + "FROM contract AS ct "
                     + "INNER JOIN contractdetail AS cd "
@@ -48,7 +48,7 @@ public class GuestDAO {
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Connection failed." + e.getMessage());
         } finally {
-            db.closeAll(conn, stm, rs);
+            this.closeAll(conn, stm, rs);
         }
         return guestList;
     }
@@ -59,7 +59,7 @@ public class GuestDAO {
         ResultSet rs = null;
         PreparedStatement stm = null;
         try {
-            conn = db.conn();
+            conn = this.conn();
             String query = "SELECT * FROM GUEST WHERE ";
             String param = key.equals("all") ? "TRUE" : (key.equals("active") ? "STATUS = 1" : "STATUS = 0");
             query = query + param;
@@ -81,7 +81,7 @@ public class GuestDAO {
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Connection failed.");
         } finally {
-            db.closeAll(conn, stm, rs);
+            this.closeAll(conn, stm, rs);
         }
         return guestList;
     }

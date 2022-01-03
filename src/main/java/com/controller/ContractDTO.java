@@ -4,31 +4,34 @@
  */
 package com.controller;
 
-import java.util.Date;
-
-
 /**
  *
- * @author Quan Le
+ * @author hadt2
  */
 public class ContractDTO {
+
     private int id;
-    private int RoomId;
-    private int ContractCode;
-    private int Price;
-    private Date CreatedDate;
-    private Date UpdatedDate;
+    private int roomId;
+    private String contractNumber;
+    private String price;
+    private String createdDate;
+    private String updatedDate;
+
+    @Override
+    public String toString() {
+        return "ContractDTO{" + "id=" + id + ", roomId=" + roomId + ", contractNumber=" + contractNumber + ", price=" + price + ", createdDate=" + createdDate + ", updatedDate=" + updatedDate + '}';
+    }
 
     public ContractDTO() {
     }
 
-    public ContractDTO(int id, int RoomId, int ContractCode, int Price, Date CreatedDate, Date UpdatedDate) {
+    public ContractDTO(int id, int roomId, String contractNumber, String price, String createdDate, String updatedDate) {
         this.id = id;
-        this.RoomId = RoomId;
-        this.ContractCode = ContractCode;
-        this.Price = Price;
-        this.CreatedDate = CreatedDate;
-        this.UpdatedDate = UpdatedDate;
+        this.roomId = roomId;
+        this.contractNumber = contractNumber;
+        this.price = price;
+        this.createdDate = createdDate;
+        this.updatedDate = updatedDate;
     }
 
     public int getId() {
@@ -40,48 +43,43 @@ public class ContractDTO {
     }
 
     public int getRoomId() {
-        return RoomId;
+        return roomId;
     }
 
-    public void setRoomId(int RoomId) {
-        this.RoomId = RoomId;
+    public void setRoomId(int roomId) {
+        this.roomId = roomId;
     }
 
-    public int getContractCode() {
-        return ContractCode;
+    public String getContractNumber() {
+        return contractNumber;
     }
 
-    public void setContractCode(int ContractCode) {
-        this.ContractCode = ContractCode;
+    public void setContractNumber(String contractNumber) {
+        this.contractNumber = contractNumber;
     }
 
-    public int getPrice() {
-        return Price;
+    public String getPrice() {
+        return price;
     }
 
-    public void setPrice(int Price) {
-        this.Price = Price;
+    public void setPrice(String price) {
+        this.price = price;
     }
 
-    public Date getCreatedDate() {
-        return CreatedDate;
+    public String getCreatedDate() {
+        return createdDate;
     }
 
-    public void setCreatedDate(Date CreatedDate) {
-        this.CreatedDate = CreatedDate;
+    public void setCreatedDate(String createdDate) {
+        this.createdDate = createdDate;
     }
 
-    public Date getUpdatedDate() {
-        return UpdatedDate;
+    public String getUpdatedDate() {
+        return updatedDate;
     }
 
-    public void setUpdatedDate(Date UpdatedDate) {
-        this.UpdatedDate = UpdatedDate;
+    public void setUpdatedDate(String updatedDate) {
+        this.updatedDate = updatedDate;
     }
 
-    @Override
-    public String toString() {
-        return "ContractDTO{" + "id=" + id + ", RoomId=" + RoomId + ", ContractCode=" + ContractCode + ", Price=" + Price + ", CreatedDate=" + CreatedDate + ", UpdatedDate=" + UpdatedDate + '}';
-    }
-    
 }

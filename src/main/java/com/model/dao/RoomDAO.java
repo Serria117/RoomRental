@@ -9,9 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
 
-public class RoomDAO {
-
-    public static Database db = new Database();
+public class RoomDAO extends Database {
 
     public List<Room> getAll(boolean allRoom) {
         List<Room> roomList = null;
@@ -19,7 +17,7 @@ public class RoomDAO {
         ResultSet rs = null;
         PreparedStatement stm = null;
         try {
-            conn = db.conn();
+            conn = this.conn();
             String query = allRoom == true ? "SELECT * FROM ROOM" : "SELECT * FROM ROOM WHERE STATUS = 1";
             stm = conn.prepareStatement(query);
             rs = stm.executeQuery();
@@ -40,21 +38,25 @@ public class RoomDAO {
         } catch (SQLException e) {
 
         } finally {
-            db.closeAll(conn, stm, rs);
+            this.closeAll(conn, stm, rs);
         }
         return roomList;
     }
 
-    public List<Room> searchRooms(String key) {
+    public List<Room> searchRooms(String key, boolean allRoom) {
         List<Room> result = null;
         Connection conn = null;
         ResultSet rs = null;
         PreparedStatement stm = null;
 
         try {
-            conn = db.conn();
+            conn = this.conn();
             result = new ArrayList<>();
-            String query = "SELECT * FROM ROOM WHERE roomNumber LIKE CONCAT('%',?,'%') OR description LIKE CONCAT('%',?,'%') OR price <= ? HAVING status = 1";
+            String allCheck = allRoom ? "" : "HAVING status = 1";
+            String query = "SELECT * FROM ROOM WHERE roomNumber LIKE CONCAT('%',?,'%') "
+                    + "OR description LIKE CONCAT('%',?,'%') "
+                    + "OR price <= ? "
+                    + allCheck;
             stm = conn.prepareStatement(query);
             int intKey;
             try {
@@ -82,7 +84,7 @@ public class RoomDAO {
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, e.getMessage());
         } finally {
-            db.closeAll(conn, stm, rs);
+            this.closeAll(conn, stm, rs);
         }
         return result;
     }
@@ -93,7 +95,7 @@ public class RoomDAO {
         ResultSet rs = null;
         PreparedStatement stm = null;
         try {
-            conn = db.conn();
+            conn = this.conn();
             String query = "SELECT * FROM room WHERE roomNumber = ?";
             stm = conn.prepareStatement(query);
             stm.setString(1, roomNumber);
@@ -113,7 +115,7 @@ public class RoomDAO {
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, e.getMessage());
         } finally {
-            db.closeAll(conn, stm, rs);
+            this.closeAll(conn, stm, rs);
         }
         return room;
     }
@@ -125,7 +127,7 @@ public class RoomDAO {
         ResultSet rs = null;
         PreparedStatement stm = null;
         try {
-            conn = db.conn();
+            conn = this.conn();
             String query = "SELECT roomNumber FROM room WHERE roomNumber = ?";
             stm = conn.prepareStatement(query);
             stm.setString(1, roomNumber);
@@ -134,7 +136,7 @@ public class RoomDAO {
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, e.getMessage());
         } finally {
-            db.closeAll(conn, stm, rs);
+            this.closeAll(conn, stm, rs);
         }
         return check;
     }
@@ -148,7 +150,7 @@ public class RoomDAO {
         Connection conn = null;
         PreparedStatement stm = null;
         try {
-            conn = db.conn();
+            conn = this.conn();
             String query = "INSERT INTO room SET roomNumber = ?, price = ?, square = ?, description = ?, electricCounter = ?, waterCounter = ?, status = 1";
             stm = conn.prepareStatement(query);
             stm.setString(1, room.getRoomNumber());
@@ -162,7 +164,7 @@ public class RoomDAO {
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, e.getMessage());
         } finally {
-            db.closeAll(conn, stm, null);
+            this.closeAll(conn, stm, null);
         }
         return status;
     }
@@ -173,7 +175,7 @@ public class RoomDAO {
         Connection conn = null;
         PreparedStatement stm = null;
         try {
-            conn = db.conn();
+            conn = this.conn();
             String query = "UPDATE ROOM SET price = ?, square = ?, "
                     + "description = ?, electricCounter = ?, "
                     + "waterCounter = ? "
@@ -190,7 +192,7 @@ public class RoomDAO {
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, e.getMessage());
         } finally {
-            db.closeAll(conn, stm, null);
+            this.closeAll(conn, stm, null);
         }
         return status;
     }
@@ -199,7 +201,7 @@ public class RoomDAO {
     public static void main(String[] args) {
         RoomDAO rdao = new RoomDAO();
         List<Room> rList;
-        rList = rdao.searchRooms("phòng khách");
+        rList = rdao.searchRooms("phòng khách", true);
         rList.stream().forEach(r -> System.out.println(r));
 
     }

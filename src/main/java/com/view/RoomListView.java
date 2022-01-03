@@ -208,7 +208,7 @@ public final class RoomListView extends javax.swing.JFrame {
     }//GEN-LAST:event_btnReloadActionPerformed
 
     private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
-        search(txtSearch.getText());
+        search(txtSearch.getText(), !ckBoxAll.isSelected());
     }//GEN-LAST:event_btnSearchActionPerformed
     static List<RoomDTO> rList = new ArrayList<>();
 
@@ -226,9 +226,9 @@ public final class RoomListView extends javax.swing.JFrame {
         });
     }
 
-    public void search(String key) {
+    public void search(String key, boolean allCheck) {
         tableModel.setRowCount(0);
-        rList = RoomController.searchRoom(key);
+        rList = RoomController.searchRoom(key, allCheck);
         rList.stream().forEach(r -> {
             tableModel.addRow(new String[]{
                 r.getRoomNumber(),
