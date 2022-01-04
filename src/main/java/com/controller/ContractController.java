@@ -7,6 +7,7 @@ package com.controller;
 import com.model.Contract;
 import com.model.Guest;
 import com.model.dao.ContractDAO;
+import com.model.dao.GuestDAO;
 import java.text.DateFormat;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
@@ -21,6 +22,7 @@ import java.util.stream.Collectors;
 public class ContractController {
 
     public ContractDAO contractDAO = new ContractDAO();
+    public GuestDAO guestDAO = new GuestDAO();
 
     public String genContractNumber(String roomNo) {
         Calendar today = Calendar.getInstance();
@@ -45,11 +47,14 @@ public class ContractController {
         cModel.setPrice(Integer.parseInt(room.getPrice().replace(",", "")));
         cModel.setUserId(Integer.parseInt(userId));
         cModel.setFileLocation(fileLocation);
-
+        cModel.setId(contractDAO.addContract(cModel));
         //Bind guest:
-        if (contractDAO.addContract(cModel)) {
+        if (cModel.getId() > 0) {
             for (Guest g : gList) {
+                int id = guestDAO.addGuest(g);
+                g.setId(id);
                 contractDAO.bindContractDetail(cModel, g);
+                res = true;
             }
         }
         return res;

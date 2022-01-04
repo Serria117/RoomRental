@@ -733,9 +733,12 @@ public final class RoomView extends javax.swing.JFrame {
     private void btnAddContractActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddContractActionPerformed
         if (!gListModel.isEmpty()) {
             gListModel.stream().map(g -> gController.addGuest(g));
-            cController.addContract(rController.getRoom(roomNum.getText()), gListModel, "1", null);
+            if (cController.addContract(rController.getRoom(roomNum.getText()), gListModel, "1", "abc")) {
+                rController.updateRoomStatus(roomNum.getText(), 0); //Set current status to "0" => "rented".
+                JOptionPane.showMessageDialog(null, "Tạo hợp đồng thành công.");
+            }
             //test with admin account (id=1) will change later to a variable base on logged in account id
-            //"fileLocation" set to NULL since this function is not yet available.
+            //"fileLocation" set to an empty string ("") since this function is not yet available.
 
         } else {
             JOptionPane.showMessageDialog(null, "Danh sách khách không được để trống");

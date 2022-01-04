@@ -197,6 +197,28 @@ public class RoomDAO extends Database {
         return status;
     }
 
+    //update room status:
+    public boolean updateRoomStatus(String roomNumber, int status) {
+        boolean rs = false;
+        Connection conn = null;
+        PreparedStatement stm = null;
+        try {
+            conn = this.conn();
+            String query = "UPDATE ROOM SET status = ? WHERE roomNumber = ?";
+            stm = conn.prepareStatement(query);
+            stm.setInt(1, status);
+            stm.setString(2, roomNumber);
+
+            int res = stm.executeUpdate();
+            rs = res > 0;
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Update room failed: " + e.getMessage());
+        } finally {
+            this.closeAll(conn, stm, null);
+        }
+        return rs;
+    }
+
     //test:
     public static void main(String[] args) {
         RoomDAO rdao = new RoomDAO();

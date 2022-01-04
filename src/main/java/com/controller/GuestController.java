@@ -30,8 +30,8 @@ public class GuestController {
                 .collect(Collectors.toList());
     }
 
-    public boolean addGuest(Guest g) {
-        return guestDAO.addGuest(g);
+    public int addGuest(Guest g) {
+        return guestDAO.addGuest(g); //Return the added guest's id
     }
 
     public static GuestDTO guestModelToDTO(Guest g) {

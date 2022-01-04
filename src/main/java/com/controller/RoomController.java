@@ -84,6 +84,10 @@ public class RoomController {
 
     }
 
+    public boolean updateRoomStatus(String roomNumber, int status) {
+        return roomDAO.updateRoomStatus(roomNumber, status);
+    }
+
     public static void main(String[] args) {
         List<RoomDTO> list = searchRoom("phòng khách", true);
         list.forEach(r -> System.out.println(r));

@@ -81,30 +81,39 @@ public class ContractDAO extends Database {
         return listContract;
     }
 
-    public boolean addContract(Contract c) {
-        boolean rs = false;
+    public int addContract(Contract c) {
+        int contractId = 0;
         Connection conn = null;
         PreparedStatement stm = null;
+        ResultSet rs = null;
         try {
             conn = this.conn();
             String query = "INSERT INTO contract SET "
                     + "contractNumber = ?, "
-                    + "roomId = ? "
-                    + "fileLocation = ? "
-                    + "userId = ? "
+                    + "roomId = ?, "
+                    + "price = ?, "
+                    + "userId = ?, "
                     + "status = 1";
-            stm = conn.prepareStatement(query);
-            stm.setInt(1, c.getId());
-
-            rs = stm.executeUpdate() > 0;
+            stm = conn.prepareStatement(query, 1);
+            stm.setString(1, c.getContractNumber());
+            stm.setInt(2, c.getRoomId());
+            stm.setInt(3, c.getPrice());
+            stm.setInt(4, c.getUserId());
+            stm.execute();
+            rs = stm.getGeneratedKeys();
+            if (rs.next()) {
+                contractId = rs.getInt(1);
+            }
         } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Add Contract Error: " + e.getMessage());
         } finally {
-            this.closeAll(conn, stm, null);
+            this.closeAll(conn, stm, rs);
         }
-        return rs;
+        return contractId;
     }
 
     public boolean bindContractDetail(Contract c, Guest g) {
+        //The guest must be inserted into the database first to generate an incremental ID
         boolean res = false;
         Connection conn = null;
         PreparedStatement stm = null;
@@ -119,6 +128,7 @@ public class ContractDAO extends Database {
             stm.setInt(3, g.getRole());
             res = stm.executeUpdate() > 0;
         } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Binding Contract Error: " + e.getMessage());
         } finally {
             this.closeAll(conn, stm, null);
         }
