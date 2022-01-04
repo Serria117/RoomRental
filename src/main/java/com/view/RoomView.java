@@ -30,6 +30,7 @@ public final class RoomView extends javax.swing.JFrame {
 
     DefaultTableModel currentGuestTableModel;
     DefaultTableModel registerGuestTableModel;
+    RoomDTO currentRoom;
     List<GuestDTO> gListDTO;
     List<Guest> gListModel = new ArrayList<>();
     GuestController gController = new GuestController();
@@ -54,6 +55,7 @@ public final class RoomView extends javax.swing.JFrame {
         this.roomListViewFrame = roomList;
         currentGuestTableModel = (DefaultTableModel) tbCurrentGuest.getModel();
         registerGuestTableModel = (DefaultTableModel) tbRegisterGuest.getModel();
+
         this.addWindowListener(exitListener); //Gọi sự kiện đóng nút "X"
         this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE); //Set nút "X" không đóng chương trình theo mặc định
     }
@@ -91,6 +93,7 @@ public final class RoomView extends javax.swing.JFrame {
         tbCurrentGuest = new javax.swing.JTable();
         roomNum = new javax.swing.JLabel();
         jLabel24 = new javax.swing.JLabel();
+        btnLiquidate = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
@@ -115,18 +118,18 @@ public final class RoomView extends javax.swing.JFrame {
         jScrollPane5 = new javax.swing.JScrollPane();
         jTable4 = new javax.swing.JTable();
         jLabel18 = new javax.swing.JLabel();
-        jTextField11 = new javax.swing.JTextField();
-        jTextField12 = new javax.swing.JTextField();
+        txtBillNo = new javax.swing.JTextField();
+        txtPeriod = new javax.swing.JTextField();
         jLabel19 = new javax.swing.JLabel();
-        jTextField13 = new javax.swing.JTextField();
+        txtRoomPrice = new javax.swing.JTextField();
         jLabel20 = new javax.swing.JLabel();
-        jComboBox2 = new javax.swing.JComboBox<>();
+        cboxQuantity = new javax.swing.JComboBox<>();
         jLabel21 = new javax.swing.JLabel();
-        jTextField14 = new javax.swing.JTextField();
+        txtCurElect = new javax.swing.JTextField();
         jLabel22 = new javax.swing.JLabel();
-        jTextField15 = new javax.swing.JTextField();
+        txtCurWater = new javax.swing.JTextField();
         jLabel23 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        btnCreateBill = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         jLabel8 = new javax.swing.JLabel();
         jScrollPane3 = new javax.swing.JScrollPane();
@@ -142,6 +145,12 @@ public final class RoomView extends javax.swing.JFrame {
 
         jLabel1.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
         jLabel1.setText("QUẢN LÝ PHÒNG");
+
+        jTabbedPane2.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                jTabbedPane2FocusGained(evt);
+            }
+        });
 
         jLabel2.setText("Diện tích sử dụng:");
 
@@ -191,6 +200,13 @@ public final class RoomView extends javax.swing.JFrame {
 
         jLabel24.setText("Số phòng:");
 
+        btnLiquidate.setText("Thanh lý hợp đồng");
+        btnLiquidate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLiquidateActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -223,24 +239,30 @@ public final class RoomView extends javax.swing.JFrame {
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                     .addComponent(txtPrice, javax.swing.GroupLayout.DEFAULT_SIZE, 222, Short.MAX_VALUE)
                                     .addComponent(txtSquare))))))
-                .addGap(40, 40, 40)
+                .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 480, Short.MAX_VALUE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnLiquidate))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 502, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(20, 20, 20)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel7)
-                    .addComponent(roomNum)
-                    .addComponent(jLabel24))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(17, 17, 17)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(roomNum)
+                            .addComponent(jLabel24)
+                            .addComponent(btnLiquidate)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel7)))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(txtSquare, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -258,13 +280,15 @@ public final class RoomView extends javax.swing.JFrame {
                             .addComponent(jLabel6)
                             .addComponent(txtWater, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel3)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel3)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 118, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnUpdate))
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                .addContainerGap(124, Short.MAX_VALUE))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 258, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(109, Short.MAX_VALUE))
         );
 
         jTabbedPane2.addTab("Thông tin", jPanel1);
@@ -434,7 +458,7 @@ public final class RoomView extends javax.swing.JFrame {
 
         jLabel20.setText("Tiền phòng:");
 
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1", "2", "3", "4", "6", "12" }));
+        cboxQuantity.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1", "2", "3", "4", "6", "12" }));
 
         jLabel21.setText("Số tháng:");
 
@@ -442,7 +466,7 @@ public final class RoomView extends javax.swing.JFrame {
 
         jLabel23.setText("Số nước:");
 
-        jButton1.setText("Tạo");
+        btnCreateBill.setText("Tạo");
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -461,13 +485,13 @@ public final class RoomView extends javax.swing.JFrame {
                             .addComponent(jLabel23, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jTextField15)
-                            .addComponent(jTextField14)
-                            .addComponent(jComboBox2, 0, 166, Short.MAX_VALUE)
-                            .addComponent(jTextField13)
-                            .addComponent(jTextField12)
-                            .addComponent(jTextField11)))
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(txtCurWater)
+                            .addComponent(txtCurElect)
+                            .addComponent(cboxQuantity, 0, 166, Short.MAX_VALUE)
+                            .addComponent(txtRoomPrice)
+                            .addComponent(txtPeriod)
+                            .addComponent(txtBillNo)))
+                    .addComponent(btnCreateBill, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 25, Short.MAX_VALUE)
                 .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 576, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -478,34 +502,34 @@ public final class RoomView extends javax.swing.JFrame {
                 .addGap(19, 19, 19)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel18)
-                    .addComponent(jTextField11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtBillNo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtPeriod, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel19))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField13, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtRoomPrice, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel20))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cboxQuantity, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel21))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField14, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtCurElect, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel22))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField15, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtCurWater, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel23))
                 .addGap(18, 18, 18)
-                .addComponent(jButton1)
+                .addComponent(btnCreateBill)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addContainerGap(19, Short.MAX_VALUE)
+                .addContainerGap(20, Short.MAX_VALUE)
                 .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 381, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(24, Short.MAX_VALUE))
+                .addContainerGap(23, Short.MAX_VALUE))
         );
 
         jTabbedPane2.addTab("Hóa đơn", jPanel3);
@@ -733,18 +757,78 @@ public final class RoomView extends javax.swing.JFrame {
     private void btnAddContractActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddContractActionPerformed
         if (!gListModel.isEmpty()) {
             gListModel.stream().map(g -> gController.addGuest(g));
-            if (cController.addContract(rController.getRoom(roomNum.getText()), gListModel, "1", "abc")) {
+
+            //test with admin account (id=1) will change later to a variable base on logged in account id
+            //"fileLocation" set to a dump string since this function is not yet available.
+            if (cController.addContract(rController.getRoom(roomNum.getText()), gListModel, "1", "no file yet!")) {
                 rController.updateRoomStatus(roomNum.getText(), 0); //Set current status to "0" => "rented".
                 JOptionPane.showMessageDialog(null, "Tạo hợp đồng thành công.");
+                txtFullName.setText("");
+                txtDOB.setText("");
+                txtCCCD.setText("");
+                txtPhone.setText("");
+                ckRole.setSelected(false);
             }
-            //test with admin account (id=1) will change later to a variable base on logged in account id
-            //"fileLocation" set to an empty string ("") since this function is not yet available.
 
         } else {
             JOptionPane.showMessageDialog(null, "Danh sách khách không được để trống");
         }
 
     }//GEN-LAST:event_btnAddContractActionPerformed
+
+    private void jTabbedPane2FocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTabbedPane2FocusGained
+        currentRoom = rController.getRoom(roomNum.getText());
+        if (currentRoom.getStatus().equals("Đang cho thuê")) {
+            txtFullName.setEnabled(false);
+            txtDOB.setEnabled(false);
+            txtCCCD.setEnabled(false);
+            txtPhone.setEnabled(false);
+            btnAddGuest.setEnabled(false);
+            btnAddContract.setEnabled(false);
+            ckRole.setEnabled(false);
+            txtElectContract.setEnabled(false);
+            txtWaterContract.setEnabled(false);
+
+            txtBillNo.setEnabled(true);
+            txtPeriod.setEnabled(true);
+            txtCurElect.setEnabled(true);
+            txtCurWater.setEnabled(true);
+            txtRoomPrice.setEnabled(true);
+            cboxQuantity.setEnabled(true);
+        } else {
+            displayCurrentGuest();
+            txtFullName.setEnabled(true);
+            txtDOB.setEnabled(true);
+            txtCCCD.setEnabled(true);
+            txtPhone.setEnabled(true);
+            btnAddGuest.setEnabled(true);
+            btnAddContract.setEnabled(true);
+            ckRole.setEnabled(true);
+            txtElectContract.setEnabled(true);
+            txtWaterContract.setEnabled(true);
+
+            txtBillNo.setEnabled(false);
+            txtPeriod.setEnabled(false);
+            txtCurElect.setEnabled(false);
+            txtCurWater.setEnabled(false);
+            txtRoomPrice.setEnabled(false);
+            cboxQuantity.setEnabled(false);
+        }
+    }//GEN-LAST:event_jTabbedPane2FocusGained
+
+    private void btnLiquidateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLiquidateActionPerformed
+        int ans = JOptionPane.showConfirmDialog(null, "Bạn có muốn thanh lý hợp đồng hiện tại?", "Thanh lý hợp đồng", JOptionPane.YES_NO_OPTION);
+        switch (ans) {
+            case 0:
+                System.out.println("Xóa");
+                break;
+            case 1:
+                System.out.println("Không xóa");
+                break;
+            default:
+                throw new AssertionError();
+        }
+    }//GEN-LAST:event_btnLiquidateActionPerformed
 
     /**
      * @param args the command line arguments
@@ -783,11 +867,12 @@ public final class RoomView extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAddContract;
     private javax.swing.JButton btnAddGuest;
+    private javax.swing.JButton btnCreateBill;
+    private javax.swing.JButton btnLiquidate;
     private javax.swing.JButton btnUpdate;
+    private javax.swing.JComboBox<String> cboxQuantity;
     private javax.swing.JCheckBox ckRole;
-    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton5;
-    private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -826,23 +911,23 @@ public final class RoomView extends javax.swing.JFrame {
     private javax.swing.JTable jTable2;
     private javax.swing.JTable jTable4;
     private javax.swing.JTable jTable5;
-    private javax.swing.JTextField jTextField11;
-    private javax.swing.JTextField jTextField12;
-    private javax.swing.JTextField jTextField13;
-    private javax.swing.JTextField jTextField14;
-    private javax.swing.JTextField jTextField15;
     private javax.swing.JTextField jTextField16;
     public javax.swing.JLabel roomNum;
     private javax.swing.JTable tbCurrentGuest;
     private javax.swing.JTable tbRegisterGuest;
+    private javax.swing.JTextField txtBillNo;
     private javax.swing.JTextField txtCCCD;
+    private javax.swing.JTextField txtCurElect;
+    private javax.swing.JTextField txtCurWater;
     private javax.swing.JTextField txtDOB;
     public javax.swing.JTextArea txtDescription;
     private javax.swing.JTextField txtElectContract;
     public javax.swing.JTextField txtElectric;
     private javax.swing.JTextField txtFullName;
+    private javax.swing.JTextField txtPeriod;
     private javax.swing.JTextField txtPhone;
     public javax.swing.JTextField txtPrice;
+    private javax.swing.JTextField txtRoomPrice;
     public javax.swing.JTextField txtSquare;
     public javax.swing.JTextField txtWater;
     private javax.swing.JTextField txtWaterContract;

@@ -98,8 +98,9 @@ public class GuestDAO extends Database {
         try {
             DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
             conn = this.conn();
+            String[] autoCol = {"id"};
             String query = "INSERT INTO guest SET fullName = ?, citizenId = ?, dateOfBirth = ?, phone = ?, status = 1";
-            stm = conn.prepareStatement(query, 1); //Get the generated value from 'id' column (column_index = 1)
+            stm = conn.prepareStatement(query, autoCol); //Get the generated value from 'id' column
             stm.setString(1, g.getFullName());
             stm.setString(2, g.getCitizenId());
             stm.setString(3, dateFormat.format(g.getDateOfBirth()));
