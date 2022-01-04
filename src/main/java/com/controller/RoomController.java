@@ -30,7 +30,7 @@ public class RoomController {
                 .collect(Collectors.toList());
     }
 
-    public static RoomDTO getRoom(String roomNumber) {
+    public RoomDTO getRoom(String roomNumber) {
         return RoomModelToDTO(roomDAO.getRoom(roomNumber));
     }
 

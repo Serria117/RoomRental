@@ -24,12 +24,22 @@ public class GuestController {
                 .collect(Collectors.toList());
     }
 
+    public List<GuestDTO> displaySelectedGuestDTO(List<Guest> guestModelList) {
+        return guestModelList.stream()
+                .map(obj -> guestModelToDTO(obj))
+                .collect(Collectors.toList());
+    }
+
+    public boolean addGuest(Guest g) {
+        return guestDAO.addGuest(g);
+    }
+
     public static GuestDTO guestModelToDTO(Guest g) {
         GuestDTO gdto;
         if (g == null) {
             gdto = null;
         } else {
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
+            SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
             gdto = new GuestDTO();
             gdto.setId(g.getId());
             gdto.setFullName(g.getFullName());

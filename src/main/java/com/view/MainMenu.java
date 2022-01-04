@@ -10,6 +10,9 @@ package com.view;
  */
 public class MainMenu extends javax.swing.JFrame {
 
+    LogInUser user = new LogInUser();
+    RoomListView roomList = new RoomListView();
+
     /**
      * Creates new form MainMenu
      */
@@ -104,7 +107,6 @@ public class MainMenu extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-    RoomListView roomList = new RoomListView();
     private void btnRoomActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRoomActionPerformed
         roomList.setVisible(true);
         roomList.pack();

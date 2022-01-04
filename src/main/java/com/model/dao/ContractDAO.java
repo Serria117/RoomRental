@@ -5,6 +5,7 @@
 package com.model.dao;
 
 import com.model.Contract;
+import com.model.Guest;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -101,6 +102,28 @@ public class ContractDAO extends Database {
             this.closeAll(conn, stm, null);
         }
         return rs;
+    }
+
+    public boolean bindContractDetail(Contract c, Guest g) {
+        boolean res = false;
+        Connection conn = null;
+        PreparedStatement stm = null;
+
+        try {
+            conn = this.conn();
+            String query = "INSERT INTO contractdetail "
+                    + "SET contractId = ?, guestId = ?, role = ?";
+            stm = conn.prepareStatement(query);
+            stm.setInt(1, c.getId());
+            stm.setInt(2, g.getId());
+            stm.setInt(3, g.getRole());
+            res = stm.executeUpdate() > 0;
+        } catch (SQLException e) {
+        } finally {
+            this.closeAll(conn, stm, null);
+        }
+
+        return res;
     }
 
     public boolean updateContract(Contract c) {

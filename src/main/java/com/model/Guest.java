@@ -1,6 +1,6 @@
 package com.model;
 
-import java.sql.Date;
+import java.util.Date;
 
 public class Guest {
 
@@ -11,6 +11,15 @@ public class Guest {
     private Date dateOfBirth;
     private int status;
     private String citizenId;
+    private int role;
+
+    public int getRole() {
+        return role;
+    }
+
+    public void setRole(int role) {
+        this.role = role;
+    }
 
     public Guest() {
     }
@@ -77,7 +86,7 @@ public class Guest {
         return citizenId;
     }
 
-    public void setCitizenld(String citizenId) {
+    public void setCitizenId(String citizenId) {
         this.citizenId = citizenId;
     }
 

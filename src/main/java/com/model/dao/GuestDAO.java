@@ -5,6 +5,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
@@ -86,13 +89,40 @@ public class GuestDAO extends Database {
         return guestList;
     }
 
-    public static void main(String[] args) {
-        GuestDAO guest = new GuestDAO();
-        List<Guest> list = guest.getByRoom("P101", 1);
-        if (list == null) {
-            System.out.println("NULL");
-        } else {
-            list.stream().forEach(g -> System.out.println(g.toString()));
+    public boolean addGuest(Guest g) {
+        boolean res = false;
+        Connection conn = null;
+        PreparedStatement stm = null;
+        try {
+            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            conn = this.conn();
+            String query = "INSERT INTO guest "
+                    + "SET fullName = ?, "
+                    + "citizenId = ? ,"
+                    + "dateOfBirth = ?, "
+                    + "phone = ?, "
+                    + "status = 1";
+            stm = conn.prepareStatement(query);
+            stm.setString(1, g.getFullName());
+            stm.setString(2, g.getCitizenId());
+            stm.setString(3, dateFormat.format(g.getDateOfBirth()));
+            stm.setString(4, g.getPhone());
+            res = stm.executeUpdate() > 0;
+        } catch (SQLException e) {
+        } finally {
+            this.closeAll(conn, stm, null);
         }
+        return res;
+    }
+
+    public static void main(String[] args) throws ParseException {
+        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        GuestDAO gdao = new GuestDAO();
+        Guest g = new Guest();
+        g.setFullName("Hà");
+        g.setDateOfBirth(dateFormat.parse("25/06/1987"));
+        g.setCitizenId("11111111111");
+        g.setPhone("0988144796");
+        System.out.println(gdao.addGuest(g));
     }
 }
