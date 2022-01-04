@@ -825,8 +825,6 @@ public final class RoomView extends javax.swing.JFrame {
             case 1:
                 System.out.println("Không xóa");
                 break;
-            default:
-                throw new AssertionError();
         }
     }//GEN-LAST:event_btnLiquidateActionPerformed
 

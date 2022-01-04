@@ -78,6 +78,12 @@ public final class RoomListView extends javax.swing.JFrame {
         tbRoom.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(tbRoom);
 
+        txtSearch.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtSearchKeyReleased(evt);
+            }
+        });
+
         btnSearch.setText("Tìm kiếm");
         btnSearch.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -210,6 +216,10 @@ public final class RoomListView extends javax.swing.JFrame {
     private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
         search(txtSearch.getText(), !ckBoxAll.isSelected());
     }//GEN-LAST:event_btnSearchActionPerformed
+
+    private void txtSearchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchKeyReleased
+        search(txtSearch.getText(), !ckBoxAll.isSelected());
+    }//GEN-LAST:event_txtSearchKeyReleased
     static List<RoomDTO> rList = new ArrayList<>();
 
     public void loadRoomDTO() {
