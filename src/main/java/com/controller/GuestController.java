@@ -18,6 +18,10 @@ public class GuestController {
 
     static GuestDAO guestDAO = new GuestDAO();
 
+    public List<GuestDTO> displaySearchGuest(String key) {
+        return guestDAO.searchGuest(key).stream().map(g -> guestModelToDTO(g)).collect(Collectors.toList());
+    }
+
     public static List<GuestDTO> displayCurrentGuestDTO(String room, int status) {
         return guestDAO.getByRoom(room, status).stream()
                 .map(obj -> guestModelToDTO(obj))

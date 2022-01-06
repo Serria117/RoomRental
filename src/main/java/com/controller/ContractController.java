@@ -38,19 +38,23 @@ public class ContractController {
     }
 
     //Insert:
-    public boolean addContract(RoomDTO room, List<Guest> gList, String userId, String fileLocation) {
+    public boolean addContract(RoomDTO room, List<Guest> gList, int userId, String fileLocation) {
         //Add contract:
         boolean res = false;
         Contract cModel = new Contract();
         cModel.setContractNumber(genContractNumber(room.getRoomNumber()));
         cModel.setRoomId(room.getId());
         cModel.setPrice(Integer.parseInt(room.getPrice().replace(",", "")));
-        cModel.setUserId(Integer.parseInt(userId));
+        cModel.setUserId(userId);
         cModel.setFileLocation(fileLocation);
-        cModel.setId(contractDAO.addContract(cModel));
+        cModel.setId(contractDAO.addContract(cModel)); //set back the id generated from database to obj
         //Bind guest:
         if (cModel.getId() > 0) {
             for (Guest g : gList) {
+                //Set the first guest as 'representer'
+                if (gList.indexOf(g) == 0) {
+                    g.setRole(1);
+                }
                 int id = guestDAO.addGuest(g);
                 g.setId(id);
                 contractDAO.bindContractDetail(cModel, g);

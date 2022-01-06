@@ -2,27 +2,28 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.view;
+package com.controller;
 
 /**
  *
  * @author hadt2
  */
-public class LogInUser {
+public class UserDTO {
 
     protected int id;
     protected String userName;
+    protected String password;
     protected int authority;
     protected int status;
 
-    public LogInUser(int id, String userName, int authority, int status) {
+    public UserDTO(int id, String userName, int authority, int status) {
         this.id = id;
         this.userName = userName;
         this.authority = authority;
         this.status = status;
     }
 
-    public LogInUser() {
+    public UserDTO() {
     }
 
     public int getId() {
@@ -31,6 +32,14 @@ public class LogInUser {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getUserName() {

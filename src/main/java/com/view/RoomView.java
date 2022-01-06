@@ -9,6 +9,7 @@ import com.controller.GuestController;
 import com.controller.GuestDTO;
 import com.controller.RoomController;
 import com.controller.RoomDTO;
+import com.controller.UserDTO;
 import com.model.Guest;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -30,9 +31,10 @@ public final class RoomView extends javax.swing.JFrame {
 
     DefaultTableModel currentGuestTableModel;
     DefaultTableModel registerGuestTableModel;
+    UserDTO user;
     RoomDTO currentRoom;
-    List<GuestDTO> gListDTO;
-    List<Guest> gListModel = new ArrayList<>();
+    public List<GuestDTO> gListDTO;
+    public List<Guest> gListModel = new ArrayList<>();
     GuestController gController = new GuestController();
     ContractController cController = new ContractController();
     RoomController rController = new RoomController();
@@ -50,12 +52,15 @@ public final class RoomView extends javax.swing.JFrame {
         }
     };
 
-    public RoomView(JFrame roomList) {
+    public RoomView(JFrame roomList, UserDTO user) {
         initComponents();
         this.roomListViewFrame = roomList;
+        this.user = user;
         currentGuestTableModel = (DefaultTableModel) tbCurrentGuest.getModel();
         registerGuestTableModel = (DefaultTableModel) tbRegisterGuest.getModel();
-
+        if (user.getAuthority() == 0) {
+            txtSquare.setEditable(false);
+        }
         this.addWindowListener(exitListener); //Gọi sự kiện đóng nút "X"
         this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE); //Set nút "X" không đóng chương trình theo mặc định
     }
@@ -73,7 +78,6 @@ public final class RoomView extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel1 = new javax.swing.JLabel();
         jTabbedPane2 = new javax.swing.JTabbedPane();
         jPanel1 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
@@ -114,8 +118,7 @@ public final class RoomView extends javax.swing.JFrame {
         jLabel17 = new javax.swing.JLabel();
         txtWaterContract = new javax.swing.JTextField();
         btnAddContract = new javax.swing.JButton();
-        ckRole = new javax.swing.JCheckBox();
-        jButton2 = new javax.swing.JButton();
+        btnSelectGuestList = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane5 = new javax.swing.JScrollPane();
         jTable4 = new javax.swing.JTable();
@@ -141,12 +144,12 @@ public final class RoomView extends javax.swing.JFrame {
         jPanel5 = new javax.swing.JPanel();
         jScrollPane6 = new javax.swing.JScrollPane();
         jTable5 = new javax.swing.JTable();
+        jPanel6 = new javax.swing.JPanel();
+        titleRoomNo = new javax.swing.JLabel();
+        jLabel14 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Quản lý phòng");
-
-        jLabel1.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
-        jLabel1.setText("QUẢN LÝ PHÒNG");
 
         jTabbedPane2.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
@@ -173,7 +176,11 @@ public final class RoomView extends javax.swing.JFrame {
 
         jLabel5.setText("Chỉ số điện:");
 
+        txtElectric.setEditable(false);
+
         jLabel6.setText("Chỉ số nước:");
+
+        txtWater.setEditable(false);
 
         jLabel7.setText("Khách đang thuê:");
 
@@ -351,9 +358,12 @@ public final class RoomView extends javax.swing.JFrame {
             }
         });
 
-        ckRole.setText("Đại diện");
-
-        jButton2.setText("Chọn khách đã có");
+        btnSelectGuestList.setText("Chọn khách đã có");
+        btnSelectGuestList.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSelectGuestListActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -367,7 +377,7 @@ public final class RoomView extends javax.swing.JFrame {
                         .addGap(168, 168, 168))
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                            .addComponent(jButton2)
+                            .addComponent(btnSelectGuestList)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(btnAddGuest))
                         .addGroup(jPanel2Layout.createSequentialGroup()
@@ -395,8 +405,7 @@ public final class RoomView extends javax.swing.JFrame {
                                 .addComponent(txtPhone)
                                 .addComponent(txtFullName)
                                 .addComponent(txtCCCD)
-                                .addComponent(txtDOB))))
-                    .addComponent(ckRole, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(txtDOB)))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
                 .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 556, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
@@ -423,12 +432,10 @@ public final class RoomView extends javax.swing.JFrame {
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(txtPhone, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel13))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(ckRole)
-                        .addGap(14, 14, 14)
+                        .addGap(40, 40, 40)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(btnAddGuest)
-                            .addComponent(jButton2))
+                            .addComponent(btnSelectGuestList))
                         .addGap(10, 10, 10)
                         .addComponent(jLabel15)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -643,22 +650,57 @@ public final class RoomView extends javax.swing.JFrame {
 
         jTabbedPane2.addTab("Tra cứu hợp đồng", jPanel5);
 
+        jPanel6.setBackground(new java.awt.Color(0, 102, 204));
+
+        titleRoomNo.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        titleRoomNo.setForeground(new java.awt.Color(255, 255, 255));
+        titleRoomNo.setText("...");
+
+        jLabel14.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        jLabel14.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel14.setText("QUẢN LÝ PHÒNG");
+
+        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
+        jPanel6.setLayout(jPanel6Layout);
+        jPanel6Layout.setHorizontalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel6Layout.createSequentialGroup()
+                .addGap(150, 150, 150)
+                .addComponent(titleRoomNo, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel6Layout.createSequentialGroup()
+                    .addGap(16, 16, 16)
+                    .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(756, Short.MAX_VALUE)))
+        );
+        jPanel6Layout.setVerticalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel6Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(titleRoomNo, javax.swing.GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE)
+                .addContainerGap())
+            .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel6Layout.createSequentialGroup()
+                    .addContainerGap()
+                    .addComponent(jLabel14, javax.swing.GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE)
+                    .addContainerGap()))
+        );
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(21, 21, 21)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTabbedPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 867, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jTabbedPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 867, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(19, Short.MAX_VALUE))
+            .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(33, 33, 33)
-                .addComponent(jLabel1)
+                .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jTabbedPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 457, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(34, Short.MAX_VALUE))
@@ -733,7 +775,6 @@ public final class RoomView extends javax.swing.JFrame {
         String dob = txtDOB.getText();
         String cccd = txtCCCD.getText();
         String phone = txtPhone.getText();
-        int role = ckRole.isSelected() ? 1 : 0;
         Guest g = new Guest();
         g.setFullName(name);
         try {
@@ -743,7 +784,7 @@ public final class RoomView extends javax.swing.JFrame {
         }
         g.setCitizenId(cccd);
         g.setPhone(phone);
-        g.setRole(role);
+        g.setRole(0);
 
         gListModel.add(g);
 
@@ -780,14 +821,13 @@ public final class RoomView extends javax.swing.JFrame {
 
             //test with admin account (id=1) will change later to a variable base on logged in account id
             //"fileLocation" set to a dump string since this function is not yet available.
-            if (cController.addContract(rController.getRoom(roomNum.getText()), gListModel, "1", "no file yet!")) {
+            if (cController.addContract(rController.getRoom(roomNum.getText()), gListModel, user.getId(), "no file yet!")) {
                 rController.updateRoomStatus(roomNum.getText(), 0); //Set current status to "0" => "rented".
                 JOptionPane.showMessageDialog(null, "Tạo hợp đồng thành công.");
                 txtFullName.setText("");
                 txtDOB.setText("");
                 txtCCCD.setText("");
                 txtPhone.setText("");
-                ckRole.setSelected(false);
             }
 
         } else {
@@ -805,7 +845,7 @@ public final class RoomView extends javax.swing.JFrame {
             txtPhone.setEnabled(false);
             btnAddGuest.setEnabled(false);
             btnAddContract.setEnabled(false);
-            ckRole.setEnabled(false);
+            btnSelectGuestList.setEnabled(false);
             txtElectContract.setEnabled(false);
             txtWaterContract.setEnabled(false);
 
@@ -822,7 +862,7 @@ public final class RoomView extends javax.swing.JFrame {
             txtPhone.setEnabled(true);
             btnAddGuest.setEnabled(true);
             btnAddContract.setEnabled(true);
-            ckRole.setEnabled(true);
+            btnSelectGuestList.setEnabled(true);
             txtElectContract.setEnabled(true);
             txtWaterContract.setEnabled(true);
 
@@ -845,6 +885,14 @@ public final class RoomView extends javax.swing.JFrame {
                 break;
         }
     }//GEN-LAST:event_btnLiquidateActionPerformed
+    GuestListSelectView gSelectView;
+    private void btnSelectGuestListActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSelectGuestListActionPerformed
+        // TODO add your handling code here:
+        gSelectView = new GuestListSelectView(this);
+        gSelectView.setVisible(true);
+        gSelectView.setLocationRelativeTo(this);
+
+    }//GEN-LAST:event_btnSelectGuestListActionPerformed
 
     /**
      * @param args the command line arguments
@@ -885,18 +933,17 @@ public final class RoomView extends javax.swing.JFrame {
     private javax.swing.JButton btnAddGuest;
     private javax.swing.JButton btnCreateBill;
     private javax.swing.JButton btnLiquidate;
+    private javax.swing.JButton btnSelectGuestList;
     private javax.swing.JButton btnUpdate;
     private javax.swing.JComboBox<String> cboxQuantity;
-    private javax.swing.JCheckBox ckRole;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton5;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
@@ -919,6 +966,7 @@ public final class RoomView extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
+    private javax.swing.JPanel jPanel6;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
@@ -934,6 +982,7 @@ public final class RoomView extends javax.swing.JFrame {
     public javax.swing.JLabel roomNum;
     private javax.swing.JTable tbCurrentGuest;
     private javax.swing.JTable tbRegisterGuest;
+    public javax.swing.JLabel titleRoomNo;
     private javax.swing.JTextField txtCCCD;
     private javax.swing.JTextField txtCurElect;
     private javax.swing.JTextField txtCurWater;

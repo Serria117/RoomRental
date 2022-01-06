@@ -4,6 +4,7 @@
  */
 package com.view;
 
+import com.controller.UserDTO;
 import com.controller.RoomController;
 import com.controller.RoomDTO;
 import java.util.ArrayList;
@@ -17,15 +18,24 @@ import javax.swing.table.DefaultTableModel;
  */
 public final class RoomListView extends javax.swing.JFrame {
 
+    UserDTO user = new UserDTO();
     DefaultTableModel tableModel;
 
     /**
      * Creates new form MainFrame
+     *
+     * @param user
      */
-    public RoomListView() {
+    public RoomListView(UserDTO user) {
         initComponents();
+        this.user = user;
         tableModel = (DefaultTableModel) tbRoom.getModel();
         loadRoomDTO();
+    }
+
+    public RoomListView() {
+        initComponents();
+
     }
 
     /**
@@ -36,7 +46,6 @@ public final class RoomListView extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tbRoom = new javax.swing.JTable();
         txtSearch = new javax.swing.JTextField();
@@ -45,12 +54,11 @@ public final class RoomListView extends javax.swing.JFrame {
         ckBoxAll = new javax.swing.JCheckBox();
         btnNewRoomForm = new javax.swing.JButton();
         btnReload = new javax.swing.JButton();
+        jPanel1 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Danh sách phòng");
-
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
-        jLabel1.setText("DANH SÁCH PHÒNG");
 
         tbRoom.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -119,39 +127,59 @@ public final class RoomListView extends javax.swing.JFrame {
             }
         });
 
+        jPanel1.setBackground(new java.awt.Color(0, 102, 204));
+
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel1.setText("DANH SÁCH PHÒNG");
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 47, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(19, 19, 19)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(16, 16, 16)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane1)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(ckBoxAll)
-                                .addGap(18, 18, 18)
-                                .addComponent(btnNewRoomForm, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(btnReload)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnSearch)))
-                        .addGap(18, 18, 18))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 911, Short.MAX_VALUE)
-                        .addContainerGap())))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 915, Short.MAX_VALUE)
+                        .addGap(14, 14, 14))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(ckBoxAll)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnNewRoomForm, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnReload)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnSearch)
+                        .addGap(18, 18, 18))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 64, Short.MAX_VALUE)
-                .addGap(35, 35, 35)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(33, 33, 33)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnSearch)
@@ -160,13 +188,13 @@ public final class RoomListView extends javax.swing.JFrame {
                     .addComponent(btnReload)
                     .addComponent(jButton2))
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 367, Short.MAX_VALUE)
-                .addGap(95, 95, 95))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 331, Short.MAX_VALUE)
+                .addGap(37, 37, 37))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-    RoomView roomView = new RoomView(this);
+    RoomView roomView = new RoomView(this, this.user);
     CreateRoomView createRoomView = new CreateRoomView();
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -181,12 +209,13 @@ public final class RoomListView extends javax.swing.JFrame {
             roomView.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
             roomView.roomNum.setText(roomNo);
+            roomView.titleRoomNo.setText(roomNo);
             roomView.displayRoomInfo();
             roomView.displayCurrentGuest();
             this.setVisible(false);
             //Không cho phép tự ý sửa số điện nước:
-            roomView.txtElectric.setEnabled(false);
-            roomView.txtWater.setEnabled(false);
+            roomView.txtElectric.setEditable(false);
+            roomView.txtWater.setEditable(false);
 
         } catch (ArrayIndexOutOfBoundsException e) {
             JOptionPane.showMessageDialog(null, "Vui lòng chọn phòng để xem thông tin.", "Thông báo", 1);
@@ -199,14 +228,19 @@ public final class RoomListView extends javax.swing.JFrame {
     }//GEN-LAST:event_ckBoxAllActionPerformed
 
     private void btnNewRoomFormActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNewRoomFormActionPerformed
-        createRoomView.setVisible(true);
-        createRoomView.txtRoomNumber.setText("");
-        createRoomView.txtPrice.setText("");
-        createRoomView.txtRoomSquare.setText("");
-        createRoomView.txtRoomDescription.setText("");
-        createRoomView.pack();
-        createRoomView.setLocationRelativeTo(null);
-        createRoomView.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        if (user.getAuthority() == 0) {
+            JOptionPane.showMessageDialog(null, "Tài khoản của bạn không có quyền thực hiện chức năng này.", "Cảnh báo", JOptionPane.ERROR_MESSAGE);
+        } else {
+            createRoomView.setVisible(true);
+            createRoomView.txtRoomNumber.setText("");
+            createRoomView.txtPrice.setText("");
+            createRoomView.txtRoomSquare.setText("");
+            createRoomView.txtRoomDescription.setText("");
+            createRoomView.pack();
+            createRoomView.setLocationRelativeTo(null);
+            createRoomView.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        }
+
     }//GEN-LAST:event_btnNewRoomFormActionPerformed
 
     private void btnReloadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReloadActionPerformed
@@ -291,6 +325,7 @@ public final class RoomListView extends javax.swing.JFrame {
     private javax.swing.JCheckBox ckBoxAll;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tbRoom;
     private javax.swing.JTextField txtSearch;

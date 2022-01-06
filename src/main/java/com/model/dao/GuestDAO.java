@@ -118,6 +118,42 @@ public class GuestDAO extends Database {
         return guestId;
     }
 
+    public List<Guest> searchGuest(String key) {
+        List<Guest> searchList = null;
+        Connection conn = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+
+        try {
+            conn = this.conn();
+            String query = "SELECT * FROM guest WHERE fullName LIKE CONCAT('%',?,'%') "
+                    + "OR phone LIKE CONCAT('%',?,'%') "
+                    + "OR citizenId LIKE CONCAT('%',?,'%')";
+            stm = conn.prepareStatement(query);
+            stm.setString(1, key);
+            stm.setString(2, key);
+            stm.setString(3, key);
+            rs = stm.executeQuery();
+            searchList = new ArrayList<>();
+            while (rs.next()) {
+                Guest guest = new Guest(
+                        rs.getInt("id"),
+                        rs.getString("fullName"),
+                        rs.getString("phone"),
+                        rs.getString("picture"),
+                        rs.getDate("dateOfBirth"),
+                        rs.getInt("status"),
+                        rs.getString("citizenId")
+                );
+                searchList.add(guest);
+            }
+        } catch (SQLException e) {
+        } finally {
+            this.closeAll(conn, stm, rs);
+        }
+        return searchList;
+    }
+
     public static void main(String[] args) throws ParseException {
         DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         GuestDAO gdao = new GuestDAO();

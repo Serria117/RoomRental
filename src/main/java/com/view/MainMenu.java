@@ -4,20 +4,28 @@
  */
 package com.view;
 
+import com.controller.UserDTO;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author hadt2
  */
 public class MainMenu extends javax.swing.JFrame {
 
-    LogInUser user = new LogInUser();
-    RoomListView roomList = new RoomListView();
+    public UserDTO user;
+    LoginView login;
+    RoomListView roomList;
 
     /**
      * Creates new form MainMenu
      */
     public MainMenu() {
         initComponents();
+        this.setVisible(false);
+        login = new LoginView(this);
+        login.setVisible(true);
+        login.setLocationRelativeTo(null);
         this.setLocationRelativeTo(null);
     }
 
@@ -29,22 +37,36 @@ public class MainMenu extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel1 = new javax.swing.JLabel();
         btnRoom = new javax.swing.JButton();
         btnGuest = new javax.swing.JButton();
         btnService = new javax.swing.JButton();
         btnReport = new javax.swing.JButton();
         btnSetting = new javax.swing.JButton();
+        jPanel1 = new javax.swing.JPanel();
+        jLabel2 = new javax.swing.JLabel();
+        jPanel2 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        lbWelcome = new javax.swing.JLabel();
+        btnExit = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Phần mềm quản lý thuê phòng");
-
-        jLabel1.setFont(new java.awt.Font("sansserif", 1, 18)); // NOI18N
-        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("RENT MANAGER");
+        addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                formFocusGained(evt);
+            }
+        });
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowActivated(java.awt.event.WindowEvent evt) {
+                formWindowActivated(evt);
+            }
+        });
 
         btnRoom.setFont(new java.awt.Font("sansserif", 1, 14)); // NOI18N
-        btnRoom.setText("Phòng thuê");
+        btnRoom.setIcon(new javax.swing.ImageIcon("D:\\Dev\\Project2\\RoomRental\\src\\media\\icon\\home.png")); // NOI18N
+        btnRoom.setText("Quản lý phòng");
+        btnRoom.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnRoom.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         btnRoom.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnRoomActionPerformed(evt);
@@ -52,67 +74,168 @@ public class MainMenu extends javax.swing.JFrame {
         });
 
         btnGuest.setFont(new java.awt.Font("sansserif", 1, 14)); // NOI18N
+        btnGuest.setIcon(new javax.swing.ImageIcon("D:\\Dev\\Project2\\RoomRental\\src\\media\\icon\\Guest.png")); // NOI18N
         btnGuest.setText("Khách thuê");
+        btnGuest.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnGuest.setMaximumSize(new java.awt.Dimension(162, 54));
+        btnGuest.setMinimumSize(new java.awt.Dimension(162, 54));
+        btnGuest.setPreferredSize(new java.awt.Dimension(184, 54));
+        btnGuest.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
 
         btnService.setFont(new java.awt.Font("sansserif", 1, 14)); // NOI18N
+        btnService.setIcon(new javax.swing.ImageIcon("D:\\Dev\\Project2\\RoomRental\\src\\media\\icon\\service.png")); // NOI18N
         btnService.setText("Dịch vụ");
+        btnService.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnService.setMaximumSize(new java.awt.Dimension(184, 54));
+        btnService.setMinimumSize(new java.awt.Dimension(184, 54));
+        btnService.setPreferredSize(new java.awt.Dimension(184, 54));
+        btnService.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
 
         btnReport.setFont(new java.awt.Font("sansserif", 1, 14)); // NOI18N
+        btnReport.setIcon(new javax.swing.ImageIcon("D:\\Dev\\Project2\\RoomRental\\src\\media\\icon\\report.png")); // NOI18N
         btnReport.setText("Báo cáo");
+        btnReport.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnReport.setMaximumSize(new java.awt.Dimension(184, 54));
+        btnReport.setMinimumSize(new java.awt.Dimension(184, 54));
+        btnReport.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
 
         btnSetting.setFont(new java.awt.Font("sansserif", 1, 14)); // NOI18N
+        btnSetting.setIcon(new javax.swing.ImageIcon("D:\\Dev\\Project2\\RoomRental\\src\\media\\icon\\setting.png")); // NOI18N
         btnSetting.setText("Hệ thống");
+        btnSetting.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnSetting.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+
+        jPanel1.setBackground(new java.awt.Color(51, 102, 255));
+
+        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel2.setText("Ứng dụng quản lý phòng thuê");
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(289, 289, 289)
+                .addComponent(jLabel2)
+                .addContainerGap(310, Short.MAX_VALUE))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 28, Short.MAX_VALUE)
+        );
+
+        jPanel2.setBackground(new java.awt.Color(0, 102, 255));
+
+        jLabel1.setFont(new java.awt.Font("sansserif", 1, 18)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel1.setText("RENT MANAGER");
+
+        lbWelcome.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        lbWelcome.setForeground(new java.awt.Color(255, 255, 255));
+        lbWelcome.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lbWelcome.setText("...");
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addGap(148, 148, 148)
+                .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lbWelcome, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addComponent(lbWelcome)
+                .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addContainerGap(15, Short.MAX_VALUE)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(14, 14, 14))
+        );
+
+        btnExit.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnExit.setIcon(new javax.swing.ImageIcon("D:\\Dev\\Project2\\RoomRental\\src\\media\\icon\\exit.png")); // NOI18N
+        btnExit.setText("Thoát");
+        btnExit.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnExit.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnExit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnExitActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(103, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addContainerGap())
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(115, 115, 115)
-                        .addComponent(btnRoom, javax.swing.GroupLayout.DEFAULT_SIZE, 114, Short.MAX_VALUE)
-                        .addGap(83, 83, 83)
-                        .addComponent(btnGuest, javax.swing.GroupLayout.DEFAULT_SIZE, 113, Short.MAX_VALUE)
-                        .addGap(82, 82, 82)
-                        .addComponent(btnService, javax.swing.GroupLayout.DEFAULT_SIZE, 111, Short.MAX_VALUE)
-                        .addGap(119, 119, 119))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(218, 218, 218)
-                        .addComponent(btnReport, javax.swing.GroupLayout.DEFAULT_SIZE, 109, Short.MAX_VALUE)
-                        .addGap(85, 85, 85)
-                        .addComponent(btnSetting, javax.swing.GroupLayout.DEFAULT_SIZE, 111, Short.MAX_VALUE)
-                        .addGap(214, 214, 214))))
+                    .addComponent(btnRoom)
+                    .addComponent(btnReport, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 79, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnGuest, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnSetting, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 79, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(btnService, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnExit, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(100, Short.MAX_VALUE))
+            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(40, 40, 40)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(30, 30, 30)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnGuest, javax.swing.GroupLayout.DEFAULT_SIZE, 104, Short.MAX_VALUE)
-                    .addComponent(btnService, javax.swing.GroupLayout.DEFAULT_SIZE, 104, Short.MAX_VALUE)
-                    .addComponent(btnRoom, javax.swing.GroupLayout.DEFAULT_SIZE, 104, Short.MAX_VALUE))
-                .addGap(67, 67, 67)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnReport, javax.swing.GroupLayout.DEFAULT_SIZE, 104, Short.MAX_VALUE)
-                    .addComponent(btnSetting, javax.swing.GroupLayout.DEFAULT_SIZE, 104, Short.MAX_VALUE))
-                .addGap(92, 92, 92))
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 60, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnService, javax.swing.GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE)
+                    .addComponent(btnGuest, javax.swing.GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE)
+                    .addComponent(btnRoom, javax.swing.GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 60, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnSetting, javax.swing.GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE)
+                    .addComponent(btnExit, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnReport, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 76, Short.MAX_VALUE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
     private void btnRoomActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRoomActionPerformed
+        roomList = new RoomListView(this.user);
         roomList.setVisible(true);
         roomList.pack();
         roomList.setLocationRelativeTo(null);
         roomList.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
     }//GEN-LAST:event_btnRoomActionPerformed
+
+    private void formFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_formFocusGained
+        // TODO add your handling code here:
+
+    }//GEN-LAST:event_formFocusGained
+
+    private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
+        user = login.currentUser;
+        lbWelcome.setText("Xin chào, " + user.getUserName());
+
+    }//GEN-LAST:event_formWindowActivated
+
+    private void btnExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExitActionPerformed
+        // TODO add your handling code here:
+        int ans = JOptionPane.showConfirmDialog(null, "Bạn có muốn thoát chương trình không?", "Exit", JOptionPane.YES_NO_OPTION);
+        if (ans == 0) {
+            System.exit(0);
+        }
+    }//GEN-LAST:event_btnExitActionPerformed
 
     /**
      * @param args the command line arguments
@@ -144,17 +267,22 @@ public class MainMenu extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new MainMenu().setVisible(true);
+                new MainMenu().setVisible(false);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnExit;
     private javax.swing.JButton btnGuest;
     private javax.swing.JButton btnReport;
     private javax.swing.JButton btnRoom;
     private javax.swing.JButton btnService;
     private javax.swing.JButton btnSetting;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JLabel lbWelcome;
     // End of variables declaration//GEN-END:variables
 }
