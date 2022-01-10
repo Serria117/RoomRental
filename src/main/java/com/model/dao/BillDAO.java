@@ -67,4 +67,17 @@ public class BillDAO extends DBAccess {
         }
         return result;
     }
+
+    public boolean isDuplicateBill(String billNumber) {
+        boolean check = false;
+        try {
+            conn = this.conn();
+            stm = conn.prepareStatement("SELECT billNumber FROM bill WHERE billNumber = ?");
+            stm.setString(1, billNumber);
+            rs = stm.executeQuery();
+            check = rs.isBeforeFirst();
+        } catch (SQLException e) {
+        }
+        return check;
+    }
 }

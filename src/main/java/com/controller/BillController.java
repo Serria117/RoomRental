@@ -24,8 +24,11 @@ public class BillController {
     ServiceDAO serDAO = new ServiceDAO();
     RoomDAO roomDAO = new RoomDAO();
 
-    public void addBill(RoomDTO room, int quantity, int electricCount, int waterCount, String month, String des, int userId) {
+    public boolean addBill(RoomDTO room, int quantity, int electricCount, int waterCount, String billNumber, String des, int userId) {
         //Create a new bill and return billId;
+        if (billDAO.isDuplicateBill(billNumber)) {
+            return false;
+        }
         ContractDAO cDAO = new ContractDAO();
         int roomId = room.getId();
         int lastElectricCount = Integer.parseInt(room.getElectricCounter());
@@ -35,12 +38,13 @@ public class BillController {
         int contractId = currentContract.getId();
 
         Bill bill = new Bill();
-        bill.setBillNumber(room.getRoomNumber() + "_" + month);
+        bill.setBillNumber(billNumber);
         bill.setContractId(contractId);
         bill.setDescription(des);
         bill.setRoomPrice(roomPrice);
         bill.setUserId(userId);
         bill.setRentalQuantity(quantity);
+
         int billId = billDAO.addBill(bill);
         /*Now the bill has been created in the db, but it's still missing the total value of all service's price
         because they are not bound yet.*/
@@ -63,6 +67,8 @@ public class BillController {
 
         //Update counters:
         roomDAO.updateCounters(roomId, electricCount, waterCount);
+
+        return true;
     }
 
     public static BillDTO billModelToDTO(Bill bill) {

@@ -4,6 +4,7 @@
  */
 package com.view;
 
+import com.controller.BillController;
 import com.controller.ContractController;
 import com.controller.GuestController;
 import com.controller.RoomController;
@@ -45,9 +46,13 @@ public final class RoomView extends javax.swing.JFrame {
     GuestController gController = new GuestController();
     ContractController cController = new ContractController();
     RoomController rController = new RoomController();
+    BillController bController = new BillController();
     List<ServiceDTO> serviceList = new ArrayList<>();
     ServiceController serviceController = new ServiceController();
     LocalDate currentDate = LocalDate.now();
+    int electricCount;
+    int waterCount;
+    int monthQuantity;
 
     /**
      * Creates new form RoomView
@@ -115,8 +120,9 @@ public final class RoomView extends javax.swing.JFrame {
         billDateLabel.setText(currentDate.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
         billPeriodLabel.setText(txtBillMonth.getSelectedItem() + "/" + txtBillYear.getSelectedItem());
         billNoLabel.setText(currentRoom.getRoomNumber() + "_" + billPeriodLabel.getText());
+        monthQuantity = Integer.parseInt(billMonthQuantity.getValue().toString());
 
-        int subTotalRoom = Integer.parseInt(currentRoom.getPrice().replace(",", "")) * Integer.parseInt(billMonthQuantity.getValue().toString());
+        int subTotalRoom = Integer.parseInt(currentRoom.getPrice().replace(",", "")) * monthQuantity;
         billDetailTableModel.setRowCount(0);
         billDetailTableModel.addRow(new Object[]{
             billDetailTableModel.getRowCount() + 1,
@@ -144,7 +150,8 @@ public final class RoomView extends javax.swing.JFrame {
         int electricQuantity = 0;
 
         try {
-            electricQuantity = Integer.parseInt(txtBillCurElect.getText()) - Integer.parseInt(currentRoom.getElectricCounter());
+            electricCount = Integer.parseInt(txtBillCurElect.getText());
+            electricQuantity = electricCount - Integer.parseInt(currentRoom.getElectricCounter());
         } catch (NumberFormatException e) {
         }
         billDetailTableModel.setValueAt(nf.format(electricQuantity), 1, 5);
@@ -157,7 +164,8 @@ public final class RoomView extends javax.swing.JFrame {
         int waterQuantity = 0;
 
         try {
-            waterQuantity = Integer.parseInt(txtBillCurWater.getText()) - Integer.parseInt(currentRoom.getWaterCounter());
+            waterCount = Integer.parseInt(txtBillCurWater.getText());
+            waterQuantity = waterCount - Integer.parseInt(currentRoom.getWaterCounter());
         } catch (NumberFormatException e) {
         }
         billDetailTableModel.setValueAt(nf.format(waterQuantity), 2, 5);
@@ -709,6 +717,11 @@ public final class RoomView extends javax.swing.JFrame {
                 txtBillCurElectFocusLost(evt);
             }
         });
+        txtBillCurElect.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtBillCurElectKeyReleased(evt);
+            }
+        });
 
         jLabel22.setText("Số điện:");
 
@@ -775,6 +788,17 @@ public final class RoomView extends javax.swing.JFrame {
         });
 
         txtBillMonth.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "T1", "T2", "T3", "T4", "T5", "T6", "T7", "T8", "T9", "T10", "T11", "T12" }));
+        txtBillMonth.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtBillMonthFocusLost(evt);
+            }
+        });
+
+        txtBillYear.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtBillYearFocusLost(evt);
+            }
+        });
 
         jLabel25.setText("Năm:");
 
@@ -1274,13 +1298,24 @@ public final class RoomView extends javax.swing.JFrame {
     }//GEN-LAST:event_txtWaterActionPerformed
 
     private void btnCreateBillActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreateBillActionPerformed
-        // TODO add your handling code here:
-
-//        String month = (monthPick.getMonth() + 1) + "-" + year;
-        billDetail = new BillDetail();
-        billDetail.setVisible(true);
-        billDetail.pack();
-        billDetail.setLocationRelativeTo(null);
+        //
+        boolean result = bController.addBill(
+                currentRoom,
+                monthQuantity,
+                electricCount,
+                waterCount,
+                billNoLabel.getText(),
+                txtBillDescription.getText(), user.getId()
+        );
+        if (result) {
+            JOptionPane.showMessageDialog(null, "Hóa đơn đã được lưu thành công.", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+            txtBillCurElect.setText("");
+            txtBillCurWater.setText("");
+            billMonthQuantity.setValue(1);
+            txtDescription.setText("");
+        } else {
+            JOptionPane.showMessageDialog(null, "Số hóa đơn này đã được lập.", "Cảnh báo", JOptionPane.WARNING_MESSAGE);
+        }
     }//GEN-LAST:event_btnCreateBillActionPerformed
 
     private void txtBillCurElectFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtBillCurElectFocusLost
@@ -1295,11 +1330,6 @@ public final class RoomView extends javax.swing.JFrame {
             }
 
         } catch (NumberFormatException e) {
-            txtBillCurElect.setText("");
-            txtBillCurElect.setBackground(Color.yellow);
-            isValid = false;
-            JOptionPane.showMessageDialog(null, "Dữ liệu không hợp lệ.", "Dữ liệu không hợp lệ", JOptionPane.ERROR_MESSAGE);
-
         }
         if (isValid) {
             txtBillCurElect.setBackground(Color.white);
@@ -1318,10 +1348,6 @@ public final class RoomView extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, "Chỉ số nước hiện tại phải lớn hơn hoặc bằng chỉ số đầu kỳ.", "Dữ liệu không hợp lệ", JOptionPane.ERROR_MESSAGE);
             }
         } catch (NumberFormatException e) {
-            txtBillCurWater.setText("");
-            txtBillCurWater.setBackground(Color.yellow);
-            isValid = false;
-            JOptionPane.showMessageDialog(null, "Dữ liệu không hợp lệ.", "Dữ liệu không hợp lệ", JOptionPane.ERROR_MESSAGE);
         }
         if (isValid) {
             txtBillCurWater.setBackground(Color.white);
@@ -1333,6 +1359,25 @@ public final class RoomView extends javax.swing.JFrame {
         // TODO add your handling code here:
         prepareBill();
     }//GEN-LAST:event_billMonthQuantityStateChanged
+
+    private void txtBillCurElectKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBillCurElectKeyReleased
+        // TODO add your handling code here:
+        try {
+            int test = Integer.parseInt(txtBillCurElect.getText());
+        } catch (NumberFormatException e) {
+            txtBillCurElect.setText("");
+        }
+    }//GEN-LAST:event_txtBillCurElectKeyReleased
+
+    private void txtBillMonthFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtBillMonthFocusLost
+        // TODO add your handling code here:
+        prepareBill();
+    }//GEN-LAST:event_txtBillMonthFocusLost
+
+    private void txtBillYearFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtBillYearFocusLost
+        // TODO add your handling code here:
+        prepareBill();
+    }//GEN-LAST:event_txtBillYearFocusLost
 
     private void displayServiceList() {
         serviceList = serviceController.displayService();
