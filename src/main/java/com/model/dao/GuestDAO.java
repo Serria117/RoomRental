@@ -1,9 +1,6 @@
 package com.model.dao;
 
 import com.model.Guest;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -12,15 +9,12 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
 
-public class GuestDAO extends Database {
+public class GuestDAO extends DBAccess {
 
-    public static Database db = new Database();
+    public static DBAccess db = new DBAccess();
 
     public List<Guest> getByRoom(String roomNo, int status) {
         List<Guest> guestList = null;
-        Connection conn = null;
-        ResultSet rs = null;
-        PreparedStatement stm = null;
         try {
             conn = this.conn();
             String query = "SELECT g.id, g.`fullName`, g.phone, g.picture, g.`dateOfBirth`, g.status, g.`citizenId` "
@@ -30,7 +24,6 @@ public class GuestDAO extends Database {
                     + "INNER JOIN room AS r "
                     + "WHERE ct.id = cd.contractId AND g.id = cd.guestId AND r.id = ct.`roomId` "
                     + "AND r.`roomNumber` = ? AND g.status = ?";
-
             stm = conn.prepareStatement(query);
             stm.setString(1, roomNo);
             stm.setInt(2, status);
@@ -58,9 +51,6 @@ public class GuestDAO extends Database {
 
     public List<Guest> getAll(String key) {
         List<Guest> guestList = null;
-        Connection conn = null;
-        ResultSet rs = null;
-        PreparedStatement stm = null;
         try {
             conn = this.conn();
             String query = "SELECT * FROM GUEST WHERE ";
@@ -92,9 +82,6 @@ public class GuestDAO extends Database {
     public int addGuest(Guest g) {
         //This function must return the id of the guest has been inserted into the database
         int guestId = 0;
-        Connection conn = null;
-        PreparedStatement stm = null;
-        ResultSet rs = null;
         try {
             DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
             conn = this.conn();
@@ -120,10 +107,6 @@ public class GuestDAO extends Database {
 
     public List<Guest> searchGuest(String key) {
         List<Guest> searchList = null;
-        Connection conn = null;
-        PreparedStatement stm = null;
-        ResultSet rs = null;
-
         try {
             conn = this.conn();
             String query = "SELECT * FROM guest WHERE fullName LIKE CONCAT('%',?,'%') "

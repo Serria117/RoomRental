@@ -4,6 +4,7 @@
  */
 package com.controller;
 
+import com.controller.dto.GuestDTO;
 import com.model.Guest;
 import com.model.dao.GuestDAO;
 import java.text.SimpleDateFormat;

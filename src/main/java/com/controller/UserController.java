@@ -4,13 +4,16 @@
  */
 package com.controller;
 
+import com.controller.dto.UserDTO;
 import com.model.User;
 import com.model.dao.UserDAO;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 /**
  *
@@ -33,8 +36,8 @@ public class UserController {
                 hashedPass = "0" + hashedPass;
             }
 
-        } catch (NoSuchAlgorithmException ex) {
-            Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (NoSuchAlgorithmException e) {
+            Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, e);
         }
 
         return hashedPass;
@@ -45,13 +48,46 @@ public class UserController {
         return UserModelToDTO(user);
     }
 
+    public List<UserDTO> getAll() {
+        return userDAO.getAllUser().stream()
+                .map(user -> UserModelToDTO(user))
+                .collect(Collectors.toList());
+    }
+
+    public boolean isDuplicateUser(String username) {
+        return userDAO.isDuplicatedUser(username);
+    }
+
+    public boolean addUser(String username, String password, String phone, int authority) {
+        String hashedPassword = hashPass(password, username);
+        User user = new User(username, hashedPassword, phone, authority);
+        return userDAO.addNewUser(user);
+    }
+
+    public boolean verifiedCurrentPass(UserDTO user, String currentPass) {
+        return user.getPassword().equals(hashPass(currentPass, user.getUsername()));
+    }
+
+    public boolean updatePassword(UserDTO user, String newPass) {
+        return userDAO.changePassword(user.getId(), hashPass(newPass, user.getUsername()));
+    }
+
+    public boolean isDuplicatePhone(int id, String phone) {
+        return userDAO.isDuplicatePhone(id, phone);
+    }
+
+    public boolean updatePhone(UserDTO user, String newPhone) {
+        return userDAO.changePhone(user.getId(), newPhone);
+    }
+
     public static UserDTO UserModelToDTO(User user) {
         UserDTO udto = null;
         if (user != null) {
             udto = new UserDTO();
             udto.setId(user.getId());
             udto.setPassword(user.getPassword());
-            udto.setUserName(user.getUsername());
+            udto.setPhone(user.getPhone());
+            udto.setUsername(user.getUsername());
             udto.setAuthority(user.getAuthority());
             udto.setStatus(user.getStatus());
         }

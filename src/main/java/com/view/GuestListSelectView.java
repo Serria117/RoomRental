@@ -5,7 +5,7 @@
 package com.view;
 
 import com.controller.GuestController;
-import com.controller.GuestDTO;
+import com.controller.dto.GuestDTO;
 import com.model.Guest;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;

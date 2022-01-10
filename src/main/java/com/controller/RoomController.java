@@ -4,6 +4,7 @@
  */
 package com.controller;
 
+import com.controller.dto.RoomDTO;
 import com.model.Room;
 import com.model.dao.RoomDAO;
 import java.text.NumberFormat;
@@ -70,12 +71,7 @@ public class RoomController {
         rdto.setPrice(numFormat.format(r.getPrice()));
         rdto.setDescription(r.getDescription());
         rdto.setSquare(String.valueOf(r.getSquare()));
-
-        if (r.getStatus() == 0) {
-            rdto.setStatus("Đang cho thuê");
-        } else {
-            rdto.setStatus("Phòng trống");
-        }
+        rdto.setStatus(r.getStatus());
 
         rdto.setElectricCounter(String.valueOf(r.getElectricCounter()));
         rdto.setWaterCounter(String.valueOf(r.getWaterCounter()));
@@ -86,6 +82,10 @@ public class RoomController {
 
     public boolean updateRoomStatus(String roomNumber, int status) {
         return roomDAO.updateRoomStatus(roomNumber, status);
+    }
+
+    public void updateCounter(int id, int elec, int water) {
+        roomDAO.updateCounters(id, elec, water);
     }
 
     public static void main(String[] args) {

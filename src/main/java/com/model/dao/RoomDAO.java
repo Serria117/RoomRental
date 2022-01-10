@@ -1,21 +1,15 @@
 package com.model.dao;
 
 import com.model.Room;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
 
-public class RoomDAO extends Database {
+public class RoomDAO extends DBAccess {
 
     public List<Room> getAll(boolean allRoom) {
         List<Room> roomList = null;
-        Connection conn = null;
-        ResultSet rs = null;
-        PreparedStatement stm = null;
         try {
             conn = this.conn();
             String query = allRoom == true ? "SELECT * FROM ROOM" : "SELECT * FROM ROOM WHERE STATUS = 1";
@@ -43,12 +37,22 @@ public class RoomDAO extends Database {
         return roomList;
     }
 
+    public void updateCounters(int roomId, int elec, int water) {
+        try {
+            conn = this.conn();
+            stm = conn.prepareStatement("UPDATE room SET electricCounter = ?, waterCounter = ? WHERE id = ?");
+            stm.setInt(1, elec);
+            stm.setInt(2, water);
+            stm.setInt(3, roomId);
+            stm.executeUpdate();
+        } catch (SQLException e) {
+        } finally {
+            this.closeAll(conn, stm, rs);
+        }
+    }
+
     public List<Room> searchRooms(String key, boolean allRoom) {
         List<Room> result = null;
-        Connection conn = null;
-        ResultSet rs = null;
-        PreparedStatement stm = null;
-
         try {
             conn = this.conn();
             result = new ArrayList<>();
@@ -91,9 +95,6 @@ public class RoomDAO extends Database {
 
     public Room getRoom(String roomNumber) {
         Room room = null;
-        Connection conn = null;
-        ResultSet rs = null;
-        PreparedStatement stm = null;
         try {
             conn = this.conn();
             String query = "SELECT * FROM room WHERE roomNumber = ?";
@@ -123,9 +124,6 @@ public class RoomDAO extends Database {
     //Kiểm tra số phòng trùng khi tạo mới
     public boolean isDuplicateRoom(String roomNumber) {
         boolean check = false;
-        Connection conn = null;
-        ResultSet rs = null;
-        PreparedStatement stm = null;
         try {
             conn = this.conn();
             String query = "SELECT roomNumber FROM room WHERE roomNumber = ?";
@@ -147,8 +145,6 @@ public class RoomDAO extends Database {
             return false;
         }
         boolean status = false;
-        Connection conn = null;
-        PreparedStatement stm = null;
         try {
             conn = this.conn();
             String query = "INSERT INTO room SET roomNumber = ?, price = ?, square = ?, description = ?, electricCounter = ?, waterCounter = ?, status = 1";
@@ -172,8 +168,6 @@ public class RoomDAO extends Database {
     //Update room info:
     public boolean updateRoom(Room room) {
         boolean status = false;
-        Connection conn = null;
-        PreparedStatement stm = null;
         try {
             conn = this.conn();
             String query = "UPDATE ROOM SET price = ?, square = ?, "
@@ -199,9 +193,7 @@ public class RoomDAO extends Database {
 
     //update room status:
     public boolean updateRoomStatus(String roomNumber, int status) {
-        boolean rs = false;
-        Connection conn = null;
-        PreparedStatement stm = null;
+        boolean result = false;
         try {
             conn = this.conn();
             String query = "UPDATE ROOM SET status = ? WHERE roomNumber = ?";
@@ -209,14 +201,14 @@ public class RoomDAO extends Database {
             stm.setInt(1, status);
             stm.setString(2, roomNumber);
 
-            int res = stm.executeUpdate();
-            rs = res > 0;
+            int queryValue = stm.executeUpdate();
+            result = queryValue > 0;
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Update room failed: " + e.getMessage());
         } finally {
             this.closeAll(conn, stm, null);
         }
-        return rs;
+        return result;
     }
 
     //test:

@@ -6,9 +6,6 @@ package com.model.dao;
 
 import com.model.Contract;
 import com.model.Guest;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,13 +15,33 @@ import javax.swing.JOptionPane;
  *
  * @author hadt2
  */
-public class ContractDAO extends Database {
+public class ContractDAO extends DBAccess {
+
+    public Contract getCurrentContract(int RoomId) {
+        Contract contract = null;
+        try {
+            conn = this.conn();
+            stm = conn.prepareStatement("SELECT * FROM contract where RoomId = ? AND status = 1");
+            stm.setInt(1, RoomId);
+            rs = stm.executeQuery();
+            if (rs.next()) {
+                contract = new Contract();
+                contract.setId(rs.getInt("id"));
+                contract.setRoomId(RoomId);
+                contract.setPrice(rs.getInt("price"));
+                contract.setContractNumber(rs.getString("contractNumber"));
+                contract.setCreatedDate(rs.getDate("createdDate"));
+            }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error: " + e.getMessage(), "SQL Error", JOptionPane.ERROR_MESSAGE);
+        } finally {
+            this.closeAll(conn, stm, rs);
+        }
+        return contract;
+    }
 
     public Contract getContract(int id) {
         Contract contract = null;
-        Connection conn = null;
-        PreparedStatement stm = null;
-        ResultSet rs = null;
         try {
             conn = this.conn();
             String query = "SELECT * FROM contract WHER id = ";
@@ -50,9 +67,6 @@ public class ContractDAO extends Database {
 
     public List<Contract> getAllContract() {
         List<Contract> listContract = null;
-        Connection conn = null;
-        PreparedStatement stm = null;
-        ResultSet rs = null;
         try {
             conn = this.conn();
             String query = "SELECT * FROM contract";
@@ -83,9 +97,6 @@ public class ContractDAO extends Database {
 
     public int addContract(Contract c) {
         int contractId = 0;
-        Connection conn = null;
-        PreparedStatement stm = null;
-        ResultSet rs = null;
         try {
             conn = this.conn();
             String query = "INSERT INTO contract SET "
@@ -115,9 +126,6 @@ public class ContractDAO extends Database {
     public boolean bindContractDetail(Contract c, Guest g) {
         //The guest must be inserted into the database first to generate an incremental ID
         boolean res = false;
-        Connection conn = null;
-        PreparedStatement stm = null;
-
         try {
             conn = this.conn();
             String query = "INSERT INTO contractdetail "
@@ -137,20 +145,18 @@ public class ContractDAO extends Database {
     }
 
     public boolean updateContract(Contract c) {
-        boolean rs = false;
-        Connection conn = null;
-        PreparedStatement stm = null;
+        boolean res = false;
         try {
             conn = this.conn();
             String query = "UPDATE contact "
                     + "SET status = ? WHERE id = ?";
             stm = conn.prepareStatement(query);
-            rs = stm.executeUpdate() > 0;
+            res = stm.executeUpdate() > 0;
         } catch (SQLException e) {
         } finally {
             this.closeAll(conn, stm, null);
         }
-        return rs;
+        return res;
     }
 
     public static void main(String[] args) {

@@ -13,12 +13,21 @@ public class User {
     private int id;
     private String username;
     private String password;
+    private String phone;
     private int authority;
     private int status;
 
     @Override
     public String toString() {
-        return "User{" + "id=" + id + ", username=" + username + ", authority=" + authority + ", status=" + status + '}';
+        return "User{" + "id=" + id + ", username=" + username + ", password=" + password + ", phone=" + phone + ", authority=" + authority + ", status=" + status + '}';
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
     public int getId() {
@@ -64,12 +73,12 @@ public class User {
     public User() {
     }
 
-    public User(int id, String username, String password, int authority, int status) {
-        this.id = id;
+    public User(String username, String password, String phone, int authority) {
+
         this.username = username;
         this.password = password;
+        this.phone = phone;
         this.authority = authority;
-        this.status = status;
     }
 
 }

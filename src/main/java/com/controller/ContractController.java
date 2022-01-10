@@ -4,6 +4,8 @@
  */
 package com.controller;
 
+import com.controller.dto.RoomDTO;
+import com.controller.dto.ContractDTO;
 import com.model.Contract;
 import com.model.Guest;
 import com.model.dao.ContractDAO;
