@@ -63,7 +63,7 @@ public class GuestView extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Họ Tên", "Số CCCD", "Số Điện Thoại", "Ngày Sinh", "Status"
+                "Họ Tên", "Số CCCD", "Số Điện Thoại", "Ngày Sinh", "Tình trạng thuê"
             }
         ) {
             boolean[] canEdit = new boolean [] {

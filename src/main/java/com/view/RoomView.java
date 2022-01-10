@@ -68,8 +68,6 @@ public final class RoomView extends javax.swing.JFrame {
         }
     };
 
-    private BillDetail billDetail;
-
     public RoomView(JFrame roomList, UserDTO user, String roomNo) {
         initComponents();
         this.roomListViewFrame = roomList;
@@ -108,6 +106,11 @@ public final class RoomView extends javax.swing.JFrame {
             prepareBill();
 
         }
+        if (currentRoom.getStatus() == 1) {
+            btnCreateBill.setEnabled(false);
+            btnLiquidate.setEnabled(false);
+        }
+
         this.addWindowListener(exitListener); //Gọi sự kiện đóng nút "X"
         this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE); //Set nút "X" không đóng chương trình theo mặc định
     }
@@ -373,7 +376,7 @@ public final class RoomView extends javax.swing.JFrame {
             }
         });
 
-        jButton1.setText("Cập nhật hợp đồng");
+        jButton1.setText("Thêm khách");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -410,10 +413,10 @@ public final class RoomView extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(btnLiquidate, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 744, Short.MAX_VALUE))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 746, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -457,7 +460,7 @@ public final class RoomView extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnUpdate))
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 258, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(175, Short.MAX_VALUE))
+                .addContainerGap(172, Short.MAX_VALUE))
         );
 
         jTabbedPane2.addTab("Thông tin", jPanel1);
@@ -1162,7 +1165,7 @@ public final class RoomView extends javax.swing.JFrame {
             String priceErr = !validateNumber(price) ? "Giá phòng không hợp lệ. Giá phòng phải là số >0.\n" : "";
             JOptionPane.showMessageDialog(null, squareErr + priceErr);
         } else {
-            boolean res = RoomController.updateRoomObj(roomNumber, price, square, description, elec, water);
+            boolean res = RoomController.updateRoom(roomNumber, price, square, description, elec, water);
             if (res) {
                 JOptionPane.showMessageDialog(null, "Cập nhật thành công");
             }
@@ -1277,7 +1280,15 @@ public final class RoomView extends javax.swing.JFrame {
         int ans = JOptionPane.showConfirmDialog(null, "Bạn có muốn thanh lý hợp đồng hiện tại?", "Thanh lý hợp đồng", JOptionPane.YES_NO_OPTION);
         switch (ans) {
             case 0:
-                System.out.println("Xóa");
+                if (!gListDTO.isEmpty()) {
+                    rController.updateRoomStatus(currentRoom.getRoomNumber(), 1);
+                    gListDTO.stream().forEach(g -> {
+                        gController.updateGuestStatus(g.getId(), 0);
+                        cController.updateContractDetail(cController.getCurrentContract(currentRoom.getId()), g.getId(), 0);
+                    });
+
+                    cController.updateContractStatus(cController.getCurrentContract(currentRoom.getId()), 0);
+                }
                 break;
             case 1:
                 System.out.println("Không xóa");

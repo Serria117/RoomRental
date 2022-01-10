@@ -120,11 +120,11 @@
                           <Group type="102" attributes="0">
                               <Component id="jLabel7" min="-2" pref="110" max="-2" attributes="0"/>
                               <EmptySpace max="32767" attributes="0"/>
-                              <Component id="jButton1" min="-2" pref="142" max="-2" attributes="0"/>
+                              <Component id="jButton1" min="-2" pref="103" max="-2" attributes="0"/>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
                               <Component id="btnLiquidate" min="-2" pref="117" max="-2" attributes="0"/>
                           </Group>
-                          <Component id="jScrollPane2" pref="744" max="32767" attributes="0"/>
+                          <Component id="jScrollPane2" pref="746" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
@@ -183,7 +183,7 @@
                           </Group>
                           <Component id="jScrollPane2" min="-2" pref="258" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace pref="175" max="32767" attributes="0"/>
+                      <EmptySpace pref="172" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -339,7 +339,7 @@
             </Component>
             <Component class="javax.swing.JButton" name="jButton1">
               <Properties>
-                <Property name="text" type="java.lang.String" value="C&#x1ead;p nh&#x1ead;t h&#x1ee3;p &#x111;&#x1ed3;ng"/>
+                <Property name="text" type="java.lang.String" value="Th&#xea;m kh&#xe1;ch"/>
               </Properties>
             </Component>
           </SubComponents>

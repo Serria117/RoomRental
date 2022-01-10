@@ -39,6 +39,10 @@ public class GuestController {
         return guestDAO.addGuest(g); //Return the added guest's id
     }
 
+    public boolean updateGuestStatus(int id, int status) {
+        return guestDAO.updateGuestStatus(id, status);
+    }
+
     public static GuestDTO guestModelToDTO(Guest g) {
         GuestDTO gdto;
         if (g == null) {

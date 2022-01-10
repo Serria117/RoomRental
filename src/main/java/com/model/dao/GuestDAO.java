@@ -22,7 +22,8 @@ public class GuestDAO extends DBAccess {
                     + "INNER JOIN contractdetail AS cd "
                     + "INNER JOIN guest AS g "
                     + "INNER JOIN room AS r "
-                    + "WHERE ct.id = cd.contractId AND g.id = cd.guestId AND r.id = ct.`roomId` "
+                    + "WHERE ct.id = cd.contractId AND g.id = cd.guestId "
+                    + "AND r.id = ct.`roomId` "
                     + "AND r.`roomNumber` = ? AND g.status = ?";
             stm = conn.prepareStatement(query);
             stm.setString(1, roomNo);
@@ -135,6 +136,22 @@ public class GuestDAO extends DBAccess {
             this.closeAll(conn, stm, rs);
         }
         return searchList;
+    }
+
+    public boolean updateGuestStatus(int id, int status) {
+        boolean check = false;
+        try {
+            conn = this.conn();
+            stm = conn.prepareStatement("UPDATE guest SET status = ? WHERE id = ?");
+            stm.setInt(1, status);
+            stm.setInt(2, id);
+            check = stm.executeUpdate() > 0;
+        } catch (SQLException e) {
+            System.out.println("Lỗi ở chỗ update guest");
+        } finally {
+            this.closeAll(conn, stm, rs);
+        }
+        return check;
     }
 
     public static void main(String[] args) throws ParseException {

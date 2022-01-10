@@ -23,7 +23,7 @@ Quản lý Phòng:
 Quản lý Khách:
 	- Tìm kiếm khách theo:
 		+ Tên, số CCCD, điện thoại
-		+ Số phòng ???
+
 
 
 Quản lý Dịch vụ:

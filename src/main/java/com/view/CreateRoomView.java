@@ -177,7 +177,7 @@ public class CreateRoomView extends javax.swing.JFrame {
             String priceErr = !validatePrice(price) ? "Giá phòng không hợp lệ. Giá phòng phải là số >0." : "";
             JOptionPane.showMessageDialog(null, roomNumberErr + squareErr + priceErr);
         } else {
-            if (RoomController.addRoomObj(roomNumber, price, square, description)) {
+            if (RoomController.addRoom(roomNumber, price, square, description)) {
                 JOptionPane.showMessageDialog(null, "Phòng " + roomNumber + " tạo thành công.");
                 this.dispose();
 

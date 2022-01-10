@@ -4,8 +4,8 @@
  */
 package com.controller;
 
-import com.controller.dto.RoomDTO;
 import com.controller.dto.ContractDTO;
+import com.controller.dto.RoomDTO;
 import com.model.Contract;
 import com.model.Guest;
 import com.model.dao.ContractDAO;
@@ -64,6 +64,18 @@ public class ContractController {
             }
         }
         return res;
+    }
+
+    public boolean updateContractStatus(int id, int status) {
+        return contractDAO.updateContract(id, status);
+    }
+
+    public boolean updateContractDetail(int contractId, int guestId, int status) {
+        return contractDAO.updateContractDetail(contractId, guestId, status);
+    }
+
+    public int getCurrentContract(int RoomId) {
+        return contractDAO.getCurrentContractInRoom(RoomId);
     }
 
     //Convert dữ liệu để hiển thị

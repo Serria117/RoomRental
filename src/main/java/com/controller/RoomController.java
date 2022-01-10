@@ -35,7 +35,7 @@ public class RoomController {
         return RoomModelToDTO(roomDAO.getRoom(roomNumber));
     }
 
-    public static boolean addRoomObj(String roomNumber, String price, String square, String description) {
+    public static boolean addRoom(String roomNumber, String price, String square, String description) {
         Room r = new Room();
 
         r.setRoomNumber(roomNumber);
@@ -46,7 +46,7 @@ public class RoomController {
         return roomDAO.addRoom(r);
     }
 
-    public static boolean updateRoomObj(String roomNumber, String price, String square, String description, String elec, String water) {
+    public static boolean updateRoom(String roomNumber, String price, String square, String description, String elec, String water) {
         Room r = new Room();
 
         r.setRoomNumber(roomNumber);

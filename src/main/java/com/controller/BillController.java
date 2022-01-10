@@ -90,17 +90,4 @@ public class BillController {
         return bdto;
     }
 
-    public static void main(String[] args) {
-        RoomDTO room = new RoomDTO();
-        room.setId(13);
-        room.setPrice("5000000");
-        room.setRoomNumber("P101");
-        room.setSquare("45");
-        room.setElectricCounter("120");
-        room.setWaterCounter("200");
-
-        BillController bController = new BillController();
-        bController.addBill(room, 1, 170, 220, "12/2021", "Tiền nhà tháng 12/2021", 1);
-    }
-
 }

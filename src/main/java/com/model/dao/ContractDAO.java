@@ -40,11 +40,26 @@ public class ContractDAO extends DBAccess {
         return contract;
     }
 
+    public int getCurrentContractInRoom(int roomId) {
+        int contractId = 0;
+        try {
+            conn = this.conn();
+            stm = conn.prepareStatement("SELECT * FROM contract WHERE roomID = ? AND status = 1");
+            stm.setInt(1, roomId);
+            rs = stm.executeQuery();
+            if (rs.next()) {
+                contractId = rs.getInt("id");
+            }
+        } catch (SQLException e) {
+        }
+        return contractId;
+    }
+
     public Contract getContract(int id) {
         Contract contract = null;
         try {
             conn = this.conn();
-            String query = "SELECT * FROM contract WHER id = ";
+            String query = "SELECT * FROM contract WHERE id = ";
             stm = conn.prepareStatement(query);
             stm.setInt(1, id);
             rs = stm.executeQuery();
@@ -144,19 +159,39 @@ public class ContractDAO extends DBAccess {
         return res;
     }
 
-    public boolean updateContract(Contract c) {
-        boolean res = false;
+    public boolean updateContract(int id, int status) {
+        boolean check = false;
         try {
             conn = this.conn();
-            String query = "UPDATE contact "
+            String query = "UPDATE contract "
                     + "SET status = ? WHERE id = ?";
             stm = conn.prepareStatement(query);
-            res = stm.executeUpdate() > 0;
+            stm.setInt(1, status);
+            stm.setInt(2, id);
+            check = stm.executeUpdate() > 0;
         } catch (SQLException e) {
         } finally {
             this.closeAll(conn, stm, null);
         }
-        return res;
+        return check;
+    }
+
+    public boolean updateContractDetail(int contractId, int guestId, int status) {
+        boolean check = false;
+        try {
+            conn = this.conn();
+            String query = "UPDATE contractdetail "
+                    + "SET status = ? WHERE contractId = ? AND guestID = ?";
+            stm = conn.prepareStatement(query);
+            stm.setInt(1, status);
+            stm.setInt(2, contractId);
+            stm.setInt(3, guestId);
+            check = stm.executeUpdate() > 0;
+        } catch (SQLException e) {
+        } finally {
+            this.closeAll(conn, stm, null);
+        }
+        return check;
     }
 
     public static void main(String[] args) {
