@@ -84,7 +84,7 @@
           <Font name="sansserif" size="14" style="1"/>
         </Property>
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="2" name="D:\Dev\Project2\RoomRental\src\media\icon\home.png"/>
+          <Image iconType="2" name="D:\Dev\Project2\RoomRental\src\main\java\com\icon\home.png"/>
         </Property>
         <Property name="text" type="java.lang.String" value="Qu&#x1ea3;n l&#xfd; ph&#xf2;ng"/>
         <Property name="horizontalTextPosition" type="int" value="0"/>
@@ -100,7 +100,7 @@
           <Font name="sansserif" size="14" style="1"/>
         </Property>
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="2" name="D:\Dev\Project2\RoomRental\src\media\icon\Guest.png"/>
+          <Image iconType="2" name="D:\Dev\Project2\RoomRental\src\main\java\com\icon\Guest.png"/>
         </Property>
         <Property name="text" type="java.lang.String" value="Kh&#xe1;ch thu&#xea;"/>
         <Property name="horizontalTextPosition" type="int" value="0"/>
@@ -115,6 +115,9 @@
         </Property>
         <Property name="verticalTextPosition" type="int" value="3"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnGuestActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="btnService">
       <Properties>
@@ -122,7 +125,7 @@
           <Font name="sansserif" size="14" style="1"/>
         </Property>
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="2" name="D:\Dev\Project2\RoomRental\src\media\icon\service.png"/>
+          <Image iconType="2" name="D:\Dev\Project2\RoomRental\src\main\java\com\icon\service.png"/>
         </Property>
         <Property name="text" type="java.lang.String" value="D&#x1ecb;ch v&#x1ee5;"/>
         <Property name="horizontalTextPosition" type="int" value="0"/>
@@ -147,7 +150,7 @@
           <Font name="sansserif" size="14" style="1"/>
         </Property>
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="2" name="D:\Dev\Project2\RoomRental\src\media\icon\report.png"/>
+          <Image iconType="2" name="D:\Dev\Project2\RoomRental\src\main\java\com\icon\report.png"/>
         </Property>
         <Property name="text" type="java.lang.String" value="B&#xe1;o c&#xe1;o"/>
         <Property name="horizontalTextPosition" type="int" value="0"/>
@@ -159,6 +162,9 @@
         </Property>
         <Property name="verticalTextPosition" type="int" value="3"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnReportActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="btnSetting">
       <Properties>
@@ -166,7 +172,7 @@
           <Font name="sansserif" size="14" style="1"/>
         </Property>
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="2" name="D:\Dev\Project2\RoomRental\src\media\icon\setting.png"/>
+          <Image iconType="2" name="D:\Dev\Project2\RoomRental\src\main\java\com\icon\setting.png"/>
         </Property>
         <Property name="text" type="java.lang.String" value="T&#xe0;i kho&#x1ea3;n"/>
         <Property name="horizontalTextPosition" type="int" value="0"/>
@@ -276,7 +282,7 @@
           <Font name="Segoe UI" size="14" style="1"/>
         </Property>
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="2" name="D:\Dev\Project2\RoomRental\src\media\icon\exit.png"/>
+          <Image iconType="2" name="D:\Dev\Project2\RoomRental\src\main\java\com\icon\exit.png"/>
         </Property>
         <Property name="text" type="java.lang.String" value="Tho&#xe1;t"/>
         <Property name="horizontalTextPosition" type="int" value="0"/>

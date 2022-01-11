@@ -147,7 +147,6 @@ public class GuestDAO extends DBAccess {
             stm.setInt(2, id);
             check = stm.executeUpdate() > 0;
         } catch (SQLException e) {
-            System.out.println("Lỗi ở chỗ update guest");
         } finally {
             this.closeAll(conn, stm, rs);
         }

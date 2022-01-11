@@ -6,7 +6,7 @@ package com.controller;
 
 import com.controller.dto.ReportDTO;
 import com.model.Report;
-import com.model.dao.ReprotDAO;
+import com.model.dao.ReportDAO;
 import java.text.NumberFormat;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
  */
 public class ReprotController {
 
-    public ReprotDAO rp = new ReprotDAO();
+    public ReportDAO rp = new ReportDAO();
 
     public List<ReportDTO> showPay() {
         // trả về 1 chuổi theo dạng DTO để show ra màn hình

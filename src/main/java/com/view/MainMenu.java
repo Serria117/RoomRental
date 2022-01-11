@@ -68,7 +68,7 @@ public class MainMenu extends javax.swing.JFrame {
         });
 
         btnRoom.setFont(new java.awt.Font("sansserif", 1, 14)); // NOI18N
-        btnRoom.setIcon(new javax.swing.ImageIcon("D:\\Dev\\Project2\\RoomRental\\src\\media\\icon\\home.png")); // NOI18N
+        btnRoom.setIcon(new javax.swing.ImageIcon("D:\\Dev\\Project2\\RoomRental\\src\\main\\java\\com\\icon\\home.png")); // NOI18N
         btnRoom.setText("Quản lý phòng");
         btnRoom.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnRoom.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
@@ -79,16 +79,21 @@ public class MainMenu extends javax.swing.JFrame {
         });
 
         btnGuest.setFont(new java.awt.Font("sansserif", 1, 14)); // NOI18N
-        btnGuest.setIcon(new javax.swing.ImageIcon("D:\\Dev\\Project2\\RoomRental\\src\\media\\icon\\Guest.png")); // NOI18N
+        btnGuest.setIcon(new javax.swing.ImageIcon("D:\\Dev\\Project2\\RoomRental\\src\\main\\java\\com\\icon\\Guest.png")); // NOI18N
         btnGuest.setText("Khách thuê");
         btnGuest.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnGuest.setMaximumSize(new java.awt.Dimension(162, 54));
         btnGuest.setMinimumSize(new java.awt.Dimension(162, 54));
         btnGuest.setPreferredSize(new java.awt.Dimension(184, 54));
         btnGuest.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnGuest.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGuestActionPerformed(evt);
+            }
+        });
 
         btnService.setFont(new java.awt.Font("sansserif", 1, 14)); // NOI18N
-        btnService.setIcon(new javax.swing.ImageIcon("D:\\Dev\\Project2\\RoomRental\\src\\media\\icon\\service.png")); // NOI18N
+        btnService.setIcon(new javax.swing.ImageIcon("D:\\Dev\\Project2\\RoomRental\\src\\main\\java\\com\\icon\\service.png")); // NOI18N
         btnService.setText("Dịch vụ");
         btnService.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnService.setMaximumSize(new java.awt.Dimension(184, 54));
@@ -102,15 +107,20 @@ public class MainMenu extends javax.swing.JFrame {
         });
 
         btnReport.setFont(new java.awt.Font("sansserif", 1, 14)); // NOI18N
-        btnReport.setIcon(new javax.swing.ImageIcon("D:\\Dev\\Project2\\RoomRental\\src\\media\\icon\\report.png")); // NOI18N
+        btnReport.setIcon(new javax.swing.ImageIcon("D:\\Dev\\Project2\\RoomRental\\src\\main\\java\\com\\icon\\report.png")); // NOI18N
         btnReport.setText("Báo cáo");
         btnReport.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnReport.setMaximumSize(new java.awt.Dimension(184, 54));
         btnReport.setMinimumSize(new java.awt.Dimension(184, 54));
         btnReport.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnReport.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnReportActionPerformed(evt);
+            }
+        });
 
         btnSetting.setFont(new java.awt.Font("sansserif", 1, 14)); // NOI18N
-        btnSetting.setIcon(new javax.swing.ImageIcon("D:\\Dev\\Project2\\RoomRental\\src\\media\\icon\\setting.png")); // NOI18N
+        btnSetting.setIcon(new javax.swing.ImageIcon("D:\\Dev\\Project2\\RoomRental\\src\\main\\java\\com\\icon\\setting.png")); // NOI18N
         btnSetting.setText("Tài khoản");
         btnSetting.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnSetting.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
@@ -174,7 +184,7 @@ public class MainMenu extends javax.swing.JFrame {
         );
 
         btnExit.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        btnExit.setIcon(new javax.swing.ImageIcon("D:\\Dev\\Project2\\RoomRental\\src\\media\\icon\\exit.png")); // NOI18N
+        btnExit.setIcon(new javax.swing.ImageIcon("D:\\Dev\\Project2\\RoomRental\\src\\main\\java\\com\\icon\\exit.png")); // NOI18N
         btnExit.setText("Thoát");
         btnExit.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnExit.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
@@ -266,6 +276,21 @@ public class MainMenu extends javax.swing.JFrame {
         manageView.setLocationRelativeTo(null);
 
     }//GEN-LAST:event_btnSettingActionPerformed
+
+    private void btnGuestActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuestActionPerformed
+        // TODO add your handling code here:
+        GuestView guestView = new GuestView();
+        guestView.setVisible(true);
+        guestView.setLocationRelativeTo(null);
+    }//GEN-LAST:event_btnGuestActionPerformed
+
+    private void btnReportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReportActionPerformed
+        // TODO add your handling code here:
+        ReportView reportView = new ReportView();
+        reportView.setVisible(true);
+        reportView.setResizable(false);
+        reportView.setLocationRelativeTo(null);
+    }//GEN-LAST:event_btnReportActionPerformed
 
     /**
      * @param args the command line arguments

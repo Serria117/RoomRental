@@ -40,10 +40,10 @@ public class GuestView extends javax.swing.JFrame {
         txtName = new javax.swing.JTextField();
         txtSearch = new javax.swing.JTextField();
         btnTimKiem = new javax.swing.JButton();
-        jDateChooser1 = new com.toedter.calendar.JDateChooser();
+        datePick = new com.toedter.calendar.JDateChooser();
         jComboBox1 = new javax.swing.JComboBox<>();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("GuestManager");
 
         jLabel1.setText("QUẢN LÝ KHÁCH HÀNG:");
@@ -87,7 +87,7 @@ public class GuestView extends javax.swing.JFrame {
             }
         });
 
-        jDateChooser1.setDateFormatString("dd/MM/yyyyy");
+        datePick.setDateFormatString("dd/MM/yyyyy");
 
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Đã trả phòng", "Đang thuê" }));
 
@@ -131,7 +131,7 @@ public class GuestView extends javax.swing.JFrame {
                                 .addComponent(txtSearch, javax.swing.GroupLayout.DEFAULT_SIZE, 186, Short.MAX_VALUE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(btnTimKiem))
-                            .addComponent(jDateChooser1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(datePick, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addContainerGap())
         );
@@ -150,7 +150,7 @@ public class GuestView extends javax.swing.JFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(3, 3, 3)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(datePick, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel6))
                         .addGap(18, 18, 18)))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -220,8 +220,8 @@ public class GuestView extends javax.swing.JFrame {
     private javax.swing.JButton btnDelGuest;
     private javax.swing.JButton btnFixGuest;
     private javax.swing.JButton btnTimKiem;
+    private com.toedter.calendar.JDateChooser datePick;
     private javax.swing.JComboBox<String> jComboBox1;
-    private com.toedter.calendar.JDateChooser jDateChooser1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
