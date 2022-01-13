@@ -4,17 +4,36 @@
  */
 package com.view;
 
+import com.controller.ReportController;
+import com.controller.dto.ReportDTO;
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author DELL
  */
 public class ReportView extends javax.swing.JFrame {
 
+    DefaultTableModel tbPaidModel;
+    DefaultTableModel tbUnPaidModel;
+    ReportController reportController = new ReportController();
+    ReportController reportController1 = new ReportController();
+
     /**
      * Creates new form ReportView
      */
+//    public ReportView(UserDTO user){
+//        tbPaidModel = (DefaultTableModel) reportTb.getModel();
+//
+//    }
     public ReportView() {
         initComponents();
+        tbPaidModel = (DefaultTableModel) tbPaid.getModel();
+        tbUnPaidModel = (DefaultTableModel) tbUnPaid.getModel();
+        loadReportDTO();
+        loadReportDTONotPay();
     }
 
     /**
@@ -31,12 +50,12 @@ public class ReportView extends javax.swing.JFrame {
         jTabbedPane2 = new javax.swing.JTabbedPane();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tbPaid = new javax.swing.JTable();
         jLabel2 = new javax.swing.JLabel();
         jTextField1 = new javax.swing.JTextField();
         jPanel4 = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
-        reportTableNotPay = new javax.swing.JTable();
+        tbUnPaid = new javax.swing.JTable();
         jLabel4 = new javax.swing.JLabel();
         txtTotalNotPay = new javax.swing.JTextField();
 
@@ -47,11 +66,11 @@ public class ReportView extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(jList1);
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jLabel1.setText("BÁO CÁO");
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tbPaid.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null},
                 {null, null, null},
@@ -59,7 +78,7 @@ public class ReportView extends javax.swing.JFrame {
                 {null, null, null}
             },
             new String [] {
-                "Số Phòng", "Tổng Tiền", "Ngày Thanh Toán"
+                "Số Phòng", "Tổng Tiền", "Ngày Thu Tiền"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -70,7 +89,7 @@ public class ReportView extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane2.setViewportView(jTable1);
+        jScrollPane2.setViewportView(tbPaid);
 
         jLabel2.setText("Tổng Doanh Thu Tháng: ");
 
@@ -92,18 +111,18 @@ public class ReportView extends javax.swing.JFrame {
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addGap(14, 14, 14)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 330, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(70, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 266, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(38, 38, 38)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(35, Short.MAX_VALUE))
+                .addGap(107, 107, 107))
         );
 
         jTabbedPane2.addTab("Phòng Đã Thanh Toán", jPanel3);
 
-        reportTableNotPay.setModel(new javax.swing.table.DefaultTableModel(
+        tbUnPaid.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null},
                 {null, null},
@@ -122,9 +141,9 @@ public class ReportView extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane3.setViewportView(reportTableNotPay);
-        if (reportTableNotPay.getColumnModel().getColumnCount() > 0) {
-            reportTableNotPay.getColumnModel().getColumn(1).setHeaderValue("Tổng Tiền");
+        jScrollPane3.setViewportView(tbUnPaid);
+        if (tbUnPaid.getColumnModel().getColumnCount() > 0) {
+            tbUnPaid.getColumnModel().getColumn(1).setHeaderValue("Tổng Tiền");
         }
 
         jLabel4.setText("Tổng Tiền Phải Thu:");
@@ -139,15 +158,15 @@ public class ReportView extends javax.swing.JFrame {
                     .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 751, Short.MAX_VALUE)
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addComponent(jLabel4)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtTotalNotPay, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(txtTotalNotPay, javax.swing.GroupLayout.PREFERRED_SIZE, 243, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(70, Short.MAX_VALUE)
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 266, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(50, 50, 50)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -217,6 +236,35 @@ public class ReportView extends javax.swing.JFrame {
                 new ReportView().setVisible(true);
             }
         });
+
+    }
+
+    static List<ReportDTO> rpPayList = new ArrayList<>();
+
+    public void loadReportDTO() {
+        tbPaidModel.setRowCount(0);
+        rpPayList = reportController.showPay();
+        rpPayList.stream().forEach(rp -> {
+            tbPaidModel.addRow(new Object[]{
+                rp.getRoomNumber(),
+                rp.getTotal(),
+                rp.getUpdatedDate()
+            });
+        });
+    }
+
+    static List<ReportDTO> rpNotPayList = new ArrayList<>();
+
+    public void loadReportDTONotPay() {
+        tbUnPaidModel.setRowCount(0);
+        rpNotPayList = reportController.showNotPay();
+        rpNotPayList.stream().forEach(rp -> {
+            tbUnPaidModel.addRow(new Object[]{
+                rp.getRoomNumber(),
+                rp.getTotal()
+
+            });
+        });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -230,9 +278,9 @@ public class ReportView extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTabbedPane jTabbedPane2;
-    private javax.swing.JTable jTable1;
     private javax.swing.JTextField jTextField1;
-    private javax.swing.JTable reportTableNotPay;
+    private javax.swing.JTable tbPaid;
+    private javax.swing.JTable tbUnPaid;
     private javax.swing.JTextField txtTotalNotPay;
     // End of variables declaration//GEN-END:variables
 }

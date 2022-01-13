@@ -163,6 +163,22 @@ public class BillDAO extends DBAccess {
             rs = stm.executeQuery();
             check = rs.isBeforeFirst();
         } catch (SQLException e) {
+        } finally {
+            this.closeAll(conn, stm, rs);
+        }
+        return check;
+    }
+
+    public boolean updateBillStatus(String billNumber) {
+        boolean check = false;
+        try {
+            conn = this.conn();
+            stm = conn.prepareStatement("UPDATE bill SET status = 1 WHERE billNumber = ?");
+            stm.setString(1, billNumber);
+            check = stm.executeUpdate() > 0;
+        } catch (SQLException e) {
+        } finally {
+            this.closeAll(conn, stm, rs);
         }
         return check;
     }

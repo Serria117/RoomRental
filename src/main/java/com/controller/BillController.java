@@ -88,6 +88,10 @@ public class BillController {
         return billDAO.getBillDetailByNumber(billNo);
     }
 
+    public boolean updateBillStatus(String billNumber) {
+        return billDAO.updateBillStatus(billNumber);
+    }
+
     public static BillDTO billModelToDTO(Bill bill) {
         if (bill == null) {
             return null;

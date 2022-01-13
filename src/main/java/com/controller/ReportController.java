@@ -7,7 +7,7 @@ package com.controller;
 import com.controller.dto.ReportDTO;
 import com.model.Report;
 import com.model.dao.ReportDAO;
-import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
  *
  * @author Quan Le
  */
-public class ReprotController {
+public class ReportController {
 
     public ReportDAO rp = new ReportDAO();
 
@@ -43,20 +43,24 @@ public class ReprotController {
     }
 
     public static ReportDTO ReportModelToDTO(Report r) {
-
-        NumberFormat numFormat = NumberFormat.getInstance();
-
+        SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
         ReportDTO repto = new ReportDTO();
         repto.setRoomNumber(r.getRoomNumber());
         repto.setTotal(r.getTotal());
-        // đổi ngày tháng
-        // repto.setTime(numFormat.format(r.getTime()))
+        try {
+            repto.setCreatedDate(df.format(r.getCreatedDate()));
+        } catch (Exception e) {
+        }
+        try {
+            repto.setUpdatedDate(df.format(r.getUpdatedDate()));
+        } catch (Exception e) {
+        }
         return repto;
 
     }
 
     public static void main(String[] args) {
-        ReprotController rpController = new ReprotController();
+        ReportController rpController = new ReportController();
         System.out.println(rpController.totalNoPay());
     }
 }

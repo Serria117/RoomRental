@@ -273,12 +273,6 @@ public final class RoomView extends javax.swing.JFrame {
         btnAddContract = new javax.swing.JButton();
         datePick = new com.toedter.calendar.JDateChooser();
         txtExistGuestNotify = new javax.swing.JLabel();
-        jPanel4 = new javax.swing.JPanel();
-        jLabel8 = new javax.swing.JLabel();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
-        jTextField16 = new javax.swing.JTextField();
-        jButton5 = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jLabel19 = new javax.swing.JLabel();
         txtBillRoomPrice = new javax.swing.JTextField();
@@ -326,7 +320,7 @@ public final class RoomView extends javax.swing.JFrame {
         txtRoomNoView = new javax.swing.JLabel();
         jLabel33 = new javax.swing.JLabel();
         jLabel35 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        btnBillPayment = new javax.swing.JButton();
         txtBillNumberView = new javax.swing.JLabel();
         txtBillDateView = new javax.swing.JLabel();
         jScrollPane9 = new javax.swing.JScrollPane();
@@ -576,14 +570,6 @@ public final class RoomView extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel16)
-                            .addComponent(jLabel17))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtWaterContract, javax.swing.GroupLayout.DEFAULT_SIZE, 207, Short.MAX_VALUE)
-                            .addComponent(txtElectContract)))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -601,11 +587,6 @@ public final class RoomView extends javax.swing.JFrame {
                             .addComponent(txtFullName)
                             .addComponent(datePick, javax.swing.GroupLayout.DEFAULT_SIZE, 232, Short.MAX_VALUE)))
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(txtPhone))
@@ -616,7 +597,20 @@ public final class RoomView extends javax.swing.JFrame {
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addGap(6, 6, 6)
                                 .addComponent(txtExistGuestNotify, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addComponent(txtCCCD))))
+                            .addComponent(txtCCCD)))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel16)
+                                    .addComponent(jLabel17))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(txtElectContract, javax.swing.GroupLayout.DEFAULT_SIZE, 87, Short.MAX_VALUE)
+                                    .addComponent(txtWaterContract)))
+                            .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 783, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -665,60 +659,6 @@ public final class RoomView extends javax.swing.JFrame {
         );
 
         jTabbedPane2.addTab("Tạo hợp đồng", jPanel2);
-
-        jLabel8.setText("Tổng hợp danh sách khách thuê:");
-
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-                "Họ tên", "CCCD", " Ngày sinh", "Điện thoại", "Hợp đồng", "Trạng thái"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-        });
-        jScrollPane3.setViewportView(jTable2);
-
-        jButton5.setText("Tìm kiếm");
-
-        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
-        jPanel4.setLayout(jPanel4Layout);
-        jPanel4Layout.setHorizontalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jScrollPane3)
-                    .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 630, Short.MAX_VALUE)
-                        .addComponent(jTextField16, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap())
-        );
-        jPanel4Layout.setVerticalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel8)
-                    .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jTextField16, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jButton5)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 465, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-
-        jTabbedPane2.addTab("Khách", jPanel4);
 
         jLabel19.setText("Kỳ thanh toán:");
 
@@ -786,7 +726,7 @@ public final class RoomView extends javax.swing.JFrame {
 
         jLabel21.setText("Số tháng:");
 
-        billMonthQuantity.setModel(new javax.swing.SpinnerNumberModel(1, 1, 12, 1));
+        billMonthQuantity.setModel(new javax.swing.SpinnerNumberModel(1, 0, 12, 1));
         billMonthQuantity.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
                 billMonthQuantityStateChanged(evt);
@@ -1089,7 +1029,7 @@ public final class RoomView extends javax.swing.JFrame {
         jPanel8Layout.setVerticalGroup(
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel8Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(44, Short.MAX_VALUE)
                 .addComponent(txtSearchBill, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 386, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1106,7 +1046,12 @@ public final class RoomView extends javax.swing.JFrame {
 
         jLabel35.setText("Ngày tạo:");
 
-        jButton1.setText("Xác nhận thanh toán");
+        btnBillPayment.setText("Xác nhận thanh toán");
+        btnBillPayment.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBillPaymentActionPerformed(evt);
+            }
+        });
 
         txtBillNumberView.setText("...");
 
@@ -1159,7 +1104,7 @@ public final class RoomView extends javax.swing.JFrame {
                                 .addComponent(jLabel29, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(txtRoomNoView, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jButton1))
+                            .addComponent(btnBillPayment))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 306, Short.MAX_VALUE)
                         .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addComponent(jLabel35, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -1172,7 +1117,7 @@ public final class RoomView extends javax.swing.JFrame {
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtTotalBillView, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(txtTotalBillView, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         jPanel9Layout.setVerticalGroup(
@@ -1193,7 +1138,7 @@ public final class RoomView extends javax.swing.JFrame {
                             .addComponent(txtBillDateView)
                             .addComponent(jLabel35))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton1)
+                .addComponent(btnBillPayment)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane9, javax.swing.GroupLayout.PREFERRED_SIZE, 327, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -1201,7 +1146,7 @@ public final class RoomView extends javax.swing.JFrame {
                     .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(txtTotalBillView, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 3, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(27, 27, 27))
         );
 
@@ -1284,6 +1229,250 @@ public final class RoomView extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jTabbedPane2FocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTabbedPane2FocusGained
+        currentRoom = rController.getRoom(roomNum.getText());
+        if (currentRoom.getStatus() == 0) {
+            txtFullName.setEnabled(false);
+            datePick.setEnabled(false);
+            txtCCCD.setEnabled(false);
+            txtPhone.setEnabled(false);
+            btnAddGuest.setEnabled(false);
+            btnAddContract.setEnabled(false);
+            txtElectContract.setEnabled(false);
+            txtWaterContract.setEnabled(false);
+
+            txtBillCurElect.setEnabled(true);
+            txtBillCurWater.setEnabled(true);
+            txtBillRoomPrice.setEnabled(true);
+        } else {
+            displayCurrentGuest();
+            txtFullName.setEnabled(true);
+            datePick.setEnabled(true);
+            txtCCCD.setEnabled(true);
+            txtPhone.setEnabled(true);
+            btnAddGuest.setEnabled(true);
+            btnAddContract.setEnabled(true);
+            txtElectContract.setEnabled(true);
+            txtWaterContract.setEnabled(true);
+
+            txtBillCurElect.setEnabled(false);
+            txtBillCurWater.setEnabled(false);
+            txtBillRoomPrice.setEnabled(false);
+        }
+    }//GEN-LAST:event_jTabbedPane2FocusGained
+
+    private void btnBillPaymentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBillPaymentActionPerformed
+        // TODO add your handling code here:
+        int row = tbBillList.getSelectedRow();
+        if (row > 0) {
+            String billNo = billListTableModel.getValueAt(row, 0).toString();
+            if (bController.updateBillStatus(billNo)) {
+                JOptionPane.showMessageDialog(null, "Hóa đơn đã thanh toán", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Hãy chọn 1 hóa đơn", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+        }
+        displayListBill();
+    }//GEN-LAST:event_btnBillPaymentActionPerformed
+
+    private void txtSearchBillFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtSearchBillFocusGained
+        // TODO add your handling code here:
+        txtSearchBill.setText("");
+        txtSearchBill.setForeground(Color.BLACK);
+    }//GEN-LAST:event_txtSearchBillFocusGained
+
+    private void tbBillListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbBillListMouseClicked
+        // TODO add your handling code here:
+        //        btnBillPayment.setEnabled(true);
+        int row = tbBillList.getSelectedRow();
+        String billNo = billListTableModel.getValueAt(row, 0).toString();
+        BillDTO bill = bController.getBillByNumber(billNo);
+        List<BillDetail> bdList = bController.getBillDetails(billNo);
+
+        txtBillNumberView.setText(billNo);
+        txtBillDateView.setText(bill.getCreatedDate());
+        txtRoomNoView.setText(currentRoom.getRoomNumber());
+        txtTotalBillView.setText(bill.getTotal());
+
+        billDetailViewTableModel.setRowCount(0);
+        billDetailViewTableModel.addRow(new Object[]{
+            1, "Tiền phòng",
+            NumberFormat.getInstance().format(Integer.valueOf(bill.getRoomPrice())),
+            bill.getRentalQuantity(),
+            NumberFormat.getInstance().format(Integer.valueOf(bill.getRoomPrice() * bill.getRentalQuantity()))
+        });
+        bdList.stream().forEach(b -> {
+            billDetailViewTableModel.addRow(new Object[]{
+                billDetailViewTableModel.getRowCount() + 1,
+                b.getServiceName(),
+                NumberFormat.getInstance().format(Integer.valueOf(b.getPrice())),
+                NumberFormat.getInstance().format(Integer.valueOf(b.getQuantity())),
+                NumberFormat.getInstance().format(Integer.valueOf(b.getPrice() * b.getQuantity()))
+            });
+        });
+    }//GEN-LAST:event_tbBillListMouseClicked
+
+    private void txtLastECountBillActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtLastECountBillActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtLastECountBillActionPerformed
+
+    private void txtBillYearFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtBillYearFocusLost
+        // TODO add your handling code here:
+        prepareBill();
+    }//GEN-LAST:event_txtBillYearFocusLost
+
+    private void txtBillMonthFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtBillMonthFocusLost
+        // TODO add your handling code here:
+        prepareBill();
+    }//GEN-LAST:event_txtBillMonthFocusLost
+
+    private void billMonthQuantityStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_billMonthQuantityStateChanged
+        // TODO add your handling code here:
+        prepareBill();
+    }//GEN-LAST:event_billMonthQuantityStateChanged
+
+    private void btnCreateBillActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreateBillActionPerformed
+        //
+        boolean result = bController.addBill(
+                currentRoom,
+                monthQuantity,
+                electricCount,
+                waterCount,
+                billNoLabel.getText(),
+                user.getId()
+        );
+        if (result) {
+            JOptionPane.showMessageDialog(null, "Hóa đơn đã được lưu thành công.", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+            txtBillCurElect.setText("");
+            txtBillCurWater.setText("");
+            billMonthQuantity.setValue(1);
+            txtDescription.setText("");
+        } else {
+            JOptionPane.showMessageDialog(null, "Số hóa đơn này đã được lập.", "Cảnh báo", JOptionPane.WARNING_MESSAGE);
+        }
+        displayListBill();
+    }//GEN-LAST:event_btnCreateBillActionPerformed
+
+    private void txtBillCurWaterFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtBillCurWaterFocusLost
+        // TODO add your handling code here:
+        boolean isValid = true;
+        try {
+            if (Integer.parseInt(txtBillCurWater.getText()) < Integer.parseInt(currentRoom.getWaterCounter())) {
+                txtBillCurWater.setText("");
+                txtBillCurWater.setBackground(Color.yellow);
+                isValid = false;
+                JOptionPane.showMessageDialog(null, "Chỉ số nước hiện tại phải lớn hơn hoặc bằng chỉ số đầu kỳ.", "Dữ liệu không hợp lệ", JOptionPane.ERROR_MESSAGE);
+            }
+        } catch (NumberFormatException e) {
+        }
+        if (isValid) {
+            txtBillCurWater.setBackground(Color.white);
+            prepareBill();
+        }
+    }//GEN-LAST:event_txtBillCurWaterFocusLost
+
+    private void txtBillCurElectKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBillCurElectKeyReleased
+        // TODO add your handling code here:
+        try {
+            int test = Integer.parseInt(txtBillCurElect.getText());
+        } catch (NumberFormatException e) {
+            txtBillCurElect.setText("");
+        }
+    }//GEN-LAST:event_txtBillCurElectKeyReleased
+
+    private void txtBillCurElectFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtBillCurElectFocusLost
+        // TODO add your handling code here:
+        boolean isValid = true;
+        try {
+            if (Integer.parseInt(txtBillCurElect.getText()) < Integer.parseInt(currentRoom.getElectricCounter())) {
+                txtBillCurElect.setText("");
+                txtBillCurElect.setBackground(Color.yellow);
+                isValid = false;
+                JOptionPane.showMessageDialog(null, "Chỉ số điện hiện tại phải lớn hơn hoặc bằng chỉ số đầu kỳ.", "Dữ liệu không hợp lệ", JOptionPane.ERROR_MESSAGE);
+            }
+
+        } catch (NumberFormatException e) {
+        }
+        if (isValid) {
+            txtBillCurElect.setBackground(Color.white);
+            prepareBill();
+        }
+    }//GEN-LAST:event_txtBillCurElectFocusLost
+
+    private void datePickFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_datePickFocusLost
+        // TODO add your handling code here:\
+    }//GEN-LAST:event_datePickFocusLost
+
+    private void btnAddContractActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddContractActionPerformed
+        if (!gListModel.isEmpty()) {
+            gListModel.stream().map(g -> gController.addGuest(g));
+
+            //test with admin account (id=1) will change later to a variable base on logged in account id
+            //"fileLocation" set to a dumb string since this function is not yet available.
+            if (cController.addContract(rController.getRoom(roomNum.getText()), gListModel, user.getId(), "no file yet!")) {
+                rController.updateRoomStatus(roomNum.getText(), 0); //Set current status to "0" => "rented".
+                JOptionPane.showMessageDialog(null, "Tạo hợp đồng thành công.");
+                txtFullName.setText("");
+                datePick.setDate(null);
+                txtCCCD.setText("");
+                txtPhone.setText("");
+            }
+
+        } else {
+            JOptionPane.showMessageDialog(null, "Danh sách khách không được để trống");
+        }
+    }//GEN-LAST:event_btnAddContractActionPerformed
+
+    private void btnAddGuestActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddGuestActionPerformed
+        addRegisterGuestList();
+        displayRegisterGuestList();
+    }//GEN-LAST:event_btnAddGuestActionPerformed
+
+    private void txtCCCDKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCCCDKeyReleased
+        // TODO add your handling code here:
+        if (txtCCCD.getText().length() >= 10) {
+            Guest g = gController.searchExistGuest(txtCCCD.getText());
+            if (g != null) {
+                txtFullName.setText(g.getFullName());
+                txtPhone.setText(g.getPhone());
+                datePick.setDate(g.getDateOfBirth());
+                txtExistGuestNotify.setText("Khách hàng " + g.getFullName() + " đã có trong hệ thống.");
+            }
+
+        }
+    }//GEN-LAST:event_txtCCCDKeyReleased
+
+    private void btnLiquidateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLiquidateActionPerformed
+        int ans = JOptionPane.showConfirmDialog(null, "Bạn có muốn thanh lý hợp đồng hiện tại?", "Thanh lý hợp đồng", JOptionPane.YES_NO_OPTION);
+        switch (ans) {
+            case 0:
+                if (!gListDTO.isEmpty()) {
+                    rController.updateRoomStatus(currentRoom.getRoomNumber(), 1);
+                    gListDTO.stream().forEach(g -> {
+                        gController.updateGuestStatus(g.getId(), 0);
+                        cController.updateContractDetail(cController.getCurrentContract(currentRoom.getId()), g.getId(), 0);
+                    });
+                    if (cController.updateContractStatus(cController.getCurrentContract(currentRoom.getId()), 0)) {
+                        JOptionPane.showMessageDialog(null, "Hợp đồng đã được thanh lý.", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+                    }
+                }
+                break;
+            case 1:
+                //                System.out.println("Không xóa");
+                break;
+        }
+        displayCurrentGuest();
+        displayRoomInfo();
+    }//GEN-LAST:event_btnLiquidateActionPerformed
+
+    private void txtWaterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtWaterActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtWaterActionPerformed
+
+    private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
+        updateRoom();
+    }//GEN-LAST:event_btnUpdateActionPerformed
 
     public void displayCurrentGuest() {
         currentGuestTableModel.setRowCount(0);
@@ -1416,239 +1605,7 @@ public final class RoomView extends javax.swing.JFrame {
             });
         });
     }
-
-    private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
-        updateRoom();
-    }//GEN-LAST:event_btnUpdateActionPerformed
-
-    private void btnAddGuestActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddGuestActionPerformed
-        addRegisterGuestList();
-        displayRegisterGuestList();
-    }//GEN-LAST:event_btnAddGuestActionPerformed
-
-    private void btnAddContractActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddContractActionPerformed
-        if (!gListModel.isEmpty()) {
-            gListModel.stream().map(g -> gController.addGuest(g));
-
-            //test with admin account (id=1) will change later to a variable base on logged in account id
-            //"fileLocation" set to a dumb string since this function is not yet available.
-            if (cController.addContract(rController.getRoom(roomNum.getText()), gListModel, user.getId(), "no file yet!")) {
-                rController.updateRoomStatus(roomNum.getText(), 0); //Set current status to "0" => "rented".
-                JOptionPane.showMessageDialog(null, "Tạo hợp đồng thành công.");
-                txtFullName.setText("");
-                datePick.setDate(null);
-                txtCCCD.setText("");
-                txtPhone.setText("");
-            }
-
-        } else {
-            JOptionPane.showMessageDialog(null, "Danh sách khách không được để trống");
-        }
-
-    }//GEN-LAST:event_btnAddContractActionPerformed
-
-    private void jTabbedPane2FocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTabbedPane2FocusGained
-        currentRoom = rController.getRoom(roomNum.getText());
-        if (currentRoom.getStatus() == 0) {
-            txtFullName.setEnabled(false);
-            datePick.setEnabled(false);
-            txtCCCD.setEnabled(false);
-            txtPhone.setEnabled(false);
-            btnAddGuest.setEnabled(false);
-            btnAddContract.setEnabled(false);
-            txtElectContract.setEnabled(false);
-            txtWaterContract.setEnabled(false);
-
-            txtBillCurElect.setEnabled(true);
-            txtBillCurWater.setEnabled(true);
-            txtBillRoomPrice.setEnabled(true);
-        } else {
-            displayCurrentGuest();
-            txtFullName.setEnabled(true);
-            datePick.setEnabled(true);
-            txtCCCD.setEnabled(true);
-            txtPhone.setEnabled(true);
-            btnAddGuest.setEnabled(true);
-            btnAddContract.setEnabled(true);
-            txtElectContract.setEnabled(true);
-            txtWaterContract.setEnabled(true);
-
-            txtBillCurElect.setEnabled(false);
-            txtBillCurWater.setEnabled(false);
-            txtBillRoomPrice.setEnabled(false);
-        }
-    }//GEN-LAST:event_jTabbedPane2FocusGained
-
-    private void btnLiquidateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLiquidateActionPerformed
-        int ans = JOptionPane.showConfirmDialog(null, "Bạn có muốn thanh lý hợp đồng hiện tại?", "Thanh lý hợp đồng", JOptionPane.YES_NO_OPTION);
-        switch (ans) {
-            case 0:
-                if (!gListDTO.isEmpty()) {
-                    rController.updateRoomStatus(currentRoom.getRoomNumber(), 1);
-                    gListDTO.stream().forEach(g -> {
-                        gController.updateGuestStatus(g.getId(), 0);
-                        cController.updateContractDetail(cController.getCurrentContract(currentRoom.getId()), g.getId(), 0);
-                    });
-                    if (cController.updateContractStatus(cController.getCurrentContract(currentRoom.getId()), 0)) {
-                        JOptionPane.showMessageDialog(null, "Hợp đồng đã được thanh lý.", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
-                    }
-                }
-                break;
-            case 1:
-//                System.out.println("Không xóa");
-                break;
-        }
-        displayCurrentGuest();
-        displayRoomInfo();
-    }//GEN-LAST:event_btnLiquidateActionPerformed
     GuestListSelectView gSelectView;
-    private void txtWaterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtWaterActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtWaterActionPerformed
-
-    private void btnCreateBillActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreateBillActionPerformed
-        //
-        boolean result = bController.addBill(
-                currentRoom,
-                monthQuantity,
-                electricCount,
-                waterCount,
-                billNoLabel.getText(),
-                user.getId()
-        );
-        if (result) {
-            JOptionPane.showMessageDialog(null, "Hóa đơn đã được lưu thành công.", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
-            txtBillCurElect.setText("");
-            txtBillCurWater.setText("");
-            billMonthQuantity.setValue(1);
-            txtDescription.setText("");
-        } else {
-            JOptionPane.showMessageDialog(null, "Số hóa đơn này đã được lập.", "Cảnh báo", JOptionPane.WARNING_MESSAGE);
-        }
-        displayListBill();
-    }//GEN-LAST:event_btnCreateBillActionPerformed
-
-    private void txtBillCurElectFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtBillCurElectFocusLost
-        // TODO add your handling code here:
-        boolean isValid = true;
-        try {
-            if (Integer.parseInt(txtBillCurElect.getText()) < Integer.parseInt(currentRoom.getElectricCounter())) {
-                txtBillCurElect.setText("");
-                txtBillCurElect.setBackground(Color.yellow);
-                isValid = false;
-                JOptionPane.showMessageDialog(null, "Chỉ số điện hiện tại phải lớn hơn hoặc bằng chỉ số đầu kỳ.", "Dữ liệu không hợp lệ", JOptionPane.ERROR_MESSAGE);
-            }
-
-        } catch (NumberFormatException e) {
-        }
-        if (isValid) {
-            txtBillCurElect.setBackground(Color.white);
-            prepareBill();
-        }
-    }//GEN-LAST:event_txtBillCurElectFocusLost
-
-    private void txtBillCurWaterFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtBillCurWaterFocusLost
-        // TODO add your handling code here:
-        boolean isValid = true;
-        try {
-            if (Integer.parseInt(txtBillCurWater.getText()) < Integer.parseInt(currentRoom.getWaterCounter())) {
-                txtBillCurWater.setText("");
-                txtBillCurWater.setBackground(Color.yellow);
-                isValid = false;
-                JOptionPane.showMessageDialog(null, "Chỉ số nước hiện tại phải lớn hơn hoặc bằng chỉ số đầu kỳ.", "Dữ liệu không hợp lệ", JOptionPane.ERROR_MESSAGE);
-            }
-        } catch (NumberFormatException e) {
-        }
-        if (isValid) {
-            txtBillCurWater.setBackground(Color.white);
-            prepareBill();
-        }
-    }//GEN-LAST:event_txtBillCurWaterFocusLost
-
-    private void billMonthQuantityStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_billMonthQuantityStateChanged
-        // TODO add your handling code here:
-        prepareBill();
-    }//GEN-LAST:event_billMonthQuantityStateChanged
-
-    private void txtBillCurElectKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBillCurElectKeyReleased
-        // TODO add your handling code here:
-        try {
-            int test = Integer.parseInt(txtBillCurElect.getText());
-        } catch (NumberFormatException e) {
-            txtBillCurElect.setText("");
-        }
-    }//GEN-LAST:event_txtBillCurElectKeyReleased
-
-    private void txtBillMonthFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtBillMonthFocusLost
-        // TODO add your handling code here:
-        prepareBill();
-    }//GEN-LAST:event_txtBillMonthFocusLost
-
-    private void txtBillYearFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtBillYearFocusLost
-        // TODO add your handling code here:
-        prepareBill();
-    }//GEN-LAST:event_txtBillYearFocusLost
-
-    private void datePickFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_datePickFocusLost
-        // TODO add your handling code here:\
-
-    }//GEN-LAST:event_datePickFocusLost
-
-    private void txtSearchBillFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtSearchBillFocusGained
-        // TODO add your handling code here:
-        txtSearchBill.setText("");
-        txtSearchBill.setForeground(Color.BLACK);
-    }//GEN-LAST:event_txtSearchBillFocusGained
-
-    private void tbBillListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbBillListMouseClicked
-        // TODO add your handling code here:
-        int row = tbBillList.getSelectedRow();
-        String billNo = billListTableModel.getValueAt(row, 0).toString();
-        BillDTO bill = bController.getBillByNumber(billNo);
-        List<BillDetail> bdList = bController.getBillDetails(billNo);
-
-        txtBillNumberView.setText(billNo);
-        txtBillDateView.setText(bill.getCreatedDate());
-        txtRoomNoView.setText(currentRoom.getRoomNumber());
-        txtTotalBillView.setText(bill.getTotal());
-
-        billDetailViewTableModel.setRowCount(0);
-        billDetailViewTableModel.addRow(new Object[]{
-            1, "Tiền phòng",
-            NumberFormat.getInstance().format(Integer.valueOf(bill.getRoomPrice())),
-            bill.getRentalQuantity(),
-            NumberFormat.getInstance().format(Integer.valueOf(bill.getRoomPrice() * bill.getRentalQuantity()))
-        });
-        bdList.stream().forEach(b -> {
-            billDetailViewTableModel.addRow(new Object[]{
-                billDetailViewTableModel.getRowCount() + 1,
-                b.getServiceName(),
-                NumberFormat.getInstance().format(Integer.valueOf(b.getPrice())),
-                NumberFormat.getInstance().format(Integer.valueOf(b.getQuantity())),
-                NumberFormat.getInstance().format(Integer.valueOf(b.getPrice() * b.getQuantity()))
-            });
-        });
-
-    }//GEN-LAST:event_tbBillListMouseClicked
-
-    private void txtLastECountBillActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtLastECountBillActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtLastECountBillActionPerformed
-
-    private void txtCCCDKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCCCDKeyReleased
-        // TODO add your handling code here:
-        if (txtCCCD.getText().length() >= 10) {
-            Guest g = gController.searchExistGuest(txtCCCD.getText());
-            if (g != null) {
-                System.out.println("Khách đã tồn tại");
-                txtFullName.setText(g.getFullName());
-                txtPhone.setText(g.getPhone());
-                datePick.setDate(g.getDateOfBirth());
-                txtExistGuestNotify.setText("Khách hàng " + g.getFullName() + " đã có trong hệ thống");
-            }
-
-        }
-    }//GEN-LAST:event_txtCCCDKeyReleased
 
     private void displayServiceList() {
         serviceList = serviceController.displayService();
@@ -1729,13 +1686,12 @@ public final class RoomView extends javax.swing.JFrame {
     private javax.swing.JLabel billTotalLabel;
     private javax.swing.JButton btnAddContract;
     private javax.swing.JButton btnAddGuest;
+    private javax.swing.JButton btnBillPayment;
     private javax.swing.JButton btnCreateBill;
     private javax.swing.JButton btnLiquidate;
     private javax.swing.JButton btnUpdate;
     private com.toedter.calendar.JDateChooser datePick;
-    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton5;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -1769,13 +1725,11 @@ public final class RoomView extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JLayeredPane jLayeredPane1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
@@ -1783,7 +1737,6 @@ public final class RoomView extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JScrollPane jScrollPane6;
@@ -1792,9 +1745,7 @@ public final class RoomView extends javax.swing.JFrame {
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JTabbedPane jTabbedPane2;
-    private javax.swing.JTable jTable2;
     private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField16;
     public javax.swing.JLabel roomNum;
     private javax.swing.JTable tbBillDetail;
     private javax.swing.JTable tbBillDetailView;
@@ -1811,7 +1762,7 @@ public final class RoomView extends javax.swing.JFrame {
     private javax.swing.JTextField txtBillRoomPrice;
     private javax.swing.JComboBox<String> txtBillYear;
     private javax.swing.JTextField txtCCCD;
-    public javax.swing.JTextArea txtDescription;
+    private javax.swing.JTextArea txtDescription;
     private javax.swing.JTextField txtElectContract;
     public javax.swing.JTextField txtElectric;
     private javax.swing.JLabel txtExistGuestNotify;
@@ -1819,10 +1770,10 @@ public final class RoomView extends javax.swing.JFrame {
     private javax.swing.JTextField txtLastECountBill;
     private javax.swing.JTextField txtLastWCountBill;
     private javax.swing.JTextField txtPhone;
-    public javax.swing.JTextField txtPrice;
+    private javax.swing.JTextField txtPrice;
     private javax.swing.JLabel txtRoomNoView;
     private javax.swing.JTextField txtSearchBill;
-    public javax.swing.JTextField txtSquare;
+    private javax.swing.JTextField txtSquare;
     private javax.swing.JLabel txtTotalBillView;
     public javax.swing.JTextField txtWater;
     private javax.swing.JTextField txtWaterContract;

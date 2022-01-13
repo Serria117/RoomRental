@@ -14,15 +14,22 @@ public class Report {
 
     float total;
     String roomNumber;
-    Date Time;
+    Date createdDate;
+    Date updatedDate;
+
+    @Override
+    public String toString() {
+        return "Report{" + "total=" + total + ", roomNumber=" + roomNumber + ", createdDate=" + createdDate + ", updatedDate=" + updatedDate + '}';
+    }
 
     public Report() {
     }
 
-    public Report(float total, String roomNumber, Date Time) {
+    public Report(float total, String roomNumber, Date createdDate, Date updatedDate) {
         this.total = total;
         this.roomNumber = roomNumber;
-        this.Time = Time;
+        this.createdDate = createdDate;
+        this.updatedDate = updatedDate;
     }
 
     public float getTotal() {
@@ -41,17 +48,20 @@ public class Report {
         this.roomNumber = roomNumber;
     }
 
-    public Date getTime() {
-        return Time;
+    public Date getCreatedDate() {
+        return createdDate;
     }
 
-    public void setTime(Date Time) {
-        this.Time = Time;
+    public void setCreatedDate(Date createdDate) {
+        this.createdDate = createdDate;
     }
 
-    @Override
-    public String toString() {
-        return "Report{" + "total=" + total + ", roomId=" + roomNumber + ", Time=" + Time + '}';
+    public Date getUpdatedDate() {
+        return updatedDate;
+    }
+
+    public void setUpdatedDate(Date updatedDate) {
+        this.updatedDate = updatedDate;
     }
 
 }

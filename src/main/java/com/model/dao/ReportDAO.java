@@ -29,16 +29,15 @@ public class ReportDAO {
         try {
             conn = db.conn();
             // sửa chỗ này theo DB
-            String query = "SELECT r.roomNumber as sophong, b.total as total FROM `bill` b INNER JOIN `contract` c on b.contractId = c.Id INNER JOIN `room` r on c.roomId = r.id  where status = 1";
+            String query = "SELECT r.roomNumber as sophong, b.total as total, b.updatedDate FROM `bill` b INNER JOIN `contract` c on b.contractId = c.Id INNER JOIN `room` r on c.roomId = r.id  where b.status = 1";
             stm = conn.prepareStatement(query);
             rs = stm.executeQuery();
             contList = new ArrayList<>();
             while (rs.next()) {
-                Report rp = new Report(
-                        rs.getFloat("total"),
-                        rs.getString("sophong"),
-                        rs.getDate("date")
-                );
+                Report rp = new Report();
+                rp.setTotal(rs.getInt("total"));
+                rp.setRoomNumber(rs.getString("sophong"));
+                rp.setUpdatedDate(rs.getDate("updatedDate"));
                 contList.add(rp);
             }
         } catch (SQLException e) {
@@ -79,7 +78,7 @@ public class ReportDAO {
     public static void main(String[] args) {
         ReportDAO rdao = new ReportDAO();
         List<Report> rp;
-        rp = rdao.notPayment();
+        rp = rdao.payment();
         rp.stream().forEach(r -> System.out.println(r.toString()));
     }
 }

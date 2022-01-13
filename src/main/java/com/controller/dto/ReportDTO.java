@@ -4,8 +4,6 @@
  */
 package com.controller.dto;
 
-import java.util.Date;
-
 /**
  *
  * @author Quan Le
@@ -14,15 +12,17 @@ public class ReportDTO {
 
     float total;
     String roomNumber;
-    Date Time;
+    String createdDate; //Fixed
+    String updatedDate;
 
     public ReportDTO() {
     }
 
-    public ReportDTO(float total, String roomId, Date Time) {
+    public ReportDTO(float total, String roomNumber, String createdDate, String updatedDate) {
         this.total = total;
-        this.roomNumber = roomId;
-        this.Time = Time;
+        this.roomNumber = roomNumber;
+        this.createdDate = createdDate;
+        this.updatedDate = updatedDate;
     }
 
     public float getTotal() {
@@ -41,17 +41,20 @@ public class ReportDTO {
         this.roomNumber = roomNumber;
     }
 
-    public Date getTime() {
-        return Time;
+    public String getCreatedDate() {
+        return createdDate;
     }
 
-    public void setTime(Date Time) {
-        this.Time = Time;
+    public void setCreatedDate(String createdDate) {
+        this.createdDate = createdDate;
     }
 
-    @Override
-    public String toString() {
-        return "ReportDTO{" + "total=" + total + ", roomId=" + roomNumber + ", Time=" + Time + '}';
+    public String getUpdatedDate() {
+        return updatedDate;
+    }
+
+    public void setUpdatedDate(String updatedDate) {
+        this.updatedDate = updatedDate;
     }
 
 }
