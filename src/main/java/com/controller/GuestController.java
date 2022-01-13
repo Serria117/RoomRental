@@ -43,6 +43,10 @@ public class GuestController {
         return guestDAO.updateGuestStatus(id, status);
     }
 
+    public Guest searchExistGuest(String cId) {
+        return guestDAO.searchExactCitizenID(cId);
+    }
+
     public static GuestDTO guestModelToDTO(Guest g) {
         GuestDTO gdto;
         if (g == null) {

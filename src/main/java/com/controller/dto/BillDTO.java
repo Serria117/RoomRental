@@ -4,6 +4,8 @@
  */
 package com.controller.dto;
 
+import java.text.NumberFormat;
+
 /**
  *
  * @author hadt2
@@ -13,7 +15,8 @@ public class BillDTO {
     private int id;
     private String billNumber;
     private int contractId;
-    private String description;
+    private int rentalQuantity;
+    private String total;
     private int roomPrice;
     private String createdDate;
     private String updatedDate;
@@ -21,12 +24,28 @@ public class BillDTO {
     private String sttDescription;
     private int status;
 
+    public int getRentalQuantity() {
+        return rentalQuantity;
+    }
+
+    public void setRentalQuantity(int rentalQuantity) {
+        this.rentalQuantity = rentalQuantity;
+    }
+
     public int getId() {
         return id;
     }
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public String getTotal() {
+        return total;
+    }
+
+    public void setTotal(long total) {
+        this.total = NumberFormat.getInstance().format(total);
     }
 
     public String getBillNumber() {
@@ -43,14 +62,6 @@ public class BillDTO {
 
     public void setContractId(int contractId) {
         this.contractId = contractId;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
     }
 
     public int getRoomPrice() {

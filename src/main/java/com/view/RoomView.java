@@ -9,16 +9,21 @@ import com.controller.ContractController;
 import com.controller.GuestController;
 import com.controller.RoomController;
 import com.controller.ServiceController;
+import com.controller.dto.BillDTO;
 import com.controller.dto.GuestDTO;
 import com.controller.dto.RoomDTO;
 import com.controller.dto.ServiceDTO;
 import com.controller.dto.UserDTO;
+import com.model.BillDetail;
 import com.model.Guest;
+import com.toedter.calendar.JTextFieldDateEditor;
 import java.awt.Color;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.text.NumberFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -39,6 +44,8 @@ public final class RoomView extends javax.swing.JFrame {
     DefaultTableModel registerGuestTableModel;
     DefaultTableModel serviceListTableModel;
     DefaultTableModel billDetailTableModel;
+    DefaultTableModel billListTableModel;
+    DefaultTableModel billDetailViewTableModel;
     UserDTO user;
     RoomDTO currentRoom;
     public List<GuestDTO> gListDTO;
@@ -70,14 +77,22 @@ public final class RoomView extends javax.swing.JFrame {
 
     public RoomView(JFrame roomList, UserDTO user, String roomNo) {
         initComponents();
+        //Only insert custom code after this line:
         this.roomListViewFrame = roomList;
         this.user = user;
         currentRoom = rController.getRoom(roomNo);
-//        System.out.println(currentRoom.toString());
+
+        //Date Picker set default:
+        JTextFieldDateEditor dateEditor = (JTextFieldDateEditor) datePick.getDateEditor();
+        dateEditor.setEditable(false);
+        datePickDefault("01/01/1990");
+
         currentGuestTableModel = (DefaultTableModel) tbCurrentGuest.getModel();
         registerGuestTableModel = (DefaultTableModel) tbRegisterGuest.getModel();
-        serviceListTableModel = (DefaultTableModel) tbnServiceList.getModel();
+        serviceListTableModel = (DefaultTableModel) tbServiceList.getModel();
         billDetailTableModel = (DefaultTableModel) tbBillDetail.getModel();
+        billListTableModel = (DefaultTableModel) tbBillList.getModel();
+        billDetailViewTableModel = (DefaultTableModel) tbBillDetailView.getModel();
 
         //Combobox year:
         DefaultComboBoxModel billYearModel = (DefaultComboBoxModel) txtBillYear.getModel();
@@ -86,6 +101,8 @@ public final class RoomView extends javax.swing.JFrame {
         billYearModel.addElement(currentYear - 1);
         billYearModel.addElement(currentYear);
         txtBillYear.setModel(billYearModel);
+
+        txtExistGuestNotify.setText("");
 
         //Combobox month:
         int currentMonth = currentDate.getMonthValue();
@@ -109,10 +126,25 @@ public final class RoomView extends javax.swing.JFrame {
         if (currentRoom.getStatus() == 1) {
             btnCreateBill.setEnabled(false);
             btnLiquidate.setEnabled(false);
+            billMonthQuantity.setEnabled(false);
         }
+
+        txtLastECountBill.setText(currentRoom.getElectricCounter());
+        txtLastWCountBill.setText(currentRoom.getWaterCounter());
+
+        displayListBill();
 
         this.addWindowListener(exitListener); //Gọi sự kiện đóng nút "X"
         this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE); //Set nút "X" không đóng chương trình theo mặc định
+    }
+
+    public void datePickDefault(String dfDate) {
+        try {
+            Date defaultDate = new SimpleDateFormat("dd/MM/yyyy").parse(dfDate);
+            datePick.setDate(defaultDate);
+        } catch (ParseException ex) {
+        }
+
     }
 
     public void prepareBill() {
@@ -131,8 +163,6 @@ public final class RoomView extends javax.swing.JFrame {
             billDetailTableModel.getRowCount() + 1,
             "Tiền phòng",
             currentRoom.getPrice(),
-            "",
-            "",
             billMonthQuantity.getValue(),
             nf.format(subTotalRoom)
         }
@@ -148,8 +178,8 @@ public final class RoomView extends javax.swing.JFrame {
                 }
                 );
 
-        billDetailTableModel.setValueAt(currentRoom.getElectricCounter(), 1, 3);
-        billDetailTableModel.setValueAt(txtBillCurElect.getText(), 1, 4);
+//        billDetailTableModel.setValueAt(currentRoom.getElectricCounter(), 1, 3);
+//        billDetailTableModel.setValueAt(txtBillCurElect.getText(), 1, 4);
         int electricQuantity = 0;
 
         try {
@@ -157,13 +187,13 @@ public final class RoomView extends javax.swing.JFrame {
             electricQuantity = electricCount - Integer.parseInt(currentRoom.getElectricCounter());
         } catch (NumberFormatException e) {
         }
-        billDetailTableModel.setValueAt(nf.format(electricQuantity), 1, 5);
+        billDetailTableModel.setValueAt(nf.format(electricQuantity), 1, 3);
         billDetailTableModel.setValueAt(
                 nf.format(Integer.parseInt(billDetailTableModel.getValueAt(1, 2).toString().replace(",", "")) * electricQuantity),
-                1, 6);
+                1, 4);
 
-        billDetailTableModel.setValueAt(currentRoom.getWaterCounter(), 2, 3);
-        billDetailTableModel.setValueAt(txtBillCurWater.getText(), 2, 4);
+//        billDetailTableModel.setValueAt(currentRoom.getWaterCounter(), 2, 3);
+//        billDetailTableModel.setValueAt(txtBillCurWater.getText(), 2, 4);
         int waterQuantity = 0;
 
         try {
@@ -171,20 +201,20 @@ public final class RoomView extends javax.swing.JFrame {
             waterQuantity = waterCount - Integer.parseInt(currentRoom.getWaterCounter());
         } catch (NumberFormatException e) {
         }
-        billDetailTableModel.setValueAt(nf.format(waterQuantity), 2, 5);
+        billDetailTableModel.setValueAt(nf.format(waterQuantity), 2, 3);
         billDetailTableModel.setValueAt(
                 nf.format(Integer.parseInt(billDetailTableModel.getValueAt(2, 2).toString().replace(",", "")) * waterQuantity),
-                2, 6);
+                2, 4);
 
         for (int i = 3; i < billDetailTableModel.getRowCount(); i++) {
-            billDetailTableModel.setValueAt(1, i, 5);
+            billDetailTableModel.setValueAt(1, i, 3);
         }
         for (int i = 3; i < billDetailTableModel.getRowCount(); i++) {
-            billDetailTableModel.setValueAt(billDetailTableModel.getValueAt(i, 2), i, 6);
+            billDetailTableModel.setValueAt(billDetailTableModel.getValueAt(i, 2), i, 4);
         }
         int total = 0;
         for (int i = 0; i < billDetailTableModel.getRowCount(); i++) {
-            total += Integer.parseInt(billDetailTableModel.getValueAt(i, 6).toString().replace(",", ""));
+            total += Integer.parseInt(billDetailTableModel.getValueAt(i, 4).toString().replace(",", ""));
         }
         billTotalLabel.setText(nf.format(total));
     }
@@ -241,8 +271,8 @@ public final class RoomView extends javax.swing.JFrame {
         jLabel17 = new javax.swing.JLabel();
         txtWaterContract = new javax.swing.JTextField();
         btnAddContract = new javax.swing.JButton();
-        btnSelectGuestList = new javax.swing.JButton();
         datePick = new com.toedter.calendar.JDateChooser();
+        txtExistGuestNotify = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         jLabel8 = new javax.swing.JLabel();
         jScrollPane3 = new javax.swing.JScrollPane();
@@ -260,11 +290,8 @@ public final class RoomView extends javax.swing.JFrame {
         btnCreateBill = new javax.swing.JButton();
         jTextField1 = new javax.swing.JTextField();
         jButton3 = new javax.swing.JButton();
-        jScrollPane7 = new javax.swing.JScrollPane();
-        txtBillDescription = new javax.swing.JTextArea();
-        jLabel1 = new javax.swing.JLabel();
         jScrollPane8 = new javax.swing.JScrollPane();
-        tbnServiceList = new javax.swing.JTable();
+        tbServiceList = new javax.swing.JTable();
         jLabel18 = new javax.swing.JLabel();
         jLabel21 = new javax.swing.JLabel();
         billMonthQuantity = new javax.swing.JSpinner();
@@ -285,6 +312,28 @@ public final class RoomView extends javax.swing.JFrame {
         billDateLabel = new javax.swing.JLabel();
         billTotalLabel = new javax.swing.JLabel();
         billPeriodLabel = new javax.swing.JLabel();
+        txtLastECountBill = new javax.swing.JTextField();
+        txtLastWCountBill = new javax.swing.JTextField();
+        jLabel32 = new javax.swing.JLabel();
+        jLabel34 = new javax.swing.JLabel();
+        jPanel5 = new javax.swing.JPanel();
+        jPanel8 = new javax.swing.JPanel();
+        jScrollPane6 = new javax.swing.JScrollPane();
+        tbBillList = new javax.swing.JTable();
+        txtSearchBill = new javax.swing.JTextField();
+        jPanel9 = new javax.swing.JPanel();
+        jLabel29 = new javax.swing.JLabel();
+        txtRoomNoView = new javax.swing.JLabel();
+        jLabel33 = new javax.swing.JLabel();
+        jLabel35 = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
+        txtBillNumberView = new javax.swing.JLabel();
+        txtBillDateView = new javax.swing.JLabel();
+        jScrollPane9 = new javax.swing.JScrollPane();
+        tbBillDetailView = new javax.swing.JTable();
+        jSeparator2 = new javax.swing.JSeparator();
+        jLabel1 = new javax.swing.JLabel();
+        txtTotalBillView = new javax.swing.JLabel();
         jPanel6 = new javax.swing.JPanel();
         titleRoomNo = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
@@ -363,7 +412,7 @@ public final class RoomView extends javax.swing.JFrame {
 
         jLabel24.setText("Số phòng:");
 
-        btnLiquidate.setText("Trả phòng");
+        btnLiquidate.setText("Thanh lý hợp đồng");
         btnLiquidate.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnLiquidateActionPerformed(evt);
@@ -405,8 +454,8 @@ public final class RoomView extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnLiquidate, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 744, Short.MAX_VALUE))
+                        .addComponent(btnLiquidate, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 746, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -449,7 +498,7 @@ public final class RoomView extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnUpdate))
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 258, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(175, Short.MAX_VALUE))
+                .addContainerGap(196, Short.MAX_VALUE))
         );
 
         jTabbedPane2.addTab("Thông tin", jPanel1);
@@ -457,6 +506,12 @@ public final class RoomView extends javax.swing.JFrame {
         jLabel9.setText("Thêm khách mới:");
 
         jLabel10.setText("Họ tên:");
+
+        txtCCCD.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtCCCDKeyReleased(evt);
+            }
+        });
 
         jLabel11.setText("Ngày sinh:");
 
@@ -502,14 +557,17 @@ public final class RoomView extends javax.swing.JFrame {
             }
         });
 
-        btnSelectGuestList.setText("Chọn khách đã có");
-        btnSelectGuestList.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSelectGuestListActionPerformed(evt);
+        datePick.setToolTipText("");
+        datePick.setDate(new Date());
+        datePick.setDateFormatString("dd/MM/yyyy");
+        datePick.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                datePickFocusLost(evt);
             }
         });
 
-        datePick.setDateFormatString("dd/MM/yyyy");
+        txtExistGuestNotify.setFont(new java.awt.Font("Segoe UI", 0, 10)); // NOI18N
+        txtExistGuestNotify.setText("...");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -524,24 +582,8 @@ public final class RoomView extends javax.swing.JFrame {
                             .addComponent(jLabel17))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtWaterContract)
+                            .addComponent(txtWaterContract, javax.swing.GroupLayout.DEFAULT_SIZE, 207, Short.MAX_VALUE)
                             .addComponent(txtElectContract)))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(18, 18, 18))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                                .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtPhone)
-                            .addComponent(txtFullName)
-                            .addComponent(txtCCCD)
-                            .addComponent(datePick, javax.swing.GroupLayout.DEFAULT_SIZE, 232, Short.MAX_VALUE)))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -549,43 +591,65 @@ public final class RoomView extends javax.swing.JFrame {
                             .addComponent(btnAddGuest, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                                .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtFullName)
+                            .addComponent(datePick, javax.swing.GroupLayout.DEFAULT_SIZE, 232, Short.MAX_VALUE)))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(txtPhone))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGap(6, 6, 6)
+                                .addComponent(txtExistGuestNotify, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(txtCCCD))))
                 .addGap(18, 18, 18)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 783, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnSelectGuestList))
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 783, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(15, 15, 15)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel9)
-                    .addComponent(btnSelectGuestList))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel9)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 301, Short.MAX_VALUE)
                     .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(txtCCCD, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel12))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtExistGuestNotify)
+                        .addGap(4, 4, 4)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(txtFullName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel10))
                         .addGap(9, 9, 9)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(datePick, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(9, 9, 9)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(txtCCCD, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel12))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(txtPhone, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel13))
-                        .addGap(18, 18, 18)
+                            .addComponent(jLabel13)
+                            .addComponent(txtPhone, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(26, 26, 26)
                         .addComponent(btnAddGuest)
-                        .addGap(32, 32, 32)
+                        .addGap(16, 16, 16)
                         .addComponent(jLabel15)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -596,9 +660,8 @@ public final class RoomView extends javax.swing.JFrame {
                             .addComponent(txtWaterContract, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel17))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnAddContract))
-                    .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 290, Short.MAX_VALUE))
-                .addContainerGap(139, Short.MAX_VALUE))
+                        .addComponent(btnAddContract)))
+                .addContainerGap(164, Short.MAX_VALUE))
         );
 
         jTabbedPane2.addTab("Tạo hợp đồng", jPanel2);
@@ -651,7 +714,7 @@ public final class RoomView extends javax.swing.JFrame {
                         .addComponent(jTextField16, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jButton5)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 438, Short.MAX_VALUE)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 465, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -691,13 +754,7 @@ public final class RoomView extends javax.swing.JFrame {
 
         jButton3.setText("Tìm kiếm");
 
-        txtBillDescription.setColumns(20);
-        txtBillDescription.setRows(5);
-        jScrollPane7.setViewportView(txtBillDescription);
-
-        jLabel1.setText("Diễn giải:");
-
-        tbnServiceList.setModel(new javax.swing.table.DefaultTableModel(
+        tbServiceList.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null},
                 {null, null},
@@ -723,7 +780,7 @@ public final class RoomView extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane8.setViewportView(tbnServiceList);
+        jScrollPane8.setViewportView(tbServiceList);
 
         jLabel18.setText("Giá dịch vụ:");
 
@@ -765,17 +822,17 @@ public final class RoomView extends javax.swing.JFrame {
 
         tbBillDetail.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null}
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
             },
             new String [] {
-                "STT", "Nội dung", "Đơn giá", "Chỉ số đầu", "Chỉ số cuối", "Số lượng", "Thành tiền"
+                "STT", "Nội dung", "Đơn giá", "Số lượng", "Thành tiền"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false
+                false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -789,9 +846,7 @@ public final class RoomView extends javax.swing.JFrame {
             tbBillDetail.getColumnModel().getColumn(0).setMaxWidth(40);
             tbBillDetail.getColumnModel().getColumn(1).setPreferredWidth(70);
             tbBillDetail.getColumnModel().getColumn(2).setPreferredWidth(50);
-            tbBillDetail.getColumnModel().getColumn(3).setPreferredWidth(40);
-            tbBillDetail.getColumnModel().getColumn(4).setPreferredWidth(40);
-            tbBillDetail.getColumnModel().getColumn(5).setPreferredWidth(30);
+            tbBillDetail.getColumnModel().getColumn(3).setPreferredWidth(30);
         }
 
         jLabel31.setFont(new java.awt.Font("sansserif", 1, 12)); // NOI18N
@@ -872,6 +927,19 @@ public final class RoomView extends javax.swing.JFrame {
                 .addContainerGap(58, Short.MAX_VALUE))
         );
 
+        txtLastECountBill.setEditable(false);
+        txtLastECountBill.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtLastECountBillActionPerformed(evt);
+            }
+        });
+
+        txtLastWCountBill.setEditable(false);
+
+        jLabel32.setText("Kỳ trước:");
+
+        jLabel34.setText("Kỳ trước:");
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -884,45 +952,47 @@ public final class RoomView extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                                 .addGap(0, 0, Short.MAX_VALUE)
                                 .addComponent(btnCreateBill, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jLabel20, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 83, Short.MAX_VALUE)
-                                    .addComponent(jLabel22, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel19, javax.swing.GroupLayout.Alignment.LEADING))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel20, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel22, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel19)
+                                    .addComponent(jLabel23))
+                                .addGap(6, 6, 6)
                                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(jPanel3Layout.createSequentialGroup()
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(txtBillMonth, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jLabel25, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(txtBillYear, 0, 1, Short.MAX_VALUE))
                                     .addGroup(jPanel3Layout.createSequentialGroup()
-                                        .addGap(6, 6, 6)
+                                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                            .addComponent(txtBillCurElect, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(txtBillRoomPrice, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(txtBillCurWater, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addGroup(jPanel3Layout.createSequentialGroup()
-                                                .addComponent(txtBillMonth, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(jLabel25, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(txtBillYear, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                            .addGroup(jPanel3Layout.createSequentialGroup()
-                                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                                    .addComponent(txtBillCurElect, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                    .addComponent(txtBillRoomPrice, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                    .addComponent(jLabel21, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                                     .addGroup(jPanel3Layout.createSequentialGroup()
-                                                        .addComponent(jLabel21, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                        .addComponent(billMonthQuantity, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                                    .addGroup(jPanel3Layout.createSequentialGroup()
-                                                        .addComponent(jLabel23)
-                                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                        .addComponent(txtBillCurWater, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE))))))))
-                            .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addComponent(jLabel18, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                        .addComponent(jLabel32)
+                                                        .addGap(0, 0, Short.MAX_VALUE)))
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
+                                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                                .addComponent(jLabel34)
+                                                .addGap(9, 9, 9)))
+                                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                            .addComponent(txtLastWCountBill, javax.swing.GroupLayout.DEFAULT_SIZE, 70, Short.MAX_VALUE)
+                                            .addComponent(billMonthQuantity, javax.swing.GroupLayout.DEFAULT_SIZE, 70, Short.MAX_VALUE)
+                                            .addComponent(txtLastECountBill)))))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                                .addComponent(jLabel18, javax.swing.GroupLayout.DEFAULT_SIZE, 66, Short.MAX_VALUE)
                                 .addGap(18, 18, 18)
                                 .addComponent(jScrollPane8, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -938,7 +1008,7 @@ public final class RoomView extends javax.swing.JFrame {
                     .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton3))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel19, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -955,25 +1025,207 @@ public final class RoomView extends javax.swing.JFrame {
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(txtBillCurElect, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel22, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtLastECountBill, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel32))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(txtBillCurWater, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel23, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addComponent(jLabel1)
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addComponent(jScrollPane7))
-                        .addGap(18, 18, 18)
+                            .addComponent(jLabel23, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtLastWCountBill, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel34))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jScrollPane8, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel18))
                         .addGap(20, 20, 20)
                         .addComponent(btnCreateBill))
                     .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(31, Short.MAX_VALUE))
+                .addContainerGap(58, Short.MAX_VALUE))
         );
 
         jTabbedPane2.addTab("Hóa đơn", jPanel3);
+
+        jPanel8.setBorder(javax.swing.BorderFactory.createTitledBorder("Danh sách hóa đơn"));
+
+        tbBillList.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
+            },
+            new String [] {
+                "Số hóa đơn", "Tổng số tiền", "Trạng thái"
+            }
+        ));
+        tbBillList.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tbBillListMouseClicked(evt);
+            }
+        });
+        jScrollPane6.setViewportView(tbBillList);
+
+        txtSearchBill.setForeground(new java.awt.Color(204, 204, 204));
+        txtSearchBill.setText("Tìm kiếm");
+        txtSearchBill.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                txtSearchBillFocusGained(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
+        jPanel8.setLayout(jPanel8Layout);
+        jPanel8Layout.setHorizontalGroup(
+            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel8Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 355, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel8Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(txtSearchBill, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap())
+        );
+        jPanel8Layout.setVerticalGroup(
+            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel8Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(txtSearchBill, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 386, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+
+        jPanel9.setBorder(javax.swing.BorderFactory.createTitledBorder("Nội dung"));
+
+        jLabel29.setText("HÓA ĐƠN THUÊ PHÒNG");
+
+        txtRoomNoView.setText("...");
+
+        jLabel33.setText("Số hóa đơn:");
+
+        jLabel35.setText("Ngày tạo:");
+
+        jButton1.setText("Xác nhận thanh toán");
+
+        txtBillNumberView.setText("...");
+
+        txtBillDateView.setText("...");
+
+        tbBillDetailView.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
+            },
+            new String [] {
+                "STT", "Nội dung", "Đơn giá", "Số lượng", "Thành tiền"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, true, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane9.setViewportView(tbBillDetailView);
+        if (tbBillDetailView.getColumnModel().getColumnCount() > 0) {
+            tbBillDetailView.getColumnModel().getColumn(0).setMinWidth(30);
+            tbBillDetailView.getColumnModel().getColumn(0).setPreferredWidth(35);
+            tbBillDetailView.getColumnModel().getColumn(0).setMaxWidth(40);
+        }
+
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jLabel1.setText("TỔNG CỘNG:");
+
+        txtTotalBillView.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        txtTotalBillView.setText("...");
+
+        javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
+        jPanel9.setLayout(jPanel9Layout);
+        jPanel9Layout.setHorizontalGroup(
+            jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel9Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jSeparator2, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jScrollPane9)
+                    .addGroup(jPanel9Layout.createSequentialGroup()
+                        .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel9Layout.createSequentialGroup()
+                                .addComponent(jLabel29, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txtRoomNoView, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jButton1))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 306, Short.MAX_VALUE)
+                        .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(jLabel35, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel33, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 81, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(txtBillNumberView, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(txtBillDateView, javax.swing.GroupLayout.DEFAULT_SIZE, 99, Short.MAX_VALUE)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel9Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtTotalBillView, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap())
+        );
+        jPanel9Layout.setVerticalGroup(
+            jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel9Layout.createSequentialGroup()
+                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel9Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel29, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtRoomNoView, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel9Layout.createSequentialGroup()
+                        .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel33)
+                            .addComponent(txtBillNumberView))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(txtBillDateView)
+                            .addComponent(jLabel35))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane9, javax.swing.GroupLayout.PREFERRED_SIZE, 327, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(txtTotalBillView, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(27, 27, 27))
+        );
+
+        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
+        jPanel5.setLayout(jPanel5Layout);
+        jPanel5Layout.setHorizontalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        jPanel5Layout.setVerticalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, 493, Short.MAX_VALUE)
+                    .addComponent(jPanel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+
+        jTabbedPane2.addTab("Tra cứu hóa đơn", jPanel5);
 
         jPanel6.setBackground(new java.awt.Color(0, 102, 204));
 
@@ -992,7 +1244,7 @@ public final class RoomView extends javax.swing.JFrame {
             .addGroup(jPanel6Layout.createSequentialGroup()
                 .addGap(150, 150, 150)
                 .addComponent(titleRoomNo, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(925, Short.MAX_VALUE))
+                .addContainerGap(919, Short.MAX_VALUE))
             .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel6Layout.createSequentialGroup()
                     .addGap(16, 16, 16)
@@ -1019,16 +1271,15 @@ public final class RoomView extends javax.swing.JFrame {
             .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(20, 20, 20)
-                .addComponent(jTabbedPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 1111, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(jTabbedPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 1111, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jTabbedPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 511, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(21, Short.MAX_VALUE))
+                .addComponent(jTabbedPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 538, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(26, Short.MAX_VALUE))
         );
 
         pack();
@@ -1123,9 +1374,17 @@ public final class RoomView extends javax.swing.JFrame {
         Date dob = datePick.getDate();
         String cccd = txtCCCD.getText();
         String phone = txtPhone.getText();
-        if (validateName(name) | validateCCCD(cccd) | validatePhone(phone)) {
-
-            JOptionPane.showMessageDialog(null, "Tên không được để trống");
+        String errName = !validateName(name) ? "Tên không được để trống và có ít hơn 50 ký tự.\n" : "";
+        String errCCCD = !validateCCCD(cccd) ? "Căn cước công dân phải có từ 9-12 chữ số.\n" : "";
+        String errPhone = !validatePhone(phone) ? "Số điện thoại phải có 10 chữ số.\n" : "";
+        String errDate = dob == null ? "Ngày không hợp lệ.\n" : "";
+        String errDup = "";
+        if (!gListModel.isEmpty() && gListModel.stream().filter(g -> g.getCitizenId().equals(cccd)).findFirst().isPresent()) {
+            errDup = "Đã có thông tin khách hàng này trong danh sách khởi tạo.";
+        }
+        String errMessage = errName + errCCCD + errPhone + errDate + errDup;
+        if (!errMessage.isEmpty()) {
+            JOptionPane.showMessageDialog(null, errMessage, "Lỗi", JOptionPane.ERROR_MESSAGE);
         } else {
             Guest g = new Guest();
             g.setFullName(name);
@@ -1145,9 +1404,9 @@ public final class RoomView extends javax.swing.JFrame {
     public void displayRegisterGuestList() {
         registerGuestTableModel.setRowCount(0);
         List<GuestDTO> list = gController.displaySelectedGuestDTO(gListModel);
-        if (!list.isEmpty()) {
-            JOptionPane.showMessageDialog(null, list.get(0).getFullName());
-        }
+//        if (!list.isEmpty()) {
+//            JOptionPane.showMessageDialog(null, list.get(0).getFullName());
+//        }
         list.stream().forEach(g -> {
             registerGuestTableModel.addRow(new String[]{
                 g.getFullName(),
@@ -1172,7 +1431,7 @@ public final class RoomView extends javax.swing.JFrame {
             gListModel.stream().map(g -> gController.addGuest(g));
 
             //test with admin account (id=1) will change later to a variable base on logged in account id
-            //"fileLocation" set to a dump string since this function is not yet available.
+            //"fileLocation" set to a dumb string since this function is not yet available.
             if (cController.addContract(rController.getRoom(roomNum.getText()), gListModel, user.getId(), "no file yet!")) {
                 rController.updateRoomStatus(roomNum.getText(), 0); //Set current status to "0" => "rented".
                 JOptionPane.showMessageDialog(null, "Tạo hợp đồng thành công.");
@@ -1197,7 +1456,6 @@ public final class RoomView extends javax.swing.JFrame {
             txtPhone.setEnabled(false);
             btnAddGuest.setEnabled(false);
             btnAddContract.setEnabled(false);
-            btnSelectGuestList.setEnabled(false);
             txtElectContract.setEnabled(false);
             txtWaterContract.setEnabled(false);
 
@@ -1212,7 +1470,6 @@ public final class RoomView extends javax.swing.JFrame {
             txtPhone.setEnabled(true);
             btnAddGuest.setEnabled(true);
             btnAddContract.setEnabled(true);
-            btnSelectGuestList.setEnabled(true);
             txtElectContract.setEnabled(true);
             txtWaterContract.setEnabled(true);
 
@@ -1232,26 +1489,19 @@ public final class RoomView extends javax.swing.JFrame {
                         gController.updateGuestStatus(g.getId(), 0);
                         cController.updateContractDetail(cController.getCurrentContract(currentRoom.getId()), g.getId(), 0);
                     });
-
-                    cController.updateContractStatus(cController.getCurrentContract(currentRoom.getId()), 0);
+                    if (cController.updateContractStatus(cController.getCurrentContract(currentRoom.getId()), 0)) {
+                        JOptionPane.showMessageDialog(null, "Hợp đồng đã được thanh lý.", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+                    }
                 }
                 break;
             case 1:
-                System.out.println("Không xóa");
+//                System.out.println("Không xóa");
                 break;
         }
         displayCurrentGuest();
         displayRoomInfo();
     }//GEN-LAST:event_btnLiquidateActionPerformed
     GuestListSelectView gSelectView;
-    private void btnSelectGuestListActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSelectGuestListActionPerformed
-        // TODO add your handling code here:
-        gSelectView = new GuestListSelectView(this);
-        gSelectView.setVisible(true);
-        gSelectView.setLocationRelativeTo(this);
-
-    }//GEN-LAST:event_btnSelectGuestListActionPerformed
-
     private void txtWaterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtWaterActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtWaterActionPerformed
@@ -1264,7 +1514,7 @@ public final class RoomView extends javax.swing.JFrame {
                 electricCount,
                 waterCount,
                 billNoLabel.getText(),
-                txtBillDescription.getText(), user.getId()
+                user.getId()
         );
         if (result) {
             JOptionPane.showMessageDialog(null, "Hóa đơn đã được lưu thành công.", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
@@ -1275,6 +1525,7 @@ public final class RoomView extends javax.swing.JFrame {
         } else {
             JOptionPane.showMessageDialog(null, "Số hóa đơn này đã được lập.", "Cảnh báo", JOptionPane.WARNING_MESSAGE);
         }
+        displayListBill();
     }//GEN-LAST:event_btnCreateBillActionPerformed
 
     private void txtBillCurElectFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtBillCurElectFocusLost
@@ -1338,6 +1589,67 @@ public final class RoomView extends javax.swing.JFrame {
         prepareBill();
     }//GEN-LAST:event_txtBillYearFocusLost
 
+    private void datePickFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_datePickFocusLost
+        // TODO add your handling code here:\
+
+    }//GEN-LAST:event_datePickFocusLost
+
+    private void txtSearchBillFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtSearchBillFocusGained
+        // TODO add your handling code here:
+        txtSearchBill.setText("");
+        txtSearchBill.setForeground(Color.BLACK);
+    }//GEN-LAST:event_txtSearchBillFocusGained
+
+    private void tbBillListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbBillListMouseClicked
+        // TODO add your handling code here:
+        int row = tbBillList.getSelectedRow();
+        String billNo = billListTableModel.getValueAt(row, 0).toString();
+        BillDTO bill = bController.getBillByNumber(billNo);
+        List<BillDetail> bdList = bController.getBillDetails(billNo);
+
+        txtBillNumberView.setText(billNo);
+        txtBillDateView.setText(bill.getCreatedDate());
+        txtRoomNoView.setText(currentRoom.getRoomNumber());
+        txtTotalBillView.setText(bill.getTotal());
+
+        billDetailViewTableModel.setRowCount(0);
+        billDetailViewTableModel.addRow(new Object[]{
+            1, "Tiền phòng",
+            NumberFormat.getInstance().format(Integer.valueOf(bill.getRoomPrice())),
+            bill.getRentalQuantity(),
+            NumberFormat.getInstance().format(Integer.valueOf(bill.getRoomPrice() * bill.getRentalQuantity()))
+        });
+        bdList.stream().forEach(b -> {
+            billDetailViewTableModel.addRow(new Object[]{
+                billDetailViewTableModel.getRowCount() + 1,
+                b.getServiceName(),
+                NumberFormat.getInstance().format(Integer.valueOf(b.getPrice())),
+                NumberFormat.getInstance().format(Integer.valueOf(b.getQuantity())),
+                NumberFormat.getInstance().format(Integer.valueOf(b.getPrice() * b.getQuantity()))
+            });
+        });
+
+    }//GEN-LAST:event_tbBillListMouseClicked
+
+    private void txtLastECountBillActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtLastECountBillActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtLastECountBillActionPerformed
+
+    private void txtCCCDKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCCCDKeyReleased
+        // TODO add your handling code here:
+        if (txtCCCD.getText().length() >= 10) {
+            Guest g = gController.searchExistGuest(txtCCCD.getText());
+            if (g != null) {
+                System.out.println("Khách đã tồn tại");
+                txtFullName.setText(g.getFullName());
+                txtPhone.setText(g.getPhone());
+                datePick.setDate(g.getDateOfBirth());
+                txtExistGuestNotify.setText("Khách hàng " + g.getFullName() + " đã có trong hệ thống");
+            }
+
+        }
+    }//GEN-LAST:event_txtCCCDKeyReleased
+
     private void displayServiceList() {
         serviceList = serviceController.displayService();
         if (serviceList != null) {
@@ -1351,6 +1663,19 @@ public final class RoomView extends javax.swing.JFrame {
             }
             );
         }
+    }
+
+    private void displayListBill() {
+
+        billListTableModel.setRowCount(0);
+        List<BillDTO> lBillDTO = bController.getBillByRoom(currentRoom.getId());
+        lBillDTO.stream().forEach(b -> {
+            billListTableModel.addRow(new Object[]{
+                b.getBillNumber(),
+                b.getTotal(),
+                b.getSttDescription()
+            });
+        });
     }
 
     /**
@@ -1406,9 +1731,9 @@ public final class RoomView extends javax.swing.JFrame {
     private javax.swing.JButton btnAddGuest;
     private javax.swing.JButton btnCreateBill;
     private javax.swing.JButton btnLiquidate;
-    private javax.swing.JButton btnSelectGuestList;
     private javax.swing.JButton btnUpdate;
     private com.toedter.calendar.JDateChooser datePick;
+    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton5;
     private javax.swing.JLabel jLabel1;
@@ -1432,9 +1757,14 @@ public final class RoomView extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel26;
     private javax.swing.JLabel jLabel27;
     private javax.swing.JLabel jLabel28;
+    private javax.swing.JLabel jLabel29;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel30;
     private javax.swing.JLabel jLabel31;
+    private javax.swing.JLabel jLabel32;
+    private javax.swing.JLabel jLabel33;
+    private javax.swing.JLabel jLabel34;
+    private javax.swing.JLabel jLabel35;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
@@ -1446,40 +1776,54 @@ public final class RoomView extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
+    private javax.swing.JPanel jPanel8;
+    private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
-    private javax.swing.JScrollPane jScrollPane7;
+    private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JScrollPane jScrollPane8;
+    private javax.swing.JScrollPane jScrollPane9;
     private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JSeparator jSeparator2;
     private javax.swing.JTabbedPane jTabbedPane2;
     private javax.swing.JTable jTable2;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField16;
     public javax.swing.JLabel roomNum;
     private javax.swing.JTable tbBillDetail;
+    private javax.swing.JTable tbBillDetailView;
+    private javax.swing.JTable tbBillList;
     private javax.swing.JTable tbCurrentGuest;
     private javax.swing.JTable tbRegisterGuest;
-    private javax.swing.JTable tbnServiceList;
+    private javax.swing.JTable tbServiceList;
     public javax.swing.JLabel titleRoomNo;
     private javax.swing.JTextField txtBillCurElect;
     private javax.swing.JTextField txtBillCurWater;
-    private javax.swing.JTextArea txtBillDescription;
+    private javax.swing.JLabel txtBillDateView;
     private javax.swing.JComboBox<String> txtBillMonth;
+    private javax.swing.JLabel txtBillNumberView;
     private javax.swing.JTextField txtBillRoomPrice;
     private javax.swing.JComboBox<String> txtBillYear;
     private javax.swing.JTextField txtCCCD;
     public javax.swing.JTextArea txtDescription;
     private javax.swing.JTextField txtElectContract;
     public javax.swing.JTextField txtElectric;
+    private javax.swing.JLabel txtExistGuestNotify;
     private javax.swing.JTextField txtFullName;
+    private javax.swing.JTextField txtLastECountBill;
+    private javax.swing.JTextField txtLastWCountBill;
     private javax.swing.JTextField txtPhone;
     public javax.swing.JTextField txtPrice;
+    private javax.swing.JLabel txtRoomNoView;
+    private javax.swing.JTextField txtSearchBill;
     public javax.swing.JTextField txtSquare;
+    private javax.swing.JLabel txtTotalBillView;
     public javax.swing.JTextField txtWater;
     private javax.swing.JTextField txtWaterContract;
     // End of variables declaration//GEN-END:variables

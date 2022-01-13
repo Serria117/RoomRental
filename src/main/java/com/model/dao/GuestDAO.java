@@ -83,27 +83,51 @@ public class GuestDAO extends DBAccess {
     public int addGuest(Guest g) {
         //This function must return the id of the guest has been inserted into the database
         int guestId = 0;
-        try {
-            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-            conn = this.conn();
-            String[] autoCol = {"id"};
-            String query = "INSERT INTO guest SET fullName = ?, citizenId = ?, dateOfBirth = ?, phone = ?, status = 1";
-            stm = conn.prepareStatement(query, autoCol); //Get the generated value from 'id' column
-            stm.setString(1, g.getFullName());
-            stm.setString(2, g.getCitizenId());
-            stm.setString(3, dateFormat.format(g.getDateOfBirth()));
-            stm.setString(4, g.getPhone());
-            stm.execute();
-            rs = stm.getGeneratedKeys();
-            if (rs.next()) {
-                guestId = rs.getInt(1); //get the id of the new guest and return it
+        Guest existGuest = searchExactCitizenID(g.getCitizenId());
+        if (existGuest != null) {
+            guestId = existGuest.getId();
+        } else {
+            try {
+                DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                conn = this.conn();
+                String[] autoCol = {"id"};
+                String query = "INSERT INTO guest SET fullName = ?, citizenId = ?, dateOfBirth = ?, phone = ?, status = 1";
+                stm = conn.prepareStatement(query, autoCol); //Get the generated value from 'id' column
+                stm.setString(1, g.getFullName());
+                stm.setString(2, g.getCitizenId());
+                stm.setString(3, dateFormat.format(g.getDateOfBirth()));
+                stm.setString(4, g.getPhone());
+                stm.execute();
+                rs = stm.getGeneratedKeys();
+                if (rs.next()) {
+                    guestId = rs.getInt(1); //get the id of the new guest and return it
+                }
+            } catch (SQLException e) {
+                JOptionPane.showMessageDialog(null, "Add guest error: " + e.getMessage());
+            } finally {
+                this.closeAll(conn, stm, rs);
             }
-        } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "Add guest error: " + e.getMessage());
-        } finally {
-            this.closeAll(conn, stm, rs);
         }
         return guestId;
+    }
+
+    public Guest searchExactCitizenID(String cId) {
+        Guest guest = null;
+        try {
+            conn = this.conn();
+            stm = conn.prepareStatement("SELECT * FROM guest WHERE citizenId = ?");
+            stm.setString(1, cId);
+            rs = stm.executeQuery();
+            if (rs.next()) {
+                guest = new Guest();
+                guest.setFullName(rs.getString("fullName"));
+                guest.setPhone(rs.getString("phone"));
+                guest.setId(rs.getInt("id"));
+                guest.setDateOfBirth(rs.getDate("dateOfBirth"));
+            }
+        } catch (SQLException e) {
+        }
+        return guest;
     }
 
     public List<Guest> searchGuest(String key) {

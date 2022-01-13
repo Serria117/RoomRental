@@ -262,7 +262,7 @@
                               <EmptySpace min="-2" pref="38" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Component id="txtNewUserPhone" max="32767" attributes="0"/>
-                                  <Component id="txtNewUserName" pref="323" max="32767" attributes="0"/>
+                                  <Component id="txtNewUserName" pref="345" max="32767" attributes="0"/>
                                   <Component id="txtNewUserPass1" alignment="0" max="32767" attributes="0"/>
                                   <Component id="txtNewUserPass2" alignment="0" max="32767" attributes="0"/>
                                   <Group type="102" alignment="0" attributes="0">
@@ -389,14 +389,15 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="jScrollPane1" pref="462" max="32767" attributes="0"/>
-                          <Group type="102" alignment="1" attributes="0">
+                      <Group type="103" groupAlignment="1" attributes="0">
+                          <Component id="jScrollPane1" pref="481" max="32767" attributes="0"/>
+                          <Group type="102" attributes="0">
                               <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="txtSearch" alignment="1" min="-2" pref="161" max="-2" attributes="0"/>
-                                  <Component id="jButton2" alignment="1" min="-2" max="-2" attributes="0"/>
-                              </Group>
+                              <Component id="btnResetPass" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace type="separate" max="-2" attributes="0"/>
+                              <Component id="btnLockAccount" min="-2" pref="119" max="-2" attributes="0"/>
+                              <EmptySpace type="separate" max="-2" attributes="0"/>
+                              <Component id="btnUnlockAccount" min="-2" pref="129" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
@@ -406,13 +407,15 @@
             <DimensionLayout dim="1">
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace pref="7" max="32767" attributes="0"/>
-                      <Component id="txtSearch" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Component id="jScrollPane1" min="-2" pref="165" max="-2" attributes="0"/>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Component id="jButton2" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="21" max="-2" attributes="0"/>
+                      <EmptySpace pref="18" max="32767" attributes="0"/>
+                      <Component id="jScrollPane1" min="-2" pref="215" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="btnResetPass" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="btnLockAccount" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="btnUnlockAccount" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace max="-2" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -431,7 +434,7 @@
                       <Table columnCount="4" rowCount="4">
                         <Column editable="false" title="T&#xea;n &#x111;&#x103;ng nh&#x1ead;p" type="java.lang.String"/>
                         <Column editable="false" title="&#x110;i&#x1ec7;n tho&#x1ea1;i" type="java.lang.String"/>
-                        <Column editable="false" title="Ph&#xe2;n quy&#x1ec1;n" type="java.lang.String"/>
+                        <Column editable="false" title="Lo&#x1ea1;i t&#xe0;i kho&#x1ea3;n" type="java.lang.String"/>
                         <Column editable="false" title="Tr&#x1ea1;ng th&#xe1;i" type="java.lang.String"/>
                       </Table>
                     </Property>
@@ -463,22 +466,26 @@
                       <TableHeader reorderingAllowed="true" resizingAllowed="true"/>
                     </Property>
                   </Properties>
+                  <Events>
+                    <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="tbnUserListMouseClicked"/>
+                  </Events>
                 </Component>
               </SubComponents>
             </Container>
-            <Component class="javax.swing.JButton" name="jButton2">
+            <Component class="javax.swing.JButton" name="btnLockAccount">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Xem chi ti&#x1ebf;t"/>
+                <Property name="text" type="java.lang.String" value="Kh&#xf3;a t&#xe0;i kho&#x1ea3;n"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JTextField" name="txtSearch">
+            <Component class="javax.swing.JButton" name="btnResetPass">
               <Properties>
-                <Property name="text" type="java.lang.String" value="t&#xec;m ki&#x1ebf;m"/>
+                <Property name="text" type="java.lang.String" value="&#x110;&#x1eb7;t l&#x1ea1;i m&#x1ead;t kh&#x1ea9;u"/>
               </Properties>
-              <Events>
-                <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="txtSearchFocusLost"/>
-                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="txtSearchMouseClicked"/>
-              </Events>
+            </Component>
+            <Component class="javax.swing.JButton" name="btnUnlockAccount">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="M&#x1edf; kh&#xf3;a t&#xe0;i kho&#x1ea3;n"/>
+              </Properties>
             </Component>
           </SubComponents>
         </Container>

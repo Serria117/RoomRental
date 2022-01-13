@@ -21,6 +21,8 @@ public final class RoomListView extends javax.swing.JFrame {
     UserDTO user = new UserDTO();
     DefaultTableModel tableModel;
     RoomDTO room;
+    RoomView roomView;
+    CreateRoomView createRoomView;
 
     /**
      * Creates new form MainFrame
@@ -89,6 +91,20 @@ public final class RoomListView extends javax.swing.JFrame {
         });
         tbRoom.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(tbRoom);
+        if (tbRoom.getColumnModel().getColumnCount() > 0) {
+            tbRoom.getColumnModel().getColumn(0).setMinWidth(45);
+            tbRoom.getColumnModel().getColumn(0).setPreferredWidth(70);
+            tbRoom.getColumnModel().getColumn(0).setMaxWidth(80);
+            tbRoom.getColumnModel().getColumn(1).setMinWidth(120);
+            tbRoom.getColumnModel().getColumn(1).setPreferredWidth(120);
+            tbRoom.getColumnModel().getColumn(1).setMaxWidth(120);
+            tbRoom.getColumnModel().getColumn(3).setMinWidth(130);
+            tbRoom.getColumnModel().getColumn(3).setPreferredWidth(130);
+            tbRoom.getColumnModel().getColumn(3).setMaxWidth(130);
+            tbRoom.getColumnModel().getColumn(4).setMinWidth(120);
+            tbRoom.getColumnModel().getColumn(4).setPreferredWidth(120);
+            tbRoom.getColumnModel().getColumn(4).setMaxWidth(120);
+        }
 
         txtSearch.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
@@ -188,8 +204,6 @@ public final class RoomListView extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-    RoomView roomView;
-    CreateRoomView createRoomView;
 
     private void btnRoomViewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRoomViewActionPerformed
         try {

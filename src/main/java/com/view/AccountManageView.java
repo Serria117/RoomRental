@@ -14,14 +14,15 @@ import javax.swing.table.DefaultTableModel;
 
 /**
  *
- * @author hadt2
+ * @author Nguyen Huu Tung
  */
 public class AccountManageView extends javax.swing.JFrame {
 
     UserDTO user;
     UserController userController = new UserController();
-    List<UserDTO> list;
-    DefaultTableModel userList;
+    List<UserDTO> allUserList;
+    UserDTO selectedUser;
+    DefaultTableModel userListTableModel;
 
     /**
      * Creates new form ManageView
@@ -35,19 +36,22 @@ public class AccountManageView extends javax.swing.JFrame {
         this.user = user;
         txtCurUserName.setText(user.getUsername());
         txtCurPhone.setText(user.getPhone());
-        if (user.getId() == 1) {
-            txtCurUserName.setEditable(false); //Do not allow the root admin account to be modified.
+        if (user.getAuthority() == 0) {
+            btnNewAccount.setEnabled(false);
+            btnLockAccount.setEnabled(false);
+            btnUnlockAccount.setEnabled(false);
+            btnResetPass.setEnabled(false);
         }
-        userList = (DefaultTableModel) tbnUserList.getModel();
+        userListTableModel = (DefaultTableModel) tbnUserList.getModel();
         loadUserList();
     }
 
     private void loadUserList() {
-        list = new ArrayList<>();
-        userList.setRowCount(0);
-        list = userController.getAll();
-        list.stream().forEach(u -> {
-            userList.addRow(new Object[]{
+        allUserList = new ArrayList<>();
+        userListTableModel.setRowCount(0);
+        allUserList = userController.getAll();
+        allUserList.stream().forEach(u -> {
+            userListTableModel.addRow(new Object[]{
                 u.getUsername(),
                 u.getPhone(),
                 u.getAutDescription(),
@@ -92,8 +96,9 @@ public class AccountManageView extends javax.swing.JFrame {
         jPanel3 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tbnUserList = new javax.swing.JTable();
-        jButton2 = new javax.swing.JButton();
-        txtSearch = new javax.swing.JTextField();
+        btnLockAccount = new javax.swing.JButton();
+        btnResetPass = new javax.swing.JButton();
+        btnUnlockAccount = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -245,7 +250,7 @@ public class AccountManageView extends javax.swing.JFrame {
                         .addGap(38, 38, 38)
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(txtNewUserPhone)
-                            .addComponent(txtNewUserName, javax.swing.GroupLayout.DEFAULT_SIZE, 323, Short.MAX_VALUE)
+                            .addComponent(txtNewUserName, javax.swing.GroupLayout.DEFAULT_SIZE, 345, Short.MAX_VALUE)
                             .addComponent(txtNewUserPass1)
                             .addComponent(txtNewUserPass2)
                             .addGroup(jPanel4Layout.createSequentialGroup()
@@ -293,7 +298,7 @@ public class AccountManageView extends javax.swing.JFrame {
                 {null, null, null, null}
             },
             new String [] {
-                "Tên đăng nhập", "Điện thoại", "Phân quyền", "Trạng thái"
+                "Tên đăng nhập", "Điện thoại", "Loại tài khoản", "Trạng thái"
             }
         ) {
             Class[] types = new Class [] {
@@ -311,21 +316,18 @@ public class AccountManageView extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        tbnUserList.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tbnUserListMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tbnUserList);
 
-        jButton2.setText("Xem chi tiết");
+        btnLockAccount.setText("Khóa tài khoản");
 
-        txtSearch.setText("tìm kiếm");
-        txtSearch.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                txtSearchFocusLost(evt);
-            }
-        });
-        txtSearch.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                txtSearchMouseClicked(evt);
-            }
-        });
+        btnResetPass.setText("Đặt lại mật khẩu");
+
+        btnUnlockAccount.setText("Mở khóa tài khoản");
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -333,25 +335,28 @@ public class AccountManageView extends javax.swing.JFrame {
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 462, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 481, Short.MAX_VALUE)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtSearch, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton2, javax.swing.GroupLayout.Alignment.TRAILING))))
+                        .addComponent(btnResetPass)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnLockAccount, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnUnlockAccount, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap(7, Short.MAX_VALUE)
-                .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jButton2)
-                .addGap(21, 21, 21))
+                .addContainerGap(18, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 215, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnResetPass)
+                    .addComponent(btnLockAccount)
+                    .addComponent(btnUnlockAccount))
+                .addContainerGap())
         );
 
         jTabbedPane1.addTab("Danh sách tài khoản", jPanel3);
@@ -381,19 +386,6 @@ public class AccountManageView extends javax.swing.JFrame {
     private void txtNewPass2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNewPass2ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtNewPass2ActionPerformed
-
-    private void txtSearchMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtSearchMouseClicked
-        // TODO add your handling code here:
-        txtSearch.setText("");
-    }//GEN-LAST:event_txtSearchMouseClicked
-
-    private void txtSearchFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtSearchFocusLost
-        // TODO add your handling code here:
-        if ("".equals(txtSearch.getText())) {
-            txtSearch.setText("Tìm kiếm");
-
-        }
-    }//GEN-LAST:event_txtSearchFocusLost
 
     private boolean validateUserName(String userName) {
         return userName.trim().matches("\\w{3,10}$");
@@ -435,16 +427,18 @@ public class AccountManageView extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnNewAccountActionPerformed
 
-    private boolean confirmOldPassword() {
-        boolean result = false;
+    private int confirmOldPassword() {
+        int result = 0;
         JPasswordField pwd = new JPasswordField(10);
         int ans = JOptionPane.showConfirmDialog(null, pwd, "Nhập mật khẩu hiện tại của bạn", JOptionPane.OK_CANCEL_OPTION);
-        if (ans == 0) {
+        if (ans == 0) { //'OK' button is clicked
             String oldPass = String.valueOf(pwd.getPassword());
             if (userController.verifiedCurrentPass(user, oldPass)) {
-                result = true;
+                result = 1; //Password is entered and passed confirmation
+            } else {
+                result = -1; //Password is entered but NOT passed confirmation
             }
-        }
+        } //"Cancel" button is clicked, result remains 0
         return result;
     }
 
@@ -453,12 +447,13 @@ public class AccountManageView extends javax.swing.JFrame {
         String newPhone = txtCurPhone.getText();
         String newPass1 = String.valueOf(txtNewPass1.getPassword());
         String newPass2 = String.valueOf(txtNewPass2.getPassword());
-
+        String error;
         String phoneErr = !validatePhone(newPhone) ? "Số điện thoại phải có từ 8 đến 12 chữ số.\n" : "";
         String passErr = (newPass1.isBlank() && newPass2.isBlank()) ? "" : !validatePassword(newPass1, newPass2) ? "Mật khẩu phải có ít nhất 6 ký tự, 2 mật khẩu phải trùng khớp nhau." : "";
-        String error = phoneErr + passErr;
-        if (error.isBlank()) {
-            if (confirmOldPassword()) {
+        error = phoneErr + passErr;
+        if (error.length() == 0) {
+            int confirm = confirmOldPassword();
+            if (confirm > 0) {
                 String updateRes = "";
                 if (!newPass1.isBlank() && !newPass2.isBlank()) {
                     String updatePassRes = userController.updatePassword(user, newPass1) ? "Cập nhật mật khẩu thành công. Mật khẩu mới sẽ có hiệu lực từ phiên làm việc sau.\n" : "Cập nhật password thất bại!\n";
@@ -468,10 +463,10 @@ public class AccountManageView extends javax.swing.JFrame {
                     String updatePhoneRes = userController.updatePhone(user, newPhone) ? "Cập nhật số điện thoại thành công\n" : "Cập nhật số điện thoại thất bại!\n";
                     updateRes += updatePhoneRes;
                 }
-                if (!updateRes.isBlank()) {
+                if (updateRes.length() != 0) {
                     JOptionPane.showMessageDialog(null, updateRes, "Thông báo", JOptionPane.INFORMATION_MESSAGE);
                 }
-            } else {
+            } else if (confirm < 0) {
                 JOptionPane.showMessageDialog(null, "Mật khẩu không chính xác!", "Cảnh báo", JOptionPane.WARNING_MESSAGE);
             }
         } else {
@@ -479,6 +474,17 @@ public class AccountManageView extends javax.swing.JFrame {
         }
         loadUserList();
     }//GEN-LAST:event_btnUpdateCurUserActionPerformed
+
+    private void tbnUserListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbnUserListMouseClicked
+        // TODO add your handling code here:
+//        selectedUser
+        int row = tbnUserList.getSelectedRow();
+        String selectedName = userListTableModel.getValueAt(row, 0).toString();
+        if (!allUserList.isEmpty()) {
+            selectedUser = allUserList.stream().filter(u -> u.getUsername().equals(selectedName)).findFirst().get();
+            System.out.println(selectedUser.getId());
+        }
+    }//GEN-LAST:event_tbnUserListMouseClicked
 
     /**
      * @param args the command line arguments
@@ -525,10 +531,12 @@ public class AccountManageView extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnLockAccount;
     private javax.swing.JButton btnNewAccount;
+    private javax.swing.JButton btnResetPass;
+    private javax.swing.JButton btnUnlockAccount;
     private javax.swing.JButton btnUpdateCurUser;
     private javax.swing.JComboBox<String> comboAuth;
-    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -554,6 +562,5 @@ public class AccountManageView extends javax.swing.JFrame {
     private javax.swing.JPasswordField txtNewUserPass1;
     private javax.swing.JPasswordField txtNewUserPass2;
     private javax.swing.JTextField txtNewUserPhone;
-    private javax.swing.JTextField txtSearch;
     // End of variables declaration//GEN-END:variables
 }

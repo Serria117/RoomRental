@@ -29,8 +29,8 @@ public class LoginView extends javax.swing.JFrame {
     }
 
     public LoginView(JFrame mainMenu) {
-        this.mainFrame = mainMenu;
         initComponents();
+        this.mainFrame = mainMenu;
     }
 
     /**
@@ -51,6 +51,11 @@ public class LoginView extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Đăng nhập");
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowActivated(java.awt.event.WindowEvent evt) {
+                formWindowActivated(evt);
+            }
+        });
 
         jLabel2.setText("Tên đăng nhập:");
 
@@ -142,6 +147,12 @@ public class LoginView extends javax.swing.JFrame {
 
         }
     }//GEN-LAST:event_btnLoginActionPerformed
+
+    private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
+        // TODO add your handling code here:
+        txtLoginName.setText("");
+        txtLoginPass.setText("");
+    }//GEN-LAST:event_formWindowActivated
 
     /**
      * @param args the command line arguments

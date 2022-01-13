@@ -4,6 +4,9 @@
  */
 package com.view;
 
+import com.toedter.calendar.JTextFieldDateEditor;
+import java.util.Date;
+
 /**
  *
  * @author DELL
@@ -15,6 +18,8 @@ public class GuestView extends javax.swing.JFrame {
      */
     public GuestView() {
         initComponents();
+        JTextFieldDateEditor dateEditor = (JTextFieldDateEditor) datePick.getDateEditor();
+        dateEditor.setEditable(false);
     }
 
     /**
@@ -87,6 +92,7 @@ public class GuestView extends javax.swing.JFrame {
             }
         });
 
+        datePick.setDate(new Date());
         datePick.setDateFormatString("dd/MM/yyyyy");
 
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Đã trả phòng", "Đang thuê" }));

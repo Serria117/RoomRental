@@ -15,7 +15,7 @@ public class Bill {
     private int id;
     private String billNumber;
     private int contractId;
-    private String description;
+    private long total;
     private int roomPrice;
     private int rentalQuantity;
     private Date createdDate;
@@ -26,11 +26,10 @@ public class Bill {
     public Bill() {
     }
 
-    public Bill(int id, String billNumber, int contractId, String description, int rentalPrice, int rentalQuantity, Date createdDate, Date updatedDate, int userId, int status) {
+    public Bill(int id, String billNumber, int contractId, int rentalPrice, int rentalQuantity, Date createdDate, Date updatedDate, int userId, int status) {
         this.id = id;
         this.billNumber = billNumber;
         this.contractId = contractId;
-        this.description = description;
         this.roomPrice = rentalPrice;
         this.rentalQuantity = rentalQuantity;
         this.createdDate = createdDate;
@@ -41,7 +40,15 @@ public class Bill {
 
     @Override
     public String toString() {
-        return "Bill{" + "id=" + id + ", billNumber=" + billNumber + ", contractId=" + contractId + ", description=" + description + ", rentalPrice=" + roomPrice + ", rentalQuantity=" + rentalQuantity + ", createdDate=" + createdDate + ", updatedDate=" + updatedDate + ", userId=" + userId + ", status=" + status + '}';
+        return "Bill{" + "id=" + id + ", billNumber=" + billNumber + ", contractId=" + contractId + ", rentalPrice=" + roomPrice + ", rentalQuantity=" + rentalQuantity + ", createdDate=" + createdDate + ", updatedDate=" + updatedDate + ", userId=" + userId + ", status=" + status + '}';
+    }
+
+    public long getTotal() {
+        return total;
+    }
+
+    public void setTotal(long total) {
+        this.total = total;
     }
 
     public int getId() {
@@ -66,14 +73,6 @@ public class Bill {
 
     public void setContractId(int contractId) {
         this.contractId = contractId;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
     }
 
     public int getRoomPrice() {

@@ -7,12 +7,15 @@ package com.controller;
 import com.controller.dto.BillDTO;
 import com.controller.dto.RoomDTO;
 import com.model.Bill;
+import com.model.BillDetail;
 import com.model.Contract;
 import com.model.dao.BillDAO;
 import com.model.dao.ContractDAO;
 import com.model.dao.RoomDAO;
 import com.model.dao.ServiceDAO;
 import java.text.SimpleDateFormat;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  *
@@ -24,7 +27,7 @@ public class BillController {
     ServiceDAO serDAO = new ServiceDAO();
     RoomDAO roomDAO = new RoomDAO();
 
-    public boolean addBill(RoomDTO room, int quantity, int electricCount, int waterCount, String billNumber, String des, int userId) {
+    public boolean addBill(RoomDTO room, int quantity, int electricCount, int waterCount, String billNumber, int userId) {
         //Create a new bill and return billId;
         if (billDAO.isDuplicateBill(billNumber)) {
             return false;
@@ -40,16 +43,18 @@ public class BillController {
         Bill bill = new Bill();
         bill.setBillNumber(billNumber);
         bill.setContractId(contractId);
-        bill.setDescription(des);
         bill.setRoomPrice(roomPrice);
         bill.setUserId(userId);
         bill.setRentalQuantity(quantity);
 
         int billId = billDAO.addBill(bill);
+        if (billId < 1) {
+            return false;
+        }
+
         /*Now the bill has been created in the db, but it's still missing the total value of all service's price
         because they are not bound yet.*/
         //Get the service list (with price), for each service bind it with billId in the 'billDetail' table
-
         //insert services with fixed price per month:
         serDAO.GetAll().stream().filter(s -> s.getType() == 1).forEach(s -> {
             billDAO.updateBillDetail(billId, s.getId(), s.getPrice(), 1);
@@ -71,6 +76,18 @@ public class BillController {
         return true;
     }
 
+    public List<BillDTO> getBillByRoom(int RoomId) {
+        return billDAO.getBillByRoom(RoomId).stream().map(b -> billModelToDTO(b)).collect(Collectors.toList());
+    }
+
+    public BillDTO getBillByNumber(String billNo) {
+        return billModelToDTO(billDAO.getBillbyNumber(billNo));
+    }
+
+    public List<BillDetail> getBillDetails(String billNo) {
+        return billDAO.getBillDetailByNumber(billNo);
+    }
+
     public static BillDTO billModelToDTO(Bill bill) {
         if (bill == null) {
             return null;
@@ -82,10 +99,15 @@ public class BillController {
         bdto.setRoomPrice(bill.getRoomPrice());
         bdto.setStatus(bill.getStatus());
         bdto.setUserId(bill.getUserId());
-        bdto.setCreatedDate(df.format(bill.getCreatedDate()));
-        bdto.setUpdatedDate(df.format(bill.getUpdatedDate()));
+        bdto.setTotal(bill.getTotal());
+        bdto.setRentalQuantity(bill.getRentalQuantity());
+        try {
+            bdto.setCreatedDate(df.format(bill.getCreatedDate()));
+            bdto.setUpdatedDate(df.format(bill.getUpdatedDate()));
+        } catch (NullPointerException e) {
+        }
+
         bdto.setId(bill.getId());
-        bdto.setDescription(bill.getDescription());
 
         return bdto;
     }
