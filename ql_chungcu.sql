@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Jan 09, 2022 at 05:08 PM
+-- Generation Time: Jan 13, 2022 at 01:11 PM
 -- Server version: 5.7.33
 -- PHP Version: 8.1.0
 
@@ -35,7 +35,6 @@ CREATE TABLE `bill` (
   `id` int(11) NOT NULL,
   `billNumber` varchar(20) COLLATE utf8_unicode_ci NOT NULL,
   `contractId` int(11) NOT NULL,
-  `description` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `roomPrice` int(11) NOT NULL,
   `rentalQuantity` int(11) NOT NULL,
   `total` int(11) DEFAULT NULL,
@@ -44,6 +43,17 @@ CREATE TABLE `bill` (
   `updatedDate` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
   `status` int(11) NOT NULL DEFAULT '0' COMMENT '0 = chưa thanh toán; 1 = đã thanh toán'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `bill`
+--
+
+INSERT INTO `bill` (`id`, `billNumber`, `contractId`, `roomPrice`, `rentalQuantity`, `total`, `userId`, `createdDate`, `updatedDate`, `status`) VALUES
+(5, 'P101_T12/2021', 1, 5000000, 1, 6071000, 1, '2022-01-10 03:49:54', '2022-01-13 02:24:15', 1),
+(6, 'P103_T12/2021', 26, 4500000, 1, 6023000, 1, '2022-01-11 13:16:08', '2022-01-13 12:12:12', 1),
+(7, 'P101_T1/2022', 31, 5000000, 1, 5575000, 1, '2022-01-12 12:49:54', '2022-01-13 02:29:52', 1),
+(8, 'P101_T2/2021', 31, 5000000, 1, 5832000, 1, '2022-01-12 14:12:55', '2022-01-13 10:34:26', 1),
+(9, 'P105_T12/2021', 28, 4900000, 1, 5904000, 1, '2022-01-13 10:35:08', '2022-01-13 12:38:00', 1);
 
 -- --------------------------------------------------------
 
@@ -58,6 +68,37 @@ CREATE TABLE `billdetail` (
   `price` int(11) NOT NULL,
   `quantity` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `billdetail`
+--
+
+INSERT INTO `billdetail` (`billId`, `serviceId`, `price`, `quantity`) VALUES
+(5, 1, 4000, 199),
+(5, 2, 15000, 5),
+(5, 3, 100000, 1),
+(5, 4, 50000, 1),
+(5, 5, 50000, 1),
+(6, 1, 4000, 87),
+(6, 2, 15000, 65),
+(6, 3, 100000, 1),
+(6, 4, 50000, 1),
+(6, 5, 50000, 1),
+(7, 1, 4000, 75),
+(7, 2, 15000, 5),
+(7, 3, 100000, 1),
+(7, 4, 50000, 1),
+(7, 5, 50000, 1),
+(8, 1, 4000, 113),
+(8, 2, 15000, 12),
+(8, 3, 100000, 1),
+(8, 4, 50000, 1),
+(8, 5, 50000, 1),
+(9, 1, 4000, 156),
+(9, 2, 15000, 12),
+(9, 3, 100000, 1),
+(9, 4, 50000, 1),
+(9, 5, 50000, 1);
 
 --
 -- Triggers `billdetail`
@@ -92,13 +133,14 @@ CREATE TABLE `contract` (
 --
 
 INSERT INTO `contract` (`id`, `contractNumber`, `roomId`, `createdDate`, `price`, `updatedDate`, `fileLocation`, `userId`, `status`) VALUES
-(1, 'P101_20211231', 13, '2022-01-01 17:00:00', 0, '2022-01-04 10:44:27', NULL, 1, 1),
-(2, 'P102_20220101', 14, '2022-01-01 17:00:00', 0, '2022-01-04 08:30:08', NULL, 1, 1),
+(1, 'P101_20211231', 13, '2022-01-01 17:00:00', 0, '2022-01-10 13:23:33', NULL, 1, 0),
+(2, 'P102_20220101', 14, '2022-01-01 17:00:00', 0, '2022-01-11 10:59:05', NULL, 1, 0),
 (26, 'P103_20220104', 15, '2022-01-04 07:24:11', 4500000, '2022-01-04 07:24:11', NULL, 1, 1),
-(27, 'P104_20220104', 16, '2022-01-04 07:43:07', 4750000, '2022-01-04 07:43:07', NULL, 1, 1),
+(27, 'P104_20220104', 16, '2022-01-04 07:43:07', 4750000, '2022-01-11 10:59:59', NULL, 1, 0),
 (28, 'P105_20220104', 17, '2022-01-04 07:47:30', 4900000, '2022-01-04 07:47:30', NULL, 1, 1),
 (29, 'P106_20220107', 18, '2022-01-06 18:33:07', 4500000, '2022-01-06 18:33:07', NULL, 1, 1),
-(30, 'P107_20220107', 19, '2022-01-06 18:35:53', 4500000, '2022-01-06 18:35:53', NULL, 1, 1);
+(30, 'P107_20220107', 19, '2022-01-06 18:35:53', 4500000, '2022-01-06 18:35:53', NULL, 1, 1),
+(31, 'P101_20220111', 13, '2022-01-11 13:55:53', 5000000, '2022-01-11 13:55:53', NULL, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -110,23 +152,25 @@ DROP TABLE IF EXISTS `contractdetail`;
 CREATE TABLE `contractdetail` (
   `guestId` int(11) NOT NULL,
   `contractId` int(11) NOT NULL,
-  `role` int(11) NOT NULL
+  `role` int(11) NOT NULL,
+  `status` int(11) NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `contractdetail`
 --
 
-INSERT INTO `contractdetail` (`guestId`, `contractId`, `role`) VALUES
-(1, 1, 1),
-(2, 2, 1),
-(3, 1, 0),
-(23, 26, 1),
-(24, 26, 0),
-(25, 27, 1),
-(26, 28, 1),
-(27, 29, 1),
-(28, 30, 1);
+INSERT INTO `contractdetail` (`guestId`, `contractId`, `role`, `status`) VALUES
+(1, 1, 1, 0),
+(2, 2, 1, 0),
+(3, 1, 0, 1),
+(23, 26, 1, 1),
+(24, 26, 0, 1),
+(25, 27, 1, 0),
+(26, 28, 1, 1),
+(27, 29, 1, 1),
+(28, 30, 1, 1),
+(29, 31, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -150,16 +194,17 @@ CREATE TABLE `guest` (
 --
 
 INSERT INTO `guest` (`id`, `fullName`, `citizenId`, `dateOfBirth`, `phone`, `status`, `picture`) VALUES
-(1, 'Tùng', '099988776', '2021-12-31', '098765433', 1, 'sfsfsfđfgdbdgdfgdf'),
-(2, 'Quân', '908789768', '2002-01-02', '098776574', 1, 'none'),
+(1, 'Tùng', '099988776', '2021-12-31', '098765433', 0, 'sfsfsfđfgdbdgdfgdf'),
+(2, 'Quân', '908789768', '2002-01-02', '098776574', 0, 'none'),
 (3, 'Thái', '8979878978', '2022-01-02', '098897896', 0, 'none'),
 (4, 'Hà', '11111111111', '1987-06-25', '0988144796', 1, NULL),
-(23, 'Duc Hiep', '1345345546', '2001-11-01', '3454565789', 1, NULL),
-(24, 'Duy Khanh', '1345345546', '2004-11-01', '3454565789', 1, NULL),
-(25, 'Thanh Ha', '12345778', '1987-06-25', '45442414', 1, NULL),
+(23, 'Duc Hiep', '88765678', '2001-11-01', '3454565789', 1, NULL),
+(24, 'Duy Khanh', '134594558', '2004-11-01', '3454565789', 1, NULL),
+(25, 'Thanh Ha', '12345778', '1987-06-25', '45442414', 0, NULL),
 (26, 'Minh Thái', '2132432345', '1999-09-09', '4578769768', 1, NULL),
 (27, 'Đức Nghi', '123243455', '2002-03-05', '13242343', 1, NULL),
-(28, 'Đạt', '1234567', '2000-01-12', '6543213', 1, NULL);
+(28, 'Đạt', '1234567', '2000-01-12', '6543213', 1, NULL),
+(29, 'Thanh Hà', '1234567890', '2022-01-06', '1234567890', 1, NULL);
 
 -- --------------------------------------------------------
 
@@ -184,16 +229,16 @@ CREATE TABLE `room` (
 --
 
 INSERT INTO `room` (`id`, `roomNumber`, `price`, `square`, `description`, `electricCounter`, `waterCounter`, `status`) VALUES
-(13, 'P101', 5000000, 50, '1 phòng ngủ, 1 phòng khách, \n1 giường 2m, tủ quần áo, điều hòa, bếp gas', 170, 220, 0),
-(14, 'P102', 4500000, 40, '1 phòng ngủ, \nTủ quần áo, \nĐiều hòa, \nTủ lạnh, \nBếp gas', 102, 301, 0),
-(15, 'P103', 4500000, 45, '1 phòng ngủ, 1 phòng khách \nFull nội thất', 0, 0, 0),
-(16, 'P104', 4750000, 45, '1 phòng ngủ, 1 phòng khách, \nban công, \nfull nội thất', 0, 0, 0),
-(17, 'P105', 4900000, 50, 'Full nội thất', 0, 0, 0),
+(13, 'P101', 5000000, 50, '1 phòng ngủ, 1 phòng khách, \n1 giường 2m, \ntủ quần áo, điều hòa, bếp gas', 433, 31, 0),
+(14, 'P102', 4500000, 40, '1 phòng ngủ, \nTủ quần áo, \nĐiều hòa, \nTủ lạnh, \nBếp gas', 102, 301, 1),
+(15, 'P103', 4500000, 45, '1 phòng ngủ, 1 phòng khách \nFull nội thất', 87, 65, 0),
+(16, 'P104', 4750000, 45, '1 phòng ngủ, 1 phòng khách, \nban công, \nfull nội thất', 0, 0, 1),
+(17, 'P105', 4900000, 50, 'Full nội thất', 156, 12, 0),
 (18, 'P106', 4500000, 45, '1 phòng ngủ, full đồ', 0, 0, 0),
 (19, 'P107', 4500000, 45, '1 phòng ngủ, \nFull đồ, không ban công', 0, 0, 0),
 (20, 'P201', 5000000, 50, '1 phòng ngủ, 1 phòng khách\nFull nội thất, ban công', 0, 0, 1),
 (21, 'P202', 4500000, 50, '1 phòng ngủ,\nđiều hòa, \ntủ lạnh, \ntủ bếp', 0, 0, 1),
-(22, 'P203', 5000000, 45, 'ABACẤkljfákldjákldjl', 0, 0, 1);
+(22, 'P203', 5000000, 45, '1 phòng ngủ có ban công, \nFull nội thất', 0, 0, 1);
 
 -- --------------------------------------------------------
 
@@ -218,7 +263,8 @@ INSERT INTO `service` (`id`, `serviceName`, `price`, `unit`, `type`) VALUES
 (1, 'Điện', 4000, 'số', 0),
 (2, 'Nước', 15000, 'số', 0),
 (3, 'Internet', 100000, 'tháng', 1),
-(4, 'Dọn dẹp', 50000, 'tháng', 1);
+(4, 'Vệ sinh', 50000, 'tháng', 1),
+(5, 'An ninh', 50000, 'tháng', 1);
 
 -- --------------------------------------------------------
 
@@ -241,9 +287,9 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`id`, `userName`, `password`, `phone`, `authority`, `status`) VALUES
-(1, 'admin', 'cd538bb11c60a1bb6357f8bd44e415e6', '1234567899', 1, 1),
+(1, 'admin', 'b9d11b3be25f5a1a7dc8ca04cd310b28', '1234567899', 1, 1),
 (2, 'nhanvien1', '2d38b985c51e8029244993b40e0e2e19', '0904833800', 0, 1),
-(3, 'nhanvien2', '77e7f6794cef618d7120d82392c8759a', '0987659432', 0, 1),
+(3, 'nhanvien2', '77e7f6794cef618d7120d82392c8759a', '0987659439', 0, 1),
 (4, 'admin2', 'ee6e203686778eb7f2351059f7fa52d9', '0988144796', 1, 1);
 
 --
@@ -255,6 +301,7 @@ INSERT INTO `user` (`id`, `userName`, `password`, `phone`, `authority`, `status`
 --
 ALTER TABLE `bill`
   ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `billNumber` (`billNumber`),
   ADD KEY `Bill_fk0` (`contractId`),
   ADD KEY `Bill_fk1` (`userId`);
 
@@ -285,7 +332,8 @@ ALTER TABLE `contractdetail`
 -- Indexes for table `guest`
 --
 ALTER TABLE `guest`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `citizenId` (`citizenId`);
 
 --
 -- Indexes for table `room`
@@ -317,19 +365,19 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `bill`
 --
 ALTER TABLE `bill`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `contract`
 --
 ALTER TABLE `contract`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 
 --
 -- AUTO_INCREMENT for table `guest`
 --
 ALTER TABLE `guest`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
 
 --
 -- AUTO_INCREMENT for table `room`
@@ -341,7 +389,7 @@ ALTER TABLE `room`
 -- AUTO_INCREMENT for table `service`
 --
 ALTER TABLE `service`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `user`
