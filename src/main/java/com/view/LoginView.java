@@ -6,7 +6,6 @@ package com.view;
 
 import com.controller.UserController;
 import com.controller.dto.UserDTO;
-import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 /**
@@ -17,7 +16,7 @@ public class LoginView extends javax.swing.JFrame {
 
     UserController uController = new UserController();
     public UserDTO currentUser;
-    JFrame mainFrame;
+    MainMenu mainFrame;
     MainMenu mainMenu;
 
     /**
@@ -28,7 +27,7 @@ public class LoginView extends javax.swing.JFrame {
         initComponents();
     }
 
-    public LoginView(JFrame mainMenu) {
+    public LoginView(MainMenu mainMenu) {
         initComponents();
         this.mainFrame = mainMenu;
     }
@@ -141,7 +140,10 @@ public class LoginView extends javax.swing.JFrame {
             currentUser = udto;
             this.setVisible(false);
             mainFrame.setVisible(true);
-
+            if (String.valueOf(txtLoginPass.getPassword()).equals("abc123")) {
+                JOptionPane.showMessageDialog(null, "Mật khẩu của bạn đã được đặt về mặc định, hay đổi mật khẩu khác.", "Cảnh báo", JOptionPane.WARNING_MESSAGE);
+                mainFrame.btnSetting.doClick();
+            }
         } else {
             JOptionPane.showMessageDialog(null, "Tên đăng nhập/mật khẩu không hợp lệ hoặc tài khoản đã bị khóa.\nVui lòng kiểm tra lại.", "Đăng nhập thất bại", JOptionPane.ERROR_MESSAGE);
 

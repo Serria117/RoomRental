@@ -11,7 +11,6 @@ D:\Dev\Project2\RoomRental\src\main\java\com\model\BillDetail.java
 D:\Dev\Project2\RoomRental\src\main\java\com\model\Report.java
 D:\Dev\Project2\RoomRental\src\main\java\com\view\RoomView.java
 D:\Dev\Project2\RoomRental\src\main\java\com\controller\dto\ServiceDTO.java
-D:\Dev\Project2\RoomRental\src\main\java\com\controller\ReprotController.java
 D:\Dev\Project2\RoomRental\src\main\java\com\controller\GuestController.java
 D:\Dev\Project2\RoomRental\src\main\java\com\controller\RoomController.java
 D:\Dev\Project2\RoomRental\src\main\java\com\model\dao\ContractDAO.java
@@ -39,5 +38,6 @@ D:\Dev\Project2\RoomRental\src\main\java\com\view\ReportView.java
 D:\Dev\Project2\RoomRental\src\main\java\com\view\CreateRoomView.java
 D:\Dev\Project2\RoomRental\src\main\java\com\view\GuestView.java
 D:\Dev\Project2\RoomRental\src\main\java\com\controller\BillController.java
+D:\Dev\Project2\RoomRental\src\main\java\com\controller\ReportController.java
 D:\Dev\Project2\RoomRental\src\main\java\com\view\RoomListView.java
 D:\Dev\Project2\RoomRental\src\main\java\com\model\dao\ServiceDAO.java

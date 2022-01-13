@@ -80,6 +80,10 @@ public class UserController {
         return userDAO.changePhone(user.getId(), newPhone);
     }
 
+    public boolean updateStatus(int id, int status) {
+        return userDAO.updateUserStatus(id, status);
+    }
+
     public static UserDTO UserModelToDTO(User user) {
         UserDTO udto = null;
         if (user != null) {

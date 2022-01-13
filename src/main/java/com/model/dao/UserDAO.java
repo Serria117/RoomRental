@@ -169,4 +169,19 @@ public class UserDAO extends DBAccess {
         return result;
     }
 
+    public boolean updateUserStatus(int id, int status) {
+        boolean check = false;
+        try {
+            conn = this.conn();
+            stm = conn.prepareStatement("UPDATE user SET status = ? WHERE id = ?");
+            stm.setInt(1, status);
+            stm.setInt(2, id);
+            check = stm.executeUpdate() > 0;
+        } catch (SQLException e) {
+        } finally {
+            this.closeAll(conn, stm, rs);
+        }
+        return check;
+    }
+
 }

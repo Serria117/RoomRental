@@ -1265,15 +1265,16 @@ public final class RoomView extends javax.swing.JFrame {
     private void btnBillPaymentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBillPaymentActionPerformed
         // TODO add your handling code here:
         int row = tbBillList.getSelectedRow();
-        if (row > 0) {
+        if (row >= 0) {
             String billNo = billListTableModel.getValueAt(row, 0).toString();
+            System.out.println(billNo);
             if (bController.updateBillStatus(billNo)) {
-                JOptionPane.showMessageDialog(null, "Hóa đơn đã thanh toán", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Hóa đơn đã thanh toán.", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+                displayListBill();
+            } else {
+                JOptionPane.showMessageDialog(null, "Hãy chọn 1 hóa đơn.", "Thông báo", JOptionPane.WARNING_MESSAGE);
             }
-        } else {
-            JOptionPane.showMessageDialog(null, "Hãy chọn 1 hóa đơn", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
         }
-        displayListBill();
     }//GEN-LAST:event_btnBillPaymentActionPerformed
 
     private void txtSearchBillFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtSearchBillFocusGained
@@ -1286,7 +1287,9 @@ public final class RoomView extends javax.swing.JFrame {
         // TODO add your handling code here:
         //        btnBillPayment.setEnabled(true);
         int row = tbBillList.getSelectedRow();
+        System.out.println(row);
         String billNo = billListTableModel.getValueAt(row, 0).toString();
+        System.out.println(billNo);
         BillDTO bill = bController.getBillByNumber(billNo);
         List<BillDetail> bdList = bController.getBillDetails(billNo);
 

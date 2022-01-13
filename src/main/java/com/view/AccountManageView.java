@@ -101,6 +101,7 @@ public class AccountManageView extends javax.swing.JFrame {
         btnUnlockAccount = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Tài khoản");
 
         jPanel1.setBackground(new java.awt.Color(0, 102, 204));
 
@@ -324,10 +325,25 @@ public class AccountManageView extends javax.swing.JFrame {
         jScrollPane1.setViewportView(tbnUserList);
 
         btnLockAccount.setText("Khóa tài khoản");
+        btnLockAccount.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLockAccountActionPerformed(evt);
+            }
+        });
 
         btnResetPass.setText("Đặt lại mật khẩu");
+        btnResetPass.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnResetPassActionPerformed(evt);
+            }
+        });
 
         btnUnlockAccount.setText("Mở khóa tài khoản");
+        btnUnlockAccount.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUnlockAccountActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -336,14 +352,13 @@ public class AccountManageView extends javax.swing.JFrame {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 481, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 484, Short.MAX_VALUE)
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(btnResetPass)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnLockAccount, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnUnlockAccount, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(btnResetPass, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnLockAccount, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(36, 36, 36)
+                        .addComponent(btnUnlockAccount, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
@@ -481,10 +496,46 @@ public class AccountManageView extends javax.swing.JFrame {
         int row = tbnUserList.getSelectedRow();
         String selectedName = userListTableModel.getValueAt(row, 0).toString();
         if (!allUserList.isEmpty()) {
-            selectedUser = allUserList.stream().filter(u -> u.getUsername().equals(selectedName)).findFirst().get();
+            selectedUser = allUserList.stream().filter(u -> u.getUsername().equals(selectedName)).findFirst().orElse(null);
             System.out.println(selectedUser.getId());
         }
     }//GEN-LAST:event_tbnUserListMouseClicked
+
+    private void btnResetPassActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnResetPassActionPerformed
+        // TODO add your handling code here:
+        if (selectedUser != null) {
+            if (selectedUser.getId() == 1) {
+                JOptionPane.showMessageDialog(null, "Bạn không thể đặt lại mật khẩu của tài khoản này", "Lỗi", JOptionPane.WARNING_MESSAGE);
+            } else {
+                if (userController.updatePassword(selectedUser, "abc123")) {
+                    JOptionPane.showMessageDialog(null, "Mật khẩu đã được đặt lại \"abc123\".");
+                }
+
+            }
+        }
+    }//GEN-LAST:event_btnResetPassActionPerformed
+
+    private void btnLockAccountActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLockAccountActionPerformed
+        // TODO add your handling code here:
+        if (selectedUser != null) {
+            if (selectedUser.getId() == 1) {
+                JOptionPane.showMessageDialog(null, "Bạn không thể khóa tài khoản này", "Lỗi", JOptionPane.WARNING_MESSAGE);
+            } else if (selectedUser.getStatus() == 1) {
+                userController.updateStatus(selectedUser.getId(), 0);
+            }
+        }
+        loadUserList();
+    }//GEN-LAST:event_btnLockAccountActionPerformed
+
+    private void btnUnlockAccountActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUnlockAccountActionPerformed
+        // TODO add your handling code here:
+        if (selectedUser != null) {
+            if (selectedUser.getStatus() == 0) {
+                userController.updateStatus(selectedUser.getId(), 1);
+            }
+        }
+        loadUserList();
+    }//GEN-LAST:event_btnUnlockAccountActionPerformed
 
     /**
      * @param args the command line arguments
