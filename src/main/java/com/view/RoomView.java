@@ -1286,10 +1286,10 @@ public final class RoomView extends javax.swing.JFrame {
     private void tbBillListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbBillListMouseClicked
         // TODO add your handling code here:
         //        btnBillPayment.setEnabled(true);
-        int row = tbBillList.getSelectedRow();
-        System.out.println(row);
-        String billNo = billListTableModel.getValueAt(row, 0).toString();
-        System.out.println(billNo);
+        int row = tbBillList.getSelectedRow(); // tìm dòng chứa dữ liệu
+//        System.out.println(row);
+        String billNo = billListTableModel.getValueAt(row, 0).toString(); //Lấy dữ liệu tại dòng + cột (cột định)
+//        System.out.println(billNo);
         BillDTO bill = bController.getBillByNumber(billNo);
         List<BillDetail> bdList = bController.getBillDetails(billNo);
 
@@ -1378,7 +1378,7 @@ public final class RoomView extends javax.swing.JFrame {
     private void txtBillCurElectKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBillCurElectKeyReleased
         // TODO add your handling code here:
         try {
-            int test = Integer.parseInt(txtBillCurElect.getText());
+            long test = Long.parseLong(txtBillCurElect.getText());
         } catch (NumberFormatException e) {
             txtBillCurElect.setText("");
         }

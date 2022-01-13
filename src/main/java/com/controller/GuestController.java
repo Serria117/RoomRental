@@ -59,8 +59,15 @@ public class GuestController {
             gdto.setDateOfBirth(dateFormat.format(g.getDateOfBirth()));
             gdto.setCitizenId(g.getCitizenId());
             gdto.setPhone(g.getPhone());
+            gdto.setStatus(g.getStatus());
         }
         return gdto;
+    }
+
+    public List<GuestDTO> getAll() {
+        return guestDAO.getAll("all").stream()
+                .map(g -> guestModelToDTO(g))
+                .collect(Collectors.toList());
     }
 
     public static void main(String[] args) {

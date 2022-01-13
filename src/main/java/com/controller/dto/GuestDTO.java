@@ -62,8 +62,8 @@ public class GuestDTO {
         return status;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public void setStatus(int status) {
+        this.status = status == 1 ? "Đang thuê" : "Đã trả phòng";
     }
 
     public String getCitizenId() {

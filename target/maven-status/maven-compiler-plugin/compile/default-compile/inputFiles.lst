@@ -23,7 +23,6 @@ D:\Dev\Project2\RoomRental\src\main\java\com\controller\dto\RoomDTO.java
 D:\Dev\Project2\RoomRental\src\main\java\com\controller\dto\ReportDTO.java
 D:\Dev\Project2\RoomRental\src\main\java\com\model\dao\GuestDAO.java
 D:\Dev\Project2\RoomRental\src\main\java\com\model\dao\UserDAO.java
-D:\Dev\Project2\RoomRental\src\main\java\com\view\GuestListSelectView.java
 D:\Dev\Project2\RoomRental\src\main\java\com\model\Guest.java
 D:\Dev\Project2\RoomRental\src\main\java\com\controller\ReportDTO.java
 D:\Dev\Project2\RoomRental\src\main\java\com\controller\ContractController.java
