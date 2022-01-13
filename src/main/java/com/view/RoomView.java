@@ -1608,7 +1608,6 @@ public final class RoomView extends javax.swing.JFrame {
             });
         });
     }
-    GuestListSelectView gSelectView;
 
     private void displayServiceList() {
         serviceList = serviceController.displayService();
