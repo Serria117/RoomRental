@@ -8,6 +8,7 @@ import com.controller.dto.GuestDTO;
 import com.model.Guest;
 import com.model.dao.GuestDAO;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -68,6 +69,14 @@ public class GuestController {
         return guestDAO.getAll("all").stream()
                 .map(g -> guestModelToDTO(g))
                 .collect(Collectors.toList());
+    }
+
+    public Guest getByCId(String cccd) {
+        return guestDAO.getByCId(cccd);
+    }
+
+    public void updateGuestInfor(int id, String fullName, String citizenId, String phone, Date dateOfBirth, int status) {
+        guestDAO.updateGuestInfor(id, fullName, citizenId, phone, dateOfBirth, status);
     }
 
     public static void main(String[] args) {

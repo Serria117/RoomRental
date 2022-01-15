@@ -6,6 +6,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import javax.swing.JOptionPane;
 
@@ -186,5 +187,50 @@ public class GuestDAO extends DBAccess {
         g.setCitizenId("11111111111");
         g.setPhone("0988144796");
         System.out.println("new Id = " + gdao.addGuest(g));
+    }
+
+    public Guest getByCId(String cccd) {
+        Guest g = null;
+        try {
+            conn = this.conn();
+            String query = "SELECT * FROM guest WHERE citizenId = ?";
+            stm = conn.prepareStatement(query);
+            stm.setString(1, cccd);
+            rs = stm.executeQuery();
+            if (rs.next()) {
+                g = new Guest(
+                        rs.getInt("id"),
+                        rs.getString("fullName"),
+                        rs.getString("phone"),
+                        rs.getString("picture"),
+                        rs.getDate("dateOfBirth"),
+                        rs.getInt("status"),
+                        rs.getString("citizenId")
+                );
+            }
+        } catch (SQLException e) {
+        } finally {
+            this.closeAll(conn, stm, rs);
+        }
+        return g;
+    }
+
+    public void updateGuestInfor(int id, String fullName, String citizenId, String phone, Date dateOfBirth, int status) {
+        try {
+            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            conn = this.conn();
+            stm = conn.prepareStatement("UPDATE guest SET fullName = ?, citizenId = ?, phone = ?, dateOfBirth = ? ,status = ? WHERE id = ?");
+            stm.setString(1, fullName);
+            stm.setString(2, citizenId);
+            stm.setString(3, phone);
+            stm.setString(4, dateFormat.format(dateOfBirth));
+            stm.setInt(5, status);
+            stm.setInt(6, id);
+            stm.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println("Lỗi ở chỗ update guest");
+        } finally {
+            this.closeAll(conn, stm, rs);
+        }
     }
 }

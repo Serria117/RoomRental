@@ -31,6 +31,7 @@ public class ServiceView extends javax.swing.JFrame {
         defaultTableModel = (DefaultTableModel) tblInfoService.getModel();
         LoadData();
         this.setLocationRelativeTo(null);
+
     }
 
     private void LoadData() {
