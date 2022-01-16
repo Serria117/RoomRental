@@ -22,12 +22,13 @@ public class BillDAO extends DBAccess {
         try {
             conn = this.conn();
             stm = conn.prepareStatement(
-                    "SELECT b.id as 'billId', b.billNumber, r.roomNumber, c.contractNumber, b.createdDate, b.updatedDate, b.total, b.status as 'billStatus' "
+                    "SELECT b.id as 'billId', b.billNumber, r.roomNumber, c.contractNumber, b.createdDate, b.updatedDate, b.total, b.status as 'billStatus', u.userName "
                     + "FROM bill as b "
                     + "INNER JOIN contract as c "
                     + "INNER JOIN room as r "
-                    + "ON b.contractId = c.id AND c.roomId = r.id "
-                    + "WHERE r.id = ?"
+                    + "INNER JOIN user as u "
+                    + "ON b.contractId = c.id AND c.roomId = r.id AND u.id = b.userId "
+                    + "WHERE r.id = ? ORDER BY b.createdDate DESC"
             );
             stm.setInt(1, RoomId);
             rs = stm.executeQuery();
@@ -39,6 +40,8 @@ public class BillDAO extends DBAccess {
                 bill.setTotal(rs.getLong("total"));
                 bill.setCreatedDate(rs.getDate("createdDate"));
                 bill.setUpdatedDate(rs.getDate("updatedDate"));
+                bill.setUserName((rs.getString("userName")));
+                bill.setContractNumber(rs.getString("contractNumber"));
                 bList.add(bill);
             }
         } catch (SQLException e) {
@@ -181,5 +184,81 @@ public class BillDAO extends DBAccess {
             this.closeAll(conn, stm, rs);
         }
         return check;
+    }
+
+    public List<Bill> searchBillsByRoom(int RoomId, String search) {
+        List<Bill> searchBill = null;
+        try {
+            conn = this.conn();
+            stm = conn.prepareStatement(
+                    "SELECT b.id as 'billId', b.billNumber, r.roomNumber, c.contractNumber, b.createdDate, b.updatedDate, b.total, b.status as 'billStatus', u.userName "
+                    + "FROM bill as b "
+                    + "INNER JOIN contract as c "
+                    + "INNER JOIN room as r "
+                    + "INNER JOIN user as u "
+                    + "ON b.contractId = c.id AND c.roomId = r.id AND u.id = b.userId "
+                    + "WHERE r.id = ? "
+                    + "HAVING b.billNumber LIKE CONCAT('%',?,'%') OR c.contractNumber LIKE CONCAT('%',?,'%') "
+                    + "OR userName LIKE CONCAT('%',?,'%') "
+                    + "ORDER BY b.createdDate DESC"
+            );
+            stm.setInt(1, RoomId);
+            stm.setString(2, search);
+            stm.setString(3, search);
+            stm.setString(4, search);
+            rs = stm.executeQuery();
+            searchBill = new ArrayList<>();
+            while (rs.next()) {
+                Bill bill = new Bill();
+                bill.setBillNumber(rs.getString("billNumber"));
+                bill.setStatus(rs.getInt("billStatus"));
+                bill.setTotal(rs.getLong("total"));
+                bill.setCreatedDate(rs.getDate("createdDate"));
+                bill.setUpdatedDate(rs.getDate("updatedDate"));
+                bill.setUserName((rs.getString("userName")));
+                bill.setContractNumber(rs.getString("contractNumber"));
+                searchBill.add(bill);
+            }
+        } catch (SQLException e) {
+        } finally {
+            this.closeAll(conn, stm, rs);
+        }
+        return searchBill;
+    }
+
+    public int countBillByContract(int contractId) {
+        int count = 0;
+        try {
+            conn = this.conn();
+            stm = conn.prepareStatement("SELECT COUNT(contractId) as count FROM bill WHERE contractId = ?");
+            stm.setInt(1, contractId);
+            rs = stm.executeQuery();
+            if (rs.next()) {
+                count = rs.getInt("count");
+            }
+        } catch (SQLException e) {
+        } finally {
+            this.closeAll(conn, stm, rs);
+        }
+
+        return count;
+    }
+
+    public int sumRentalPaymentByContract(int contractId) {
+        int sum = 0;
+        try {
+            conn = this.conn();
+            stm = conn.prepareStatement("SELECT SUM(rentalQuantity) as sum FROM bill WHERE contractId = ?");
+            stm.setInt(1, contractId);
+            rs = stm.executeQuery();
+            if (rs.next()) {
+                sum = rs.getInt("sum");
+            }
+        } catch (SQLException e) {
+        } finally {
+            this.closeAll(conn, stm, rs);
+        }
+
+        return sum;
     }
 }

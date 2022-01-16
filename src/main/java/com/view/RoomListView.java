@@ -7,6 +7,7 @@ package com.view;
 import com.controller.RoomController;
 import com.controller.dto.RoomDTO;
 import com.controller.dto.UserDTO;
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
@@ -51,7 +52,6 @@ public final class RoomListView extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         tbRoom = new javax.swing.JTable();
         txtSearch = new javax.swing.JTextField();
-        btnSearch = new javax.swing.JButton();
         btnRoomView = new javax.swing.JButton();
         ckBoxAll = new javax.swing.JCheckBox();
         btnNewRoomForm = new javax.swing.JButton();
@@ -106,16 +106,16 @@ public final class RoomListView extends javax.swing.JFrame {
             tbRoom.getColumnModel().getColumn(4).setMaxWidth(120);
         }
 
+        txtSearch.setForeground(new java.awt.Color(204, 204, 204));
+        txtSearch.setText("Tìm kiếm");
+        txtSearch.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                txtSearchFocusGained(evt);
+            }
+        });
         txtSearch.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 txtSearchKeyReleased(evt);
-            }
-        });
-
-        btnSearch.setText("Tìm kiếm");
-        btnSearch.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSearchActionPerformed(evt);
             }
         });
 
@@ -170,10 +170,7 @@ public final class RoomListView extends javax.swing.JFrame {
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addGap(16, 16, 16)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 915, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(14, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(ckBoxAll)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -181,10 +178,9 @@ public final class RoomListView extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addComponent(btnRoomView)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnSearch)
-                        .addGap(18, 18, 18))))
+                        .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 254, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 915, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(14, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -193,7 +189,6 @@ public final class RoomListView extends javax.swing.JFrame {
                 .addGap(33, 33, 33)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnSearch)
                     .addComponent(ckBoxAll)
                     .addComponent(btnNewRoomForm)
                     .addComponent(btnRoomView))
@@ -207,8 +202,8 @@ public final class RoomListView extends javax.swing.JFrame {
 
     private void btnRoomViewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRoomViewActionPerformed
         try {
-            int row = tbRoom.getSelectedRow();
             tableModel = (DefaultTableModel) tbRoom.getModel();
+            int row = tbRoom.getSelectedRow();
             String roomNo = tableModel.getValueAt(row, 0).toString();
             roomView = new RoomView(this, this.user, roomNo);
             roomView.setVisible(true);
@@ -252,10 +247,6 @@ public final class RoomListView extends javax.swing.JFrame {
 
     }//GEN-LAST:event_btnNewRoomFormActionPerformed
 
-    private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
-        search(txtSearch.getText(), !ckBoxAll.isSelected());
-    }//GEN-LAST:event_btnSearchActionPerformed
-
     private void txtSearchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchKeyReleased
         search(txtSearch.getText(), !ckBoxAll.isSelected());
     }//GEN-LAST:event_txtSearchKeyReleased
@@ -264,6 +255,12 @@ public final class RoomListView extends javax.swing.JFrame {
         // TODO add your handling code here:
         loadRoomDTO();
     }//GEN-LAST:event_formWindowActivated
+
+    private void txtSearchFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtSearchFocusGained
+        // TODO add your handling code here:
+        txtSearch.setText("");
+        txtSearch.setForeground(Color.BLACK);
+    }//GEN-LAST:event_txtSearchFocusGained
     static List<RoomDTO> rList = new ArrayList<>();
 
     public void loadRoomDTO() {
@@ -331,7 +328,6 @@ public final class RoomListView extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnNewRoomForm;
     private javax.swing.JButton btnRoomView;
-    private javax.swing.JButton btnSearch;
     private javax.swing.JCheckBox ckBoxAll;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;

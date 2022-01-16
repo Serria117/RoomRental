@@ -92,6 +92,19 @@ public class BillController {
         return billDAO.updateBillStatus(billNumber);
     }
 
+    public int countMonth(int contractId) {
+        return billDAO.countBillByContract(contractId);
+    }
+
+    public int sumRentalMonth(int countractId) {
+        return billDAO.sumRentalPaymentByContract(countractId);
+    }
+
+    public List<BillDTO> searchBillDTOs(int roomID, String search) {
+        return billDAO.searchBillsByRoom(roomID, search).stream()
+                .map(b -> billModelToDTO(b)).collect(Collectors.toList());
+    }
+
     public static BillDTO billModelToDTO(Bill bill) {
         if (bill == null) {
             return null;
@@ -112,7 +125,8 @@ public class BillController {
         }
 
         bdto.setId(bill.getId());
-
+        bdto.setUserName(bill.getUserName());
+        bdto.setContractNumber(bill.getContractNumber());
         return bdto;
     }
 

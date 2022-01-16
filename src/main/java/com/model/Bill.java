@@ -15,12 +15,14 @@ public class Bill {
     private int id;
     private String billNumber;
     private int contractId;
+    private String contractNumber;
     private long total;
     private int roomPrice;
     private int rentalQuantity;
     private Date createdDate;
     private Date updatedDate;
     private int userId;
+    private String userName;
     private int status;
 
     public Bill() {
@@ -36,6 +38,22 @@ public class Bill {
         this.updatedDate = updatedDate;
         this.userId = userId;
         this.status = status;
+    }
+
+    public String getContractNumber() {
+        return contractNumber;
+    }
+
+    public void setContractNumber(String contractNumber) {
+        this.contractNumber = contractNumber;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     @Override

@@ -15,12 +15,14 @@ public class BillDTO {
     private int id;
     private String billNumber;
     private int contractId;
+    private String contractNumber;
     private int rentalQuantity;
     private String total;
     private int roomPrice;
     private String createdDate;
     private String updatedDate;
     private int userId;
+    private String userName;
     private String sttDescription;
     private int status;
 
@@ -32,12 +34,28 @@ public class BillDTO {
         this.rentalQuantity = rentalQuantity;
     }
 
+    public String getContractNumber() {
+        return contractNumber;
+    }
+
+    public void setContractNumber(String contractNumber) {
+        this.contractNumber = contractNumber;
+    }
+
     public int getId() {
         return id;
     }
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     public String getTotal() {
