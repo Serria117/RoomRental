@@ -70,24 +70,25 @@ public class ServiceDAO extends DBAccess {
         return res;
     }
 
-    public void UpdateService(Service service) {
+    public boolean UpdateService(Service service) {
+        boolean check = false;
         try {
             conn = this.conn();
-            String query = "UPDATE service SET serviceName = ?, price = ?, unit = ? " + " WHERE ID = ?";
-            stm = conn.prepareCall(query);
+            String query = "UPDATE service SET serviceName = ?, price = ?, unit = ? WHERE id = ?";
+            stm = conn.prepareStatement(query);
 
             stm.setString(1, service.getServiceName());
             stm.setInt(2, service.getPrice());
             stm.setString(3, service.getUnit());
             stm.setInt(4, service.getId());
 
-            stm.execute();
-
+            check = stm.executeUpdate() > 0;
         } catch (SQLException ex) {
-            Logger.getLogger(ServiceDAO.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println(ex.getMessage());
         } finally {
             this.closeAll(conn, stm, null);
         }
+        return check;
     }
 
     public void DeleteService(int id) {
@@ -111,7 +112,7 @@ public class ServiceDAO extends DBAccess {
         List<Service> serviceslist = new ArrayList<>();
         try {
             conn = this.conn();
-            String query = "SELECT * FROM SERVICE WHERE SERVICE LIKE ?";
+            String query = "SELECT * FROM service WHERE serviceName LIKE ?";
             stm = conn.prepareCall(query);
             stm.setString(1, "%" + serviceName + "%");
 

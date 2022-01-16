@@ -280,7 +280,7 @@ public class MainMenu extends javax.swing.JFrame {
 
     private void btnServiceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnServiceActionPerformed
         // TODO add your handling code here:
-        serviceView = new ServiceView();
+        serviceView = new ServiceView(this.user);
         serviceView.setVisible(true);
     }//GEN-LAST:event_btnServiceActionPerformed
 

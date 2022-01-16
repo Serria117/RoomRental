@@ -26,9 +26,28 @@ public class ServiceController {
                 .collect(Collectors.toList());
     }
 
-    public boolean addService(String serviceName, int price, String unit) {
-        Service s = new Service(serviceName, price, unit);
+    public boolean addService(String serviceName, String price, String unit) {
+        Service s = new Service();
+        s.setServiceName(serviceName);
+        s.setPrice(Integer.parseInt(price));
+        s.setUnit(unit);
         return serviceDAO.InsertService(s);
+    }
+
+    public static boolean updateService(String serviceName, String price, String unit, int id) {
+        Service s = new Service();
+
+        s.setServiceName(serviceName);
+        s.setPrice(Integer.parseInt(price));
+        s.setUnit(unit);
+        s.setId(id);
+        return serviceDAO.UpdateService(s);
+    }
+
+    public static List<ServiceDTO> SearchService(String svName) {
+        return serviceDAO.Search(svName).stream()
+                .map(s -> ServiceModelToDTO(s))
+                .collect(Collectors.toList());
     }
 
     private static ServiceDTO ServiceModelToDTO(Service s) {
