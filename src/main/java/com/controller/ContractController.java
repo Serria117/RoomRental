@@ -40,7 +40,7 @@ public class ContractController {
     }
 
     //Insert:
-    public boolean addContract(RoomDTO room, List<Guest> gList, int userId, String fileLocation) {
+    public boolean addContract(RoomDTO room, List<Guest> gList, int userId) {
         //Add contract:
         boolean res = false;
         Contract cModel = new Contract();
@@ -48,7 +48,6 @@ public class ContractController {
         cModel.setRoomId(room.getId());
         cModel.setPrice(Integer.parseInt(room.getPrice().replace(",", "")));
         cModel.setUserId(userId);
-        cModel.setFileLocation(fileLocation);
         cModel.setId(contractDAO.addContract(cModel)); //set back the id generated from database to obj
         //Bind guest:
         if (cModel.getId() > 0) {

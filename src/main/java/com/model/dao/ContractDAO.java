@@ -96,7 +96,6 @@ public class ContractDAO extends DBAccess {
                 contract.setRoomId(rs.getInt("roomId"));
                 contract.setCreatedDate(rs.getDate("createdDate"));
                 contract.setUpdatedDate(rs.getDate("updatedDate"));
-                contract.setFileLocation(rs.getString("fileLocation"));
                 contract.setUserId(rs.getInt("userId"));
                 contract.setStatus(rs.getInt("status"));
 

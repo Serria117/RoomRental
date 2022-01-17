@@ -51,7 +51,7 @@ public class ServiceView extends javax.swing.JFrame {
             defaultTableModel.setRowCount(0);
             servicelist.stream().forEach(s -> {
                 defaultTableModel.addRow(new Object[]{
-                    //                    defaultTableModel.getRowCount() + 1,
+                    //defaultTableModel.getRowCount() + 1,
                     s.getId(),
                     s.getServiceName(),
                     s.getPrice(),

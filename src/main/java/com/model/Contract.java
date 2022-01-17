@@ -20,15 +20,11 @@ public class Contract {
     private Date updatedDate;
     private int userId;
     private int status;
-    private String fileLocation;
 
-    @Override
-    public String toString() {
-        return "Contract{" + "id=" + id + ", roomId=" + roomId + ", contractNumber=" + contractNumber + ", price=" + price + ", createdDate=" + createdDate + ", updatedDate=" + updatedDate + ", userId=" + userId + ", status=" + status + ", fileLocation=" + fileLocation + '}';
+    public Contract() {
     }
 
-    public Contract(int id, int roomId, String contractNumber, int price, Date createdDate, Date updatedDate, int userId, int status, String fileLocation) {
-        this.id = id;
+    public Contract(int roomId, String contractNumber, int price, Date createdDate, Date updatedDate, int userId, int status) {
         this.roomId = roomId;
         this.contractNumber = contractNumber;
         this.price = price;
@@ -36,31 +32,11 @@ public class Contract {
         this.updatedDate = updatedDate;
         this.userId = userId;
         this.status = status;
-        this.fileLocation = fileLocation;
     }
 
-    public int getUserId() {
-        return userId;
-    }
-
-    public void setUserId(int userId) {
-        this.userId = userId;
-    }
-
-    public int getStatus() {
-        return status;
-    }
-
-    public void setStatus(int status) {
-        this.status = status;
-    }
-
-    public String getFileLocation() {
-        return fileLocation;
-    }
-
-    public void setFileLocation(String fileLocation) {
-        this.fileLocation = fileLocation;
+    @Override
+    public String toString() {
+        return "Contract{" + "id=" + id + ", roomId=" + roomId + ", contractNumber=" + contractNumber + ", price=" + price + ", createdDate=" + createdDate + ", updatedDate=" + updatedDate + ", userId=" + userId + ", status=" + status + '}';
     }
 
     public int getId() {
@@ -111,7 +87,20 @@ public class Contract {
         this.updatedDate = updatedDate;
     }
 
-    public Contract() {
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
     }
 
 }

@@ -13,7 +13,6 @@ public class GuestDTO {
     private int id;
     private String fullName;
     private String phone;
-    private String picture;
     private String dateOfBirth;
     private String status;
     private String citizenId;
@@ -42,14 +41,6 @@ public class GuestDTO {
         this.phone = phone;
     }
 
-    public String getPicture() {
-        return picture;
-    }
-
-    public void setPicture(String picture) {
-        this.picture = picture;
-    }
-
     public String getDateOfBirth() {
         return dateOfBirth;
     }
@@ -74,11 +65,10 @@ public class GuestDTO {
         this.citizenId = citizenId;
     }
 
-    public GuestDTO(int id, String fullName, String phone, String picture, String dateOfBirth, String status, String citizenId) {
+    public GuestDTO(int id, String fullName, String phone, String dateOfBirth, String status, String citizenId) {
         this.id = id;
         this.fullName = fullName;
         this.phone = phone;
-        this.picture = picture;
         this.dateOfBirth = dateOfBirth;
         this.status = status;
         this.citizenId = citizenId;
@@ -89,7 +79,7 @@ public class GuestDTO {
 
     @Override
     public String toString() {
-        return "GuestDTO{" + "id=" + id + ", fullName=" + fullName + ", phone=" + phone + ", picture=" + picture + ", dateOfBirth=" + dateOfBirth + ", status=" + status + ", citizenId=" + citizenId + '}';
+        return "GuestDTO{" + "id=" + id + ", fullName=" + fullName + ", phone=" + phone + ", dateOfBirth=" + dateOfBirth + ", status=" + status + ", citizenId=" + citizenId + '}';
     }
 
 }

@@ -7,7 +7,6 @@ public class Guest {
     private int id;
     private String fullName;
     private String phone;
-    private String picture;
     private Date dateOfBirth;
     private int status;
     private String citizenId;
@@ -24,11 +23,10 @@ public class Guest {
     public Guest() {
     }
 
-    public Guest(int id, String fullName, String phone, String picture, Date dateOfBirth, int status, String citizenId) {
+    public Guest(int id, String fullName, String phone, Date dateOfBirth, int status, String citizenId) {
         this.id = id;
         this.fullName = fullName;
         this.phone = phone;
-        this.picture = picture;
         this.dateOfBirth = dateOfBirth;
         this.status = status;
         this.citizenId = citizenId;
@@ -58,14 +56,6 @@ public class Guest {
         this.phone = phone;
     }
 
-    public String getPicture() {
-        return picture;
-    }
-
-    public void setPicture(String picture) {
-        this.picture = picture;
-    }
-
     public Date getDateOfBirth() {
         return dateOfBirth;
     }
@@ -92,7 +82,7 @@ public class Guest {
 
     @Override
     public String toString() {
-        return "Guest{" + "id=" + id + ", fullName=" + fullName + ", phone=" + phone + ", picture=" + picture + ", dteOfBirth=" + dateOfBirth + ", status=" + status + ", citizenId=" + citizenId + '}';
+        return "Guest{" + "id=" + id + ", fullName=" + fullName + ", phone=" + phone + ", dteOfBirth=" + dateOfBirth + ", status=" + status + ", citizenId=" + citizenId + '}';
     }
 
 }

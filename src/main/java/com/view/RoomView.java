@@ -1476,8 +1476,7 @@ public final class RoomView extends javax.swing.JFrame {
             gListModel.stream().map(g -> gController.addGuest(g));
 
             //test with admin account (id=1) will change later to a variable base on logged in account id
-            //"fileLocation" set to a dumb string since this function is not yet available.
-            if (cController.addContract(rController.getRoom(roomNum.getText()), gListModel, user.getId(), "no file yet!")) {
+            if (cController.addContract(rController.getRoom(roomNum.getText()), gListModel, user.getId())) {
                 rController.updateRoomStatus(roomNum.getText(), 0); //Set current status to "0" => "rented".
                 JOptionPane.showMessageDialog(null, "Tạo hợp đồng thành công.");
                 txtFullName.setText("");

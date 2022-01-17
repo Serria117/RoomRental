@@ -18,7 +18,7 @@ public class GuestDAO extends DBAccess {
         List<Guest> guestList = null;
         try {
             conn = this.conn();
-            String query = "SELECT g.id, g.`fullName`, g.phone, g.picture, g.`dateOfBirth`, g.status, g.`citizenId` "
+            String query = "SELECT g.id, g.`fullName`, g.phone, g.`dateOfBirth`, g.status, g.`citizenId` "
                     + "FROM contract AS ct "
                     + "INNER JOIN contractdetail AS cd "
                     + "INNER JOIN guest AS g "
@@ -36,7 +36,6 @@ public class GuestDAO extends DBAccess {
                         rs.getInt("id"),
                         rs.getString("fullName"),
                         rs.getString("phone"),
-                        rs.getString("picture"),
                         rs.getDate("dateOfBirth"),
                         rs.getInt("status"),
                         rs.getString("citizenId")
@@ -66,7 +65,6 @@ public class GuestDAO extends DBAccess {
                         rs.getInt("id"),
                         rs.getString("fullName"),
                         rs.getString("phone"),
-                        rs.getString("picture"),
                         rs.getDate("dateOfBirth"),
                         rs.getInt("status"),
                         rs.getString("citizenId")
@@ -149,7 +147,6 @@ public class GuestDAO extends DBAccess {
                         rs.getInt("id"),
                         rs.getString("fullName"),
                         rs.getString("phone"),
-                        rs.getString("picture"),
                         rs.getDate("dateOfBirth"),
                         rs.getInt("status"),
                         rs.getString("citizenId")
@@ -202,7 +199,6 @@ public class GuestDAO extends DBAccess {
                         rs.getInt("id"),
                         rs.getString("fullName"),
                         rs.getString("phone"),
-                        rs.getString("picture"),
                         rs.getDate("dateOfBirth"),
                         rs.getInt("status"),
                         rs.getString("citizenId")
