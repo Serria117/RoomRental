@@ -36,6 +36,12 @@ public class GuestController {
                 .collect(Collectors.toList());
     }
 
+    public List<GuestDTO> getGuestsByContract(int ContractId) {
+        return guestDAO.getGuestsByContract(ContractId).stream()
+                .map(g -> guestModelToDTO(g))
+                .collect(Collectors.toList());
+    }
+
     public int addGuest(Guest g) {
         return guestDAO.addGuest(g); //Return the added guest's id
     }

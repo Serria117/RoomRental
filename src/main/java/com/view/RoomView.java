@@ -9,7 +9,9 @@ import com.controller.ContractController;
 import com.controller.GuestController;
 import com.controller.RoomController;
 import com.controller.ServiceController;
+import com.controller.UserController;
 import com.controller.dto.BillDTO;
+import com.controller.dto.ContractDTO;
 import com.controller.dto.GuestDTO;
 import com.controller.dto.RoomDTO;
 import com.controller.dto.ServiceDTO;
@@ -46,10 +48,13 @@ public final class RoomView extends javax.swing.JFrame {
     DefaultTableModel billDetailTableModel;
     DefaultTableModel billListTableModel;
     DefaultTableModel billDetailViewTableModel;
+    DefaultTableModel tbContractListModel;
+    DefaultTableModel tbGuestInContractListModel;
     UserDTO user;
     RoomDTO currentRoom;
     public List<GuestDTO> gListDTO;
     public List<Guest> gListModel = new ArrayList<>();
+    UserController uController = new UserController();
     GuestController gController = new GuestController();
     ContractController cController = new ContractController();
     RoomController rController = new RoomController();
@@ -93,6 +98,8 @@ public final class RoomView extends javax.swing.JFrame {
         billDetailTableModel = (DefaultTableModel) tbBillDetail.getModel();
         billListTableModel = (DefaultTableModel) tbBillList.getModel();
         billDetailViewTableModel = (DefaultTableModel) tbBillDetailView.getModel();
+        tbContractListModel = (DefaultTableModel) tbContractList.getModel();
+        tbGuestInContractListModel = (DefaultTableModel) tbGuestInContractList.getModel();
 
         //Combobox year:
         DefaultComboBoxModel billYearModel = (DefaultComboBoxModel) txtBillYear.getModel();
@@ -135,8 +142,29 @@ public final class RoomView extends javax.swing.JFrame {
         displayListBill();
         displayRentalStatus();
 
+        //Contract list display:
+        displayContractsList(currentRoom.getId());
+
         this.addWindowListener(exitListener); //Gọi sự kiện đóng nút "X"
         this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE); //Set nút "X" không đóng chương trình theo mặc định
+    }
+    public static List<ContractDTO> contractList;
+
+    private void displayContractsList(int roomId) {
+        contractList = cController.getContractsOfRoom(roomId);
+        if (contractList != null) {
+            tbContractListModel.setRowCount(0);
+            contractList.forEach(c -> {
+                tbContractListModel.addRow(new Object[]{
+                    tbContractListModel.getRowCount() + 1,
+                    c.getContractNumber(),
+                    c.getCreatedDate(),
+                    c.getUpdatedDate(),
+                    c.getStatus(),
+                    uController.getUserById(c.getUserId()).getUsername()
+                });
+            });
+        }
     }
 
     public void datePickDefault(String dfDate) {
@@ -327,6 +355,13 @@ public final class RoomView extends javax.swing.JFrame {
         jScrollPane4 = new javax.swing.JScrollPane();
         tbRegisterGuest = new javax.swing.JTable();
         btnAddContract = new javax.swing.JButton();
+        jPanel10 = new javax.swing.JPanel();
+        jPanel16 = new javax.swing.JPanel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        tbContractList = new javax.swing.JTable();
+        jPanel17 = new javax.swing.JPanel();
+        jScrollPane7 = new javax.swing.JScrollPane();
+        tbGuestInContractList = new javax.swing.JTable();
         jPanel6 = new javax.swing.JPanel();
         titleRoomNo = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
@@ -490,7 +525,7 @@ public final class RoomView extends javax.swing.JFrame {
             jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel12Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 780, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 790, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel12Layout.setVerticalGroup(
@@ -519,7 +554,7 @@ public final class RoomView extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jPanel11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(79, Short.MAX_VALUE))
+                .addContainerGap(101, Short.MAX_VALUE))
         );
 
         jTabbedPane2.addTab("Thông tin", jPanel1);
@@ -605,7 +640,7 @@ public final class RoomView extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(billPeriodLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(billDateLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 102, Short.MAX_VALUE)
+                            .addComponent(billDateLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 112, Short.MAX_VALUE)
                             .addComponent(billNoLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addContainerGap())
         );
@@ -803,7 +838,7 @@ public final class RoomView extends javax.swing.JFrame {
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(129, Short.MAX_VALUE))
+                .addContainerGap(151, Short.MAX_VALUE))
         );
 
         jTabbedPane2.addTab("Hóa đơn", jPanel3);
@@ -856,7 +891,7 @@ public final class RoomView extends javax.swing.JFrame {
             .addGroup(jPanel8Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 540, Short.MAX_VALUE)
+                    .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 552, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel8Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(txtSearchBill, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -1006,7 +1041,7 @@ public final class RoomView extends javax.swing.JFrame {
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addComponent(jPanel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(60, Short.MAX_VALUE))
+                .addContainerGap(82, Short.MAX_VALUE))
         );
 
         jTabbedPane2.addTab("Tra cứu hóa đơn", jPanel5);
@@ -1210,7 +1245,7 @@ public final class RoomView extends javax.swing.JFrame {
                     .addComponent(jPanel14, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel15, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(21, Short.MAX_VALUE))
+                .addContainerGap(33, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1222,10 +1257,128 @@ public final class RoomView extends javax.swing.JFrame {
                         .addComponent(jPanel13, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jPanel14, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addContainerGap(184, Short.MAX_VALUE))
+                .addContainerGap(206, Short.MAX_VALUE))
         );
 
         jTabbedPane2.addTab("Tạo hợp đồng", jPanel2);
+
+        jPanel16.setBorder(javax.swing.BorderFactory.createTitledBorder("Danh sách hợp đồng"));
+
+        tbContractList.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
+            },
+            new String [] {
+                "STT", "Số hợp đồng", "Ngày lập", "Ngày cập nhật", "Trạng thái", "Người tạo"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        tbContractList.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tbContractListMouseClicked(evt);
+            }
+        });
+        jScrollPane3.setViewportView(tbContractList);
+        if (tbContractList.getColumnModel().getColumnCount() > 0) {
+            tbContractList.getColumnModel().getColumn(0).setMinWidth(35);
+            tbContractList.getColumnModel().getColumn(0).setPreferredWidth(40);
+            tbContractList.getColumnModel().getColumn(0).setMaxWidth(50);
+        }
+
+        javax.swing.GroupLayout jPanel16Layout = new javax.swing.GroupLayout(jPanel16);
+        jPanel16.setLayout(jPanel16Layout);
+        jPanel16Layout.setHorizontalGroup(
+            jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel16Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 522, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        jPanel16Layout.setVerticalGroup(
+            jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel16Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane3)
+                .addContainerGap())
+        );
+
+        jPanel17.setBorder(javax.swing.BorderFactory.createTitledBorder("Danh sách khách"));
+
+        tbGuestInContractList.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
+            },
+            new String [] {
+                "STT", "Họ tên", "Điện thoại", "Số CCCD", "Ngày sinh"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane7.setViewportView(tbGuestInContractList);
+        if (tbGuestInContractList.getColumnModel().getColumnCount() > 0) {
+            tbGuestInContractList.getColumnModel().getColumn(0).setMinWidth(35);
+            tbGuestInContractList.getColumnModel().getColumn(0).setPreferredWidth(45);
+            tbGuestInContractList.getColumnModel().getColumn(0).setMaxWidth(50);
+        }
+
+        javax.swing.GroupLayout jPanel17Layout = new javax.swing.GroupLayout(jPanel17);
+        jPanel17.setLayout(jPanel17Layout);
+        jPanel17Layout.setHorizontalGroup(
+            jPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel17Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane7, javax.swing.GroupLayout.DEFAULT_SIZE, 579, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        jPanel17Layout.setVerticalGroup(
+            jPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel17Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 484, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(7, Short.MAX_VALUE))
+        );
+
+        javax.swing.GroupLayout jPanel10Layout = new javax.swing.GroupLayout(jPanel10);
+        jPanel10.setLayout(jPanel10Layout);
+        jPanel10Layout.setHorizontalGroup(
+            jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel10Layout.createSequentialGroup()
+                .addGap(16, 16, 16)
+                .addComponent(jPanel16, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel17, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+        jPanel10Layout.setVerticalGroup(
+            jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel10Layout.createSequentialGroup()
+                .addGap(29, 29, 29)
+                .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jPanel16, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel17, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(31, Short.MAX_VALUE))
+        );
+
+        jTabbedPane2.addTab("Tra cứu hợp đồng", jPanel10);
 
         jPanel6.setBackground(new java.awt.Color(0, 102, 204));
 
@@ -1530,6 +1683,7 @@ public final class RoomView extends javax.swing.JFrame {
         }
         displayCurrentGuest();
         displayRoomInfo();
+        displayContractsList(currentRoom.getId());
     }//GEN-LAST:event_btnLiquidateActionPerformed
 
     private void txtWaterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtWaterActionPerformed
@@ -1554,6 +1708,34 @@ public final class RoomView extends javax.swing.JFrame {
             });
         });
     }//GEN-LAST:event_txtSearchBillKeyReleased
+
+    private void tbContractListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbContractListMouseClicked
+        // TODO add your handling code here:
+        int row = tbContractList.getSelectedRow();
+        if (row >= 0) {
+            ContractDTO selectedContract = contractList.stream()
+                    .filter(c -> c.getContractNumber().equals(tbContractList.getValueAt(row, 1)))
+                    .findFirst().orElse(null);
+            displayGuestsInContract(selectedContract.getId());
+        }
+    }//GEN-LAST:event_tbContractListMouseClicked
+
+    public void displayGuestsInContract(int contractId) {
+        List<GuestDTO> guestList = gController.getGuestsByContract(contractId);
+        if (guestList != null) {
+            tbGuestInContractListModel.setRowCount(0);
+            guestList.forEach(g -> {
+                tbGuestInContractListModel.addRow(new Object[]{
+                    tbGuestInContractListModel.getRowCount() + 1,
+                    g.getFullName(),
+                    g.getPhone(),
+                    g.getCitizenId(),
+                    g.getDateOfBirth()
+                });
+
+            });
+        }
+    }
 
     public void displayCurrentGuest() {
         currentGuestTableModel.setRowCount(0);
@@ -1820,11 +2002,14 @@ public final class RoomView extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLayeredPane jLayeredPane1;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel11;
     private javax.swing.JPanel jPanel12;
     private javax.swing.JPanel jPanel13;
     private javax.swing.JPanel jPanel14;
     private javax.swing.JPanel jPanel15;
+    private javax.swing.JPanel jPanel16;
+    private javax.swing.JPanel jPanel17;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
@@ -1835,9 +2020,11 @@ public final class RoomView extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JScrollPane jScrollPane6;
+    private javax.swing.JScrollPane jScrollPane7;
     private javax.swing.JScrollPane jScrollPane9;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
@@ -1846,7 +2033,9 @@ public final class RoomView extends javax.swing.JFrame {
     private javax.swing.JTable tbBillDetail;
     private javax.swing.JTable tbBillDetailView;
     private javax.swing.JTable tbBillList;
+    private javax.swing.JTable tbContractList;
     private javax.swing.JTable tbCurrentGuest;
+    private javax.swing.JTable tbGuestInContractList;
     private javax.swing.JTable tbRegisterGuest;
     public javax.swing.JLabel titleRoomNo;
     private javax.swing.JTextField txtBillCurElect;

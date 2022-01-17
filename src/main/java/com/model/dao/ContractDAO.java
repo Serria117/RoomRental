@@ -80,6 +80,36 @@ public class ContractDAO extends DBAccess {
         return contract;
     }
 
+    public List<Contract> getContractsOfRoom(int RoomId) {
+        List<Contract> listContract = null;
+        try {
+            conn = this.conn();
+            String query = "SELECT * FROM contract WHERE roomId = ? ORDER BY createdDate DESC";
+            stm = conn.prepareStatement(query);
+            stm.setInt(1, RoomId);
+            rs = stm.executeQuery();
+            listContract = new ArrayList<>();
+            while (rs.next()) {
+                Contract contract = new Contract();
+                contract.setId(rs.getInt("id"));
+                contract.setContractNumber(rs.getString("contractNumber"));
+                contract.setPrice(rs.getInt("price"));
+                contract.setRoomId(rs.getInt("roomId"));
+                contract.setCreatedDate(rs.getDate("createdDate"));
+                contract.setUpdatedDate(rs.getDate("updatedDate"));
+                contract.setUserId(rs.getInt("userId"));
+                contract.setStatus(rs.getInt("status"));
+
+                listContract.add(contract);
+            }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Connection failed");
+        } finally {
+            this.closeAll(conn, stm, rs);
+        }
+        return listContract;
+    }
+
     public List<Contract> getAllContract() {
         List<Contract> listContract = null;
         try {

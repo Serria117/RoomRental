@@ -45,12 +45,12 @@ public class UserController {
 
     public UserDTO login(String userName, String password) {
         User user = userDAO.authenticate(userName, hashPass(password, userName));
-        return UserModelToDTO(user);
+        return userModelToDTO(user);
     }
 
     public List<UserDTO> getAll() {
         return userDAO.getAllUser().stream()
-                .map(user -> UserModelToDTO(user))
+                .map(user -> userModelToDTO(user))
                 .collect(Collectors.toList());
     }
 
@@ -76,6 +76,10 @@ public class UserController {
         return userDAO.isDuplicatePhone(id, phone);
     }
 
+    public UserDTO getUserById(int id) {
+        return userModelToDTO(userDAO.getUserById(id));
+    }
+
     public boolean updatePhone(UserDTO user, String newPhone) {
         return userDAO.changePhone(user.getId(), newPhone);
     }
@@ -84,7 +88,7 @@ public class UserController {
         return userDAO.updateUserStatus(id, status);
     }
 
-    public static UserDTO UserModelToDTO(User user) {
+    public static UserDTO userModelToDTO(User user) {
         UserDTO udto = null;
         if (user != null) {
             udto = new UserDTO();

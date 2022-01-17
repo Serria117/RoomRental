@@ -35,7 +35,7 @@ public class ContractController {
     // lấy toàn bộ dữ liệu
     public List<ContractDTO> getAllContract() {
         return contractDAO.getAllContract().stream()
-                .map(r -> ContractModeltoDTO(r))
+                .map(r -> contractModeltoDTO(r))
                 .collect(Collectors.toList());
     }
 
@@ -69,6 +69,12 @@ public class ContractController {
         return contractDAO.updateContract(id, status);
     }
 
+    public List<ContractDTO> getContractsOfRoom(int roomId) {
+        return contractDAO.getContractsOfRoom(roomId).stream()
+                .map(c -> contractModeltoDTO(c))
+                .collect(Collectors.toList());
+    }
+
     public boolean updateContractDetail(int contractId, int guestId, int status) {
         return contractDAO.updateContractDetail(contractId, guestId, status);
     }
@@ -78,7 +84,7 @@ public class ContractController {
     }
 
     //Convert dữ liệu để hiển thị
-    public static ContractDTO ContractModeltoDTO(Contract cModel) {
+    public static ContractDTO contractModeltoDTO(Contract cModel) {
         if (cModel == null) {
             return null;
         }
@@ -89,8 +95,14 @@ public class ContractController {
         cdto.setRoomId(cModel.getRoomId());
         cdto.setPrice(num.format(cModel.getPrice()));
         cdto.setContractNumber(cModel.getContractNumber());
-        cdto.setCreatedDate(dateFormat.format(cModel.getCreatedDate()));
-        cdto.setUpdatedDate(dateFormat.format(cModel.getUpdatedDate()));
+        try {
+            cdto.setCreatedDate(dateFormat.format(cModel.getCreatedDate()));
+            cdto.setUpdatedDate(dateFormat.format(cModel.getUpdatedDate()));
+        } catch (NullPointerException e) {
+        }
+
+        cdto.setStatus(cModel.getStatus() == 1 ? "Đang thực hiện" : "Đã thanh lý");
+        cdto.setUserId(cModel.getUserId());
         return cdto;
     }
 

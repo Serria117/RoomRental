@@ -70,6 +70,31 @@ public class UserDAO extends DBAccess {
         return list;
     }
 
+    public User getUserById(int id) {
+        User user = null;
+        try {
+            conn = this.conn();
+            String query = "SELECT * FROM user WHERE id = ?";
+            stm = conn.prepareStatement(query);
+            stm.setInt(1, id);
+            rs = stm.executeQuery();
+            user = new User();
+            while (rs.next()) {
+                user.setId(rs.getInt("id"));
+                user.setUsername(rs.getString("userName"));
+                user.setPhone(rs.getString("phone"));
+                user.setPassword(rs.getString("password"));
+                user.setStatus(rs.getInt("status"));
+                user.setAuthority(rs.getInt("authority"));
+            }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "SQL Error: " + e.getMessage(), "Database access error", JOptionPane.ERROR_MESSAGE);
+        } finally {
+            this.closeAll(conn, stm, rs);
+        }
+        return user;
+    }
+
     //Check duplicated username:
     public boolean isDuplicatedUser(String userName) {
         boolean result = false;

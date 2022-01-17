@@ -17,6 +17,7 @@ public class ContractDTO {
     private String createdDate;
     private String updatedDate;
     private String status;
+    private int userId;
 
     public String getStatus() {
         return status;
@@ -34,13 +35,22 @@ public class ContractDTO {
     public ContractDTO() {
     }
 
-    public ContractDTO(int id, int roomId, String contractNumber, String price, String createdDate, String updatedDate) {
+    public ContractDTO(int id, int roomId, String contractNumber, String price, String createdDate, String updatedDate, int userId) {
         this.id = id;
         this.roomId = roomId;
         this.contractNumber = contractNumber;
         this.price = price;
         this.createdDate = createdDate;
         this.updatedDate = updatedDate;
+        this.userId = userId;
+    }
+
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 
     public int getId() {

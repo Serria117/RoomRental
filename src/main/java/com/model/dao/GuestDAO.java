@@ -3,7 +3,6 @@ package com.model.dao;
 import com.model.Guest;
 import java.sql.SQLException;
 import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -175,15 +174,43 @@ public class GuestDAO extends DBAccess {
         return check;
     }
 
-    public static void main(String[] args) throws ParseException {
-        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-        GuestDAO gdao = new GuestDAO();
-        Guest g = new Guest();
-        g.setFullName("Hà");
-        g.setDateOfBirth(dateFormat.parse("25/06/1987"));
-        g.setCitizenId("11111111111");
-        g.setPhone("0988144796");
-        System.out.println("new Id = " + gdao.addGuest(g));
+//    public static void main(String[] args) throws ParseException {
+//        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+//        GuestDAO gdao = new GuestDAO();
+//        Guest g = new Guest();
+//        g.setFullName("Hà");
+//        g.setDateOfBirth(dateFormat.parse("25/06/1987"));
+//        g.setCitizenId("11111111111");
+//        g.setPhone("0988144796");
+//        System.out.println("new Id = " + gdao.addGuest(g));
+//    }
+    public List<Guest> getGuestsByContract(int contractId) {
+        List<Guest> listGuest = null;
+        try {
+            conn = this.conn();
+            String query = "SELECT * FROM guest "
+                    + "INNER JOIN contractdetail ON guest.id = contractdetail.guestId "
+                    + "WHERE contractdetail.contractId = ?;";
+            stm = conn.prepareStatement(query);
+            stm.setInt(1, contractId);
+            rs = stm.executeQuery();
+            listGuest = new ArrayList<>();
+            while (rs.next()) {
+                Guest guest = new Guest(
+                        rs.getInt("id"),
+                        rs.getString("fullName"),
+                        rs.getString("phone"),
+                        rs.getDate("dateOfBirth"),
+                        rs.getInt("status"),
+                        rs.getString("citizenId")
+                );
+                listGuest.add(guest);
+            }
+        } catch (SQLException e) {
+        } finally {
+            this.closeAll(conn, stm, rs);
+        }
+        return listGuest;
     }
 
     public Guest getByCId(String cccd) {
