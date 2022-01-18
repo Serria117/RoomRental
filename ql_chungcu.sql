@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Jan 17, 2022 at 08:48 AM
+-- Generation Time: Jan 18, 2022 at 03:16 AM
 -- Server version: 5.7.33
 -- PHP Version: 8.1.0
 
@@ -159,25 +159,26 @@ CREATE TABLE `contract` (
   `roomId` int(11) NOT NULL,
   `createdDate` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `price` int(11) NOT NULL,
-  `updatedDate` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `updatedDate` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
   `userId` int(11) NOT NULL,
-  `status` int(11) NOT NULL DEFAULT '1'
+  `status` int(11) NOT NULL DEFAULT '1',
+  `fileLocation` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `contract`
 --
 
-INSERT INTO `contract` (`id`, `contractNumber`, `roomId`, `createdDate`, `price`, `updatedDate`, `userId`, `status`) VALUES
-(1, 'P101_20211231', 13, '2022-01-01 17:00:00', 0, '2022-01-10 13:23:33', 1, 0),
-(2, 'P102_20220101', 14, '2022-01-01 17:00:00', 0, '2022-01-11 10:59:05', 1, 0),
-(26, 'P103_20220104', 15, '2022-01-04 07:24:11', 4500000, '2022-01-04 07:24:11', 1, 1),
-(27, 'P104_20220104', 16, '2022-01-04 07:43:07', 4750000, '2022-01-11 10:59:59', 1, 0),
-(28, 'P105_20220104', 17, '2022-01-04 07:47:30', 4900000, '2022-01-04 07:47:30', 1, 1),
-(29, 'P106_20220107', 18, '2022-01-06 18:33:07', 4500000, '2022-01-06 18:33:07', 1, 1),
-(30, 'P107_20220107', 19, '2022-01-06 18:35:53', 4500000, '2022-01-06 18:35:53', 1, 1),
-(31, 'P101_20220111', 13, '2022-01-11 13:55:53', 5000000, '2022-01-11 13:55:53', 1, 1),
-(32, 'P102_20220114', 14, '2022-01-14 11:09:05', 4500000, '2022-01-14 11:09:05', 1, 1);
+INSERT INTO `contract` (`id`, `contractNumber`, `roomId`, `createdDate`, `price`, `updatedDate`, `userId`, `status`, `fileLocation`) VALUES
+(1, 'P101_20211231', 13, '2022-01-01 17:00:00', 0, '2022-01-10 13:23:33', 1, 0, NULL),
+(2, 'P102_20220101', 14, '2022-01-01 17:00:00', 0, '2022-01-11 10:59:05', 1, 0, NULL),
+(26, 'P103_20220104', 15, '2022-01-04 07:24:11', 4500000, NULL, 1, 1, NULL),
+(27, 'P104_20220104', 16, '2022-01-04 07:43:07', 4750000, '2022-01-11 10:59:59', 1, 0, NULL),
+(28, 'P105_20220104', 17, '2022-01-04 07:47:30', 4900000, NULL, 1, 1, NULL),
+(29, 'P106_20220107', 18, '2022-01-06 18:33:07', 4500000, NULL, 1, 1, NULL),
+(30, 'P107_20220107', 19, '2022-01-06 18:35:53', 4500000, NULL, 1, 1, NULL),
+(31, 'P101_20220111', 13, '2022-01-11 13:55:53', 5000000, NULL, 1, 1, NULL),
+(32, 'P102_20220114', 14, '2022-01-14 11:09:05', 4500000, NULL, 1, 1, NULL);
 
 -- --------------------------------------------------------
 
@@ -223,26 +224,27 @@ CREATE TABLE `guest` (
   `citizenId` varchar(20) COLLATE utf8_unicode_ci NOT NULL,
   `dateOfBirth` date NOT NULL,
   `phone` varchar(20) COLLATE utf8_unicode_ci NOT NULL,
-  `status` int(11) NOT NULL DEFAULT '1'
+  `status` int(11) NOT NULL DEFAULT '1',
+  `picture` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `guest`
 --
 
-INSERT INTO `guest` (`id`, `fullName`, `citizenId`, `dateOfBirth`, `phone`, `status`) VALUES
-(1, 'Tùng', '099988776', '2021-12-31', '098765433', 0),
-(2, 'Quân', '908789768', '2002-01-02', '098776574', 0),
-(3, 'Thái', '8979878978', '2022-01-02', '098897896', 0),
-(4, 'Hà', '1111111110', '1987-06-25', '0988144796', 1),
-(23, 'Duc Hiep', '88765678', '2001-11-01', '3454565789', 1),
-(24, 'Duy Khanh', '134594558', '2004-11-01', '3454565789', 1),
-(25, 'Thanh Ha', '12345778', '1987-06-25', '45442414', 0),
-(26, 'Minh Thái', '2132432345', '1999-09-09', '4578769768', 1),
-(27, 'Đức Nghi', '123243455', '2002-03-05', '13242343', 1),
-(28, 'Đạt', '1234567', '2000-01-12', '6543213', 1),
-(29, 'Thanh Hà', '1234567890', '2022-01-06', '1234567890', 1),
-(30, 'Đào Thanh Hà', '0988776589', '1990-01-01', '0987765541', 1);
+INSERT INTO `guest` (`id`, `fullName`, `citizenId`, `dateOfBirth`, `phone`, `status`, `picture`) VALUES
+(1, 'Tùng', '099988776', '2021-12-31', '098765433', 0, NULL),
+(2, 'Quân', '908789768', '2002-01-02', '098776574', 0, NULL),
+(3, 'Thái', '8979878978', '2022-01-02', '098897896', 0, NULL),
+(4, 'Hà', '1111111110', '1987-06-25', '0988144796', 1, NULL),
+(23, 'Duc Hiep', '88765678', '2001-11-01', '3454565789', 1, NULL),
+(24, 'Duy Khanh', '134594558', '2004-11-01', '3454565789', 1, NULL),
+(25, 'Thanh Ha', '12345778', '1987-06-25', '45442414', 0, NULL),
+(26, 'Minh Thái', '2132432345', '1999-09-09', '4578769768', 1, NULL),
+(27, 'Đức Nghi', '123243455', '2002-03-05', '13242343', 1, NULL),
+(28, 'Đạt', '1234567', '2000-01-12', '6543213', 1, NULL),
+(29, 'Thanh Hà', '1234567890', '2022-01-06', '1234567890', 1, NULL),
+(30, 'Đào Thanh Hà', '0988776589', '1990-01-01', '0987765541', 1, NULL);
 
 -- --------------------------------------------------------
 
@@ -428,7 +430,7 @@ ALTER TABLE `room`
 -- AUTO_INCREMENT for table `service`
 --
 ALTER TABLE `service`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `user`
