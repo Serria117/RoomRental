@@ -69,7 +69,7 @@ public class MainMenu extends javax.swing.JFrame {
         });
 
         btnRoom.setFont(new java.awt.Font("sansserif", 1, 14)); // NOI18N
-        btnRoom.setIcon(new javax.swing.ImageIcon("D:\\Dev\\Project2\\RoomRental\\src\\main\\java\\com\\icon\\home.png")); // NOI18N
+        btnRoom.setIcon(new javax.swing.ImageIcon(getClass().getResource("/home.png"))); // NOI18N
         btnRoom.setText("Quản lý phòng");
         btnRoom.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnRoom.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
@@ -80,7 +80,7 @@ public class MainMenu extends javax.swing.JFrame {
         });
 
         btnGuest.setFont(new java.awt.Font("sansserif", 1, 14)); // NOI18N
-        btnGuest.setIcon(new javax.swing.ImageIcon("D:\\Dev\\Project2\\RoomRental\\src\\main\\java\\com\\icon\\Guest.png")); // NOI18N
+        btnGuest.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Guest.png"))); // NOI18N
         btnGuest.setText("Khách thuê");
         btnGuest.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnGuest.setMaximumSize(new java.awt.Dimension(162, 54));
@@ -94,7 +94,7 @@ public class MainMenu extends javax.swing.JFrame {
         });
 
         btnService.setFont(new java.awt.Font("sansserif", 1, 14)); // NOI18N
-        btnService.setIcon(new javax.swing.ImageIcon("D:\\Dev\\Project2\\RoomRental\\src\\main\\java\\com\\icon\\service.png")); // NOI18N
+        btnService.setIcon(new javax.swing.ImageIcon(getClass().getResource("/service.png"))); // NOI18N
         btnService.setText("Dịch vụ");
         btnService.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnService.setMaximumSize(new java.awt.Dimension(184, 54));
@@ -108,7 +108,7 @@ public class MainMenu extends javax.swing.JFrame {
         });
 
         btnReport.setFont(new java.awt.Font("sansserif", 1, 14)); // NOI18N
-        btnReport.setIcon(new javax.swing.ImageIcon("D:\\Dev\\Project2\\RoomRental\\src\\main\\java\\com\\icon\\report.png")); // NOI18N
+        btnReport.setIcon(new javax.swing.ImageIcon(getClass().getResource("/report.png"))); // NOI18N
         btnReport.setText("Báo cáo");
         btnReport.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnReport.setMaximumSize(new java.awt.Dimension(184, 54));
@@ -121,7 +121,7 @@ public class MainMenu extends javax.swing.JFrame {
         });
 
         btnSetting.setFont(new java.awt.Font("sansserif", 1, 14)); // NOI18N
-        btnSetting.setIcon(new javax.swing.ImageIcon("D:\\Dev\\Project2\\RoomRental\\src\\main\\java\\com\\icon\\setting.png")); // NOI18N
+        btnSetting.setIcon(new javax.swing.ImageIcon(getClass().getResource("/setting.png"))); // NOI18N
         btnSetting.setText("Tài khoản");
         btnSetting.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnSetting.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
@@ -200,7 +200,7 @@ public class MainMenu extends javax.swing.JFrame {
         );
 
         btnExit.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        btnExit.setIcon(new javax.swing.ImageIcon("D:\\Dev\\Project2\\RoomRental\\src\\main\\java\\com\\icon\\exit.png")); // NOI18N
+        btnExit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/exit.png"))); // NOI18N
         btnExit.setText("Thoát");
         btnExit.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnExit.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);

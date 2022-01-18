@@ -87,7 +87,7 @@
     <Component class="javax.swing.JButton" name="btnLogin">
       <Properties>
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="2" name="D:\Dev\Project2\RoomRental\src\main\java\com\icon\login.png"/>
+          <Image iconType="3" name="/login.png"/>
         </Property>
         <Property name="text" type="java.lang.String" value="  &#x110;&#x103;ng nh&#x1ead;p"/>
       </Properties>

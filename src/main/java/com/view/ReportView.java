@@ -241,7 +241,7 @@ public class ReportView extends javax.swing.JFrame {
 
     static List<ReportDTO> rpPayList = new ArrayList<>();
 
-    public void loadReportDTO() {
+    private void loadReportDTO() {
         tbPaidModel.setRowCount(0);
         rpPayList = reportController.showPay();
         rpPayList.stream().forEach(rp -> {
@@ -255,7 +255,7 @@ public class ReportView extends javax.swing.JFrame {
 
     static List<ReportDTO> rpNotPayList = new ArrayList<>();
 
-    public void loadReportDTONotPay() {
+    private void loadReportDTONotPay() {
         tbUnPaidModel.setRowCount(0);
         rpNotPayList = reportController.showNotPay();
         rpNotPayList.stream().forEach(rp -> {

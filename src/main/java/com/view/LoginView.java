@@ -60,7 +60,7 @@ public class LoginView extends javax.swing.JFrame {
 
         jLabel3.setText("Mật khẩu:");
 
-        btnLogin.setIcon(new javax.swing.ImageIcon("D:\\Dev\\Project2\\RoomRental\\src\\main\\java\\com\\icon\\login.png")); // NOI18N
+        btnLogin.setIcon(new javax.swing.ImageIcon(getClass().getResource("/login.png"))); // NOI18N
         btnLogin.setText("  Đăng nhập");
         btnLogin.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
