@@ -168,7 +168,7 @@ public class CreateServiceView extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, serviceNameErr + priceErr + unitErr);
         } else {
             if (serviceController.addService(serviceName, price, unit)) {
-                JOptionPane.showMessageDialog(null, "Dịch vụ" + serviceName + "tạo thành công.");
+                JOptionPane.showMessageDialog(null, "Dịch vụ \"" + serviceName + "\" tạo thành công.");
                 this.dispose();
             }
         }

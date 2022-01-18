@@ -9,6 +9,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,6 +23,11 @@ public class ReportDAO {
 
     // tổng các phòng đã thanh toán
     public List<Report> payment() {
+        LocalDate curent = LocalDate.now();
+        int m = curent.getMonthValue();
+        String month = String.valueOf(m);
+        int y = curent.getYear();
+        String year = String.valueOf(y);
         List<Report> contList = null;
         Connection conn = null;
         ResultSet rs = null;
@@ -29,8 +35,12 @@ public class ReportDAO {
         try {
             conn = db.conn();
             // sửa chỗ này theo DB
-            String query = "SELECT r.roomNumber as sophong, b.total as total, b.updatedDate FROM `bill` b INNER JOIN `contract` c on b.contractId = c.Id INNER JOIN `room` r on c.roomId = r.id  where b.status = 1";
+            String query = "SELECT r.roomNumber as sophong, b.total as total, b.updatedDate FROM `bill` b INNER JOIN `contract` c on b.contractId = c.Id INNER JOIN `room` r on c.roomId = r.id  where b.updatedDate BETWEEN CONCAT(?,'-',?,'-','1',' 00:00:00') and CONCAT(?,'-',?,'-','31',' 23:59:59') and  b.status = 1";
             stm = conn.prepareStatement(query);
+            stm.setString(1, year);
+            stm.setString(2, month);
+            stm.setString(3, year);
+            stm.setString(4, month);
             rs = stm.executeQuery();
             contList = new ArrayList<>();
             while (rs.next()) {
@@ -56,7 +66,7 @@ public class ReportDAO {
         try {
             conn = db.conn();
             // sửa chỗ này theo DB
-            String query = "SELECT r.roomNumber as sophong, b.total as total FROM `bill` b INNER JOIN `contract` c on b.contractId = c.Id INNER JOIN `room` r on c.roomId = r.id  where b.status = 0";
+            String query = "SELECT r.roomNumber as sophong, b.total as total FROM `bill` b INNER JOIN `contract` c on b.contractId = c.Id INNER JOIN `room` r on c.roomId = r.id  where b.status = 0 order by r.roomNumber";
             stm = conn.prepareStatement(query);
             rs = stm.executeQuery();
             contListNo = new ArrayList<>();

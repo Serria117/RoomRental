@@ -7,6 +7,7 @@ package com.view;
 import com.controller.GuestController;
 import com.controller.dto.GuestDTO;
 import com.model.Guest;
+import com.toedter.calendar.JTextFieldDateEditor;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
@@ -28,6 +29,10 @@ public class GuestView extends javax.swing.JFrame {
     public GuestView() {
         initComponents();
         guestTB_Model = (DefaultTableModel) TableGuest.getModel();
+        //Date Picker set not editable:
+        JTextFieldDateEditor dateEditor = (JTextFieldDateEditor) datePick.getDateEditor();
+        dateEditor.setEditable(false);
+
         loadGuestDTO();
     }
 
@@ -52,7 +57,7 @@ public class GuestView extends javax.swing.JFrame {
         txtName = new javax.swing.JTextField();
         txtSearch = new javax.swing.JTextField();
         btnTimKiem = new javax.swing.JButton();
-        txtDate = new com.toedter.calendar.JDateChooser();
+        datePick = new com.toedter.calendar.JDateChooser();
         txtStatus = new javax.swing.JComboBox<>();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
@@ -131,7 +136,7 @@ public class GuestView extends javax.swing.JFrame {
             }
         });
 
-        txtDate.setDateFormatString("dd/MM/yyyyy");
+        datePick.setDateFormatString("dd/MM/yyyy");
 
         txtStatus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Đã trả phòng", "Đang thuê" }));
         txtStatus.setEnabled(false);
@@ -197,7 +202,7 @@ public class GuestView extends javax.swing.JFrame {
                             .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(txtDate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(datePick, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(txtStatus, 0, 165, Short.MAX_VALUE))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -217,7 +222,7 @@ public class GuestView extends javax.swing.JFrame {
                             .addComponent(txtCCCD, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(datePick, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel6))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -268,7 +273,7 @@ public class GuestView extends javax.swing.JFrame {
         txtName.setText(selectedGuest.getFullName());
         txtCCCD.setText(selectedGuest.getCitizenId());
         txtPhone.setText(selectedGuest.getPhone());
-        txtDate.setDate(selectedGuest.getDateOfBirth());
+        datePick.setDate(selectedGuest.getDateOfBirth());
         txtStatus.setSelectedIndex(selectedGuest.getStatus());
     }//GEN-LAST:event_TableGuestMouseClicked
 
@@ -276,7 +281,7 @@ public class GuestView extends javax.swing.JFrame {
 
         if (txtName.getText().equals("")) {
         } else {
-            guestController.updateGuestInfor(selectedGuest.getId(), txtName.getText(), txtCCCD.getText(), txtPhone.getText(), txtDate.getDate(), txtStatus.getSelectedIndex());
+            guestController.updateGuestInfor(selectedGuest.getId(), txtName.getText(), txtCCCD.getText(), txtPhone.getText(), datePick.getDate(), txtStatus.getSelectedIndex());
             loadGuestDTO();
         }
     }//GEN-LAST:event_btnFixGuestActionPerformed
@@ -340,7 +345,7 @@ public class GuestView extends javax.swing.JFrame {
 
     static List<GuestDTO> gList = new ArrayList<>();
 
-    public void loadGuestDTO() {
+    private void loadGuestDTO() {
         guestTB_Model.setRowCount(0);
         gList = guestController.getAll();
         gList.stream().forEach(g -> {
@@ -358,6 +363,7 @@ public class GuestView extends javax.swing.JFrame {
     private javax.swing.JTable TableGuest;
     private javax.swing.JButton btnFixGuest;
     private javax.swing.JButton btnTimKiem;
+    private com.toedter.calendar.JDateChooser datePick;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -367,7 +373,6 @@ public class GuestView extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField txtCCCD;
-    private com.toedter.calendar.JDateChooser txtDate;
     private javax.swing.JTextField txtName;
     private javax.swing.JTextField txtPhone;
     private javax.swing.JTextField txtSearch;

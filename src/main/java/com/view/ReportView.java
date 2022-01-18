@@ -22,8 +22,7 @@ public class ReportView extends javax.swing.JFrame {
     ReportController reportController1 = new ReportController();
     String totalPay = reportController.totalPay();
     String totalNoPay = reportController.totalNoPay();
-    
-    
+
     /**
      * Creates new form ReportView
      */
@@ -98,6 +97,8 @@ public class ReportView extends javax.swing.JFrame {
 
         jLabel2.setText("Tổng Doanh Thu Tháng: ");
 
+        txtTotalPay.setEditable(false);
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -153,6 +154,8 @@ public class ReportView extends javax.swing.JFrame {
 
         jLabel4.setText("Tổng Tiền Phải Thu:");
 
+        txtTotalNotPay.setEditable(false);
+
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
@@ -201,7 +204,7 @@ public class ReportView extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jTabbedPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 472, Short.MAX_VALUE)
+                .addComponent(jTabbedPane2)
                 .addContainerGap())
         );
 
@@ -271,8 +274,7 @@ public class ReportView extends javax.swing.JFrame {
             });
         });
     }
-    
-    
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;

@@ -119,7 +119,6 @@ public final class RoomView extends javax.swing.JFrame {
         } else {
             txtBillYear.setSelectedItem(1);
             txtBillMonth.setSelectedIndex(currentMonth - 1);
-
         }
 
         if (user.getAuthority() == 0) {
@@ -575,10 +574,7 @@ public final class RoomView extends javax.swing.JFrame {
 
         tbBillDetail.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
+
             },
             new String [] {
                 "STT", "Nội dung", "Đơn giá", "Số lượng", "Thành tiền"
@@ -932,10 +928,7 @@ public final class RoomView extends javax.swing.JFrame {
 
         tbBillDetailView.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
+
             },
             new String [] {
                 "STT", "Nội dung", "Đơn giá", "Số lượng", "Thành tiền"
@@ -1316,10 +1309,7 @@ public final class RoomView extends javax.swing.JFrame {
 
         tbGuestInContractList.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
+
             },
             new String [] {
                 "STT", "Họ tên", "Điện thoại", "Số CCCD", "Ngày sinh"

@@ -510,7 +510,6 @@ public class AccountManageView extends javax.swing.JFrame {
                 if (userController.updatePassword(selectedUser, "abc123")) {
                     JOptionPane.showMessageDialog(null, "Mật khẩu đã được đặt lại \"abc123\".");
                 }
-
             }
         }
     }//GEN-LAST:event_btnResetPassActionPerformed

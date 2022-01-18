@@ -66,7 +66,7 @@
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                          <Component id="txtDate" max="32767" attributes="0"/>
+                          <Component id="datePick" max="32767" attributes="0"/>
                           <Component id="txtStatus" pref="165" max="32767" attributes="0"/>
                       </Group>
                   </Group>
@@ -94,7 +94,7 @@
                   </Group>
                   <Group type="102" attributes="0">
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="txtDate" min="-2" max="-2" attributes="0"/>
+                          <Component id="datePick" min="-2" max="-2" attributes="0"/>
                           <Component id="jLabel6" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
@@ -243,9 +243,9 @@
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnTimKiemActionPerformed"/>
       </Events>
     </Component>
-    <Component class="com.toedter.calendar.JDateChooser" name="txtDate">
+    <Component class="com.toedter.calendar.JDateChooser" name="datePick">
       <Properties>
-        <Property name="dateFormatString" type="java.lang.String" value="dd/MM/yyyyy"/>
+        <Property name="dateFormatString" type="java.lang.String" value="dd/MM/yyyy"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JComboBox" name="txtStatus">

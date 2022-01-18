@@ -54,13 +54,13 @@ public class ServiceDAO extends DBAccess {
         try {
             conn = this.conn();
             String query = "INSERT INTO service(serviceName, price, unit) VALUES (?, ? ,?)";
-            stm = conn.prepareCall(query);
+            stm = conn.prepareStatement(query);
 
             stm.setString(1, service.getServiceName());
             stm.setInt(2, service.getPrice());
             stm.setString(3, service.getUnit());
 
-            res = stm.execute();
+            res = stm.executeUpdate() > 0;
 
         } catch (SQLException ex) {
             Logger.getLogger(ServiceDAO.class.getName()).log(Level.SEVERE, null, ex);
