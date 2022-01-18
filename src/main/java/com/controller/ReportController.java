@@ -7,6 +7,7 @@ package com.controller;
 import com.controller.dto.ReportDTO;
 import com.model.Report;
 import com.model.dao.ReportDAO;
+import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -33,13 +34,16 @@ public class ReportController {
                 .collect(Collectors.toList());
     }
 
-    public Double totalPay() {
-        return rp.payment().stream().mapToDouble(x -> x.getTotal()).sum();
-
+    public String totalPay() {
+        Double Pay = rp.payment().stream().mapToDouble(x -> x.getTotal()).sum();
+        String totalPay = NumberFormat.getInstance().format(Pay);
+        return totalPay;
     }
 
-    public Double totalNoPay() {
-        return rp.notPayment().stream().mapToDouble(x -> x.getTotal()).sum();
+    public String totalNoPay() {
+        Double noPay = rp.notPayment().stream().mapToDouble(x -> x.getTotal()).sum();
+        String totalNoPay = NumberFormat.getInstance().format(noPay);
+        return totalNoPay;
     }
 
     public static ReportDTO ReportModelToDTO(Report r) {

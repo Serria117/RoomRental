@@ -20,7 +20,10 @@ public class ReportView extends javax.swing.JFrame {
     DefaultTableModel tbUnPaidModel;
     ReportController reportController = new ReportController();
     ReportController reportController1 = new ReportController();
-
+    String totalPay = reportController.totalPay();
+    String totalNoPay = reportController.totalNoPay();
+    
+    
     /**
      * Creates new form ReportView
      */
@@ -32,6 +35,8 @@ public class ReportView extends javax.swing.JFrame {
         initComponents();
         tbPaidModel = (DefaultTableModel) tbPaid.getModel();
         tbUnPaidModel = (DefaultTableModel) tbUnPaid.getModel();
+        txtTotalPay.setText(totalPay);
+        txtTotalNotPay.setText(totalNoPay);
         loadReportDTO();
         loadReportDTONotPay();
     }
@@ -52,7 +57,7 @@ public class ReportView extends javax.swing.JFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         tbPaid = new javax.swing.JTable();
         jLabel2 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        txtTotalPay = new javax.swing.JTextField();
         jPanel4 = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
         tbUnPaid = new javax.swing.JTable();
@@ -104,7 +109,7 @@ public class ReportView extends javax.swing.JFrame {
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtTotalPay, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -116,7 +121,7 @@ public class ReportView extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 25, Short.MAX_VALUE)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtTotalPay, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(107, 107, 107))
         );
 
@@ -241,7 +246,7 @@ public class ReportView extends javax.swing.JFrame {
 
     static List<ReportDTO> rpPayList = new ArrayList<>();
 
-    private void loadReportDTO() {
+    public void loadReportDTO() {
         tbPaidModel.setRowCount(0);
         rpPayList = reportController.showPay();
         rpPayList.stream().forEach(rp -> {
@@ -255,7 +260,7 @@ public class ReportView extends javax.swing.JFrame {
 
     static List<ReportDTO> rpNotPayList = new ArrayList<>();
 
-    private void loadReportDTONotPay() {
+    public void loadReportDTONotPay() {
         tbUnPaidModel.setRowCount(0);
         rpNotPayList = reportController.showNotPay();
         rpNotPayList.stream().forEach(rp -> {
@@ -266,7 +271,8 @@ public class ReportView extends javax.swing.JFrame {
             });
         });
     }
-
+    
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -278,9 +284,9 @@ public class ReportView extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTabbedPane jTabbedPane2;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JTable tbPaid;
     private javax.swing.JTable tbUnPaid;
     private javax.swing.JTextField txtTotalNotPay;
+    private javax.swing.JTextField txtTotalPay;
     // End of variables declaration//GEN-END:variables
 }
