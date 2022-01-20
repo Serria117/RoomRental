@@ -15,8 +15,8 @@ import javax.swing.JOptionPane;
 public class LoginView extends javax.swing.JFrame {
 
     UserController uController = new UserController();
-    public UserDTO currentUser;
-    MainMenu mainFrame;
+    private UserDTO currentUser;
+//    MainMenu mainFrame;
     MainMenu mainMenu;
 
     /**
@@ -29,7 +29,11 @@ public class LoginView extends javax.swing.JFrame {
 
     public LoginView(MainMenu mainMenu) {
         initComponents();
-        this.mainFrame = mainMenu;
+        this.mainMenu = mainMenu;
+    }
+
+    public UserDTO getCurrentUser() {
+        return this.currentUser;
     }
 
     /**
@@ -138,14 +142,17 @@ public class LoginView extends javax.swing.JFrame {
 
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
         // TODO add your handling code here:
-        UserDTO udto = uController.login(txtLoginName.getText(), String.valueOf(txtLoginPass.getPassword()));
-        if (udto != null) {
-            currentUser = udto;
+        UserDTO loginUser = uController.login(txtLoginName.getText(), String.valueOf(txtLoginPass.getPassword()));
+        if (loginUser != null) {
+            currentUser = loginUser;
             this.setVisible(false);
-            mainFrame.setVisible(true);
+            mainMenu.setCurrentUser(currentUser);
+            mainMenu.setVisible(true);
+
+            //Tell user to change password if it was reset in the previous session
             if (String.valueOf(txtLoginPass.getPassword()).equals("abc123")) {
-                JOptionPane.showMessageDialog(null, "Mật khẩu của bạn đã được đặt về mặc định, hay đổi mật khẩu khác.", "Cảnh báo", JOptionPane.WARNING_MESSAGE);
-                mainFrame.btnSetting.doClick();
+                JOptionPane.showMessageDialog(null, "Mật khẩu của bạn đã được đặt lại, hay đổi mật khẩu khác.", "Cảnh báo", JOptionPane.WARNING_MESSAGE);
+                mainMenu.btnSetting.doClick();
             }
         } else {
             JOptionPane.showMessageDialog(null, "Tên đăng nhập/mật khẩu không hợp lệ hoặc tài khoản đã bị khóa.\nVui lòng kiểm tra lại.", "Đăng nhập thất bại", JOptionPane.ERROR_MESSAGE);

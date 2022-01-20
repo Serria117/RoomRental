@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -49,7 +50,29 @@ public class ServiceDAO extends DBAccess {
         return serviceslist;
     }
 
+    // Kiểm tra trùng lặp khi tạo mới dịch vụ
+    public boolean checkService(String serviceName) {
+        boolean check = false;
+        try {
+            conn = this.conn();
+            String query = "SELECT serviceName FROM service WHERE serviceName = ?";
+            stm = conn.prepareStatement(query);
+            stm.setString(1, serviceName);
+            rs = stm.executeQuery();
+            check = rs.isBeforeFirst();
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        } finally {
+            this.closeAll(conn, stm, rs);
+        }
+        return check;
+    }
+
     public boolean InsertService(Service service) {
+        if (checkService(service.getServiceName())) {
+            JOptionPane.showMessageDialog(null, "Dịch vụ đã tồn tại!", "Cảnh báo", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
         boolean res = false;
         try {
             conn = this.conn();

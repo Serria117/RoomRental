@@ -192,9 +192,13 @@ public class ServiceView extends javax.swing.JFrame {
 
         jLabel1.setText("Tên dịch vụ:");
 
+        txtTenDV.setEditable(false);
+
         jLabel2.setText("Đơn giá:");
 
         jLabel3.setText("Đơn vị tính:");
+
+        txtUnit.setEditable(false);
 
         btnSuaDichVu.setText("Sửa thông tin");
         btnSuaDichVu.addActionListener(new java.awt.event.ActionListener() {

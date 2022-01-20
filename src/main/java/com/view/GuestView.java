@@ -6,6 +6,7 @@ package com.view;
 
 import com.controller.GuestController;
 import com.controller.dto.GuestDTO;
+import com.controller.dto.UserDTO;
 import com.model.Guest;
 import com.toedter.calendar.JTextFieldDateEditor;
 import java.util.ArrayList;
@@ -20,6 +21,7 @@ public class GuestView extends javax.swing.JFrame {
 
     DefaultTableModel guestTB_Model;
     Guest selectedGuest;
+    UserDTO user;
 
     GuestController guestController = new GuestController();
 
@@ -32,8 +34,11 @@ public class GuestView extends javax.swing.JFrame {
         //Date Picker set not editable:
         JTextFieldDateEditor dateEditor = (JTextFieldDateEditor) datePick.getDateEditor();
         dateEditor.setEditable(false);
-
         loadGuestDTO();
+    }
+
+    public void setCurrentUser(UserDTO user) {
+        this.user = user;
     }
 
     /**

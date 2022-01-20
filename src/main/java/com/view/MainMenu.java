@@ -13,7 +13,7 @@ import javax.swing.JOptionPane;
  */
 public class MainMenu extends javax.swing.JFrame {
 
-    public UserDTO user;
+    private UserDTO user;
     LoginView login;
     RoomListView roomList;
     ServiceView serviceView;
@@ -29,6 +29,10 @@ public class MainMenu extends javax.swing.JFrame {
         login.setVisible(true);
         login.setLocationRelativeTo(null);
         this.setLocationRelativeTo(null);
+    }
+
+    public void setCurrentUser(UserDTO loginUser) {
+        this.user = loginUser;
     }
 
     /**
@@ -134,7 +138,8 @@ public class MainMenu extends javax.swing.JFrame {
         jPanel1.setBackground(new java.awt.Color(51, 102, 255));
 
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel2.setText("Ứng dụng quản lý phòng thuê");
+        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel2.setText("Ứng dụng quản lý, chung cư mini, nhà trọ, phòng thuê");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -142,8 +147,8 @@ public class MainMenu extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(377, 377, 377))
+                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 331, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(339, 339, 339))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -216,9 +221,9 @@ public class MainMenu extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnRoom)
-                    .addComponent(btnReport, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(btnReport, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnRoom, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnGuest, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -252,7 +257,7 @@ public class MainMenu extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
     private void btnRoomActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRoomActionPerformed
-        roomList = new RoomListView(login.currentUser);
+        roomList = new RoomListView(this.user);
         roomList.setVisible(true);
         roomList.pack();
         roomList.setLocationRelativeTo(null);
@@ -265,14 +270,18 @@ public class MainMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_formFocusGained
 
     private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
-        user = login.currentUser;
+//        user = login.getCurrentUser();
         lbWelcome.setText("Xin chào, " + user.getUsername());
 
     }//GEN-LAST:event_formWindowActivated
 
     private void btnExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExitActionPerformed
         // TODO add your handling code here:
-        int ans = JOptionPane.showConfirmDialog(null, "Bạn có muốn thoát chương trình không?", "Exit", JOptionPane.YES_NO_OPTION);
+        int ans = JOptionPane.showConfirmDialog(null,
+                "Bạn có muốn thoát chương trình không?",
+                "Exit",
+                JOptionPane.YES_NO_OPTION
+        );
         if (ans == 0) {
             System.exit(0);
         }
@@ -296,6 +305,7 @@ public class MainMenu extends javax.swing.JFrame {
         // TODO add your handling code here:
         GuestView guestView = new GuestView();
         guestView.setVisible(true);
+        guestView.setCurrentUser(user);
         guestView.setLocationRelativeTo(null);
     }//GEN-LAST:event_btnGuestActionPerformed
 
@@ -309,7 +319,12 @@ public class MainMenu extends javax.swing.JFrame {
 
     private void btnLogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogoutActionPerformed
         // TODO add your handling code here:
-        int ans = JOptionPane.showConfirmDialog(null, "Thoát phiên làm việc của bạn?", "Xác nhận", JOptionPane.YES_NO_OPTION);
+        int ans = JOptionPane.showConfirmDialog(
+                null,
+                "Thoát phiên làm việc của bạn?",
+                "Xác nhận",
+                JOptionPane.YES_NO_OPTION
+        );
         if (ans == 0) {
             user = null;
             this.setVisible(false);

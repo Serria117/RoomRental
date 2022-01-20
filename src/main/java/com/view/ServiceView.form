@@ -305,6 +305,9 @@
               </Properties>
             </Component>
             <Component class="javax.swing.JTextField" name="txtTenDV">
+              <Properties>
+                <Property name="editable" type="boolean" value="false"/>
+              </Properties>
             </Component>
             <Component class="javax.swing.JTextField" name="txtDonGia">
             </Component>
@@ -319,6 +322,9 @@
               </Properties>
             </Component>
             <Component class="javax.swing.JTextField" name="txtUnit">
+              <Properties>
+                <Property name="editable" type="boolean" value="false"/>
+              </Properties>
             </Component>
             <Component class="javax.swing.JButton" name="btnSuaDichVu">
               <Properties>
