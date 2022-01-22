@@ -18,6 +18,8 @@
 --
 -- Table structure for table `bill`
 --
+CREATE DATABASE IF NOT EXISTS ql_chungcu;
+use ql_chungcu;
 
 DROP TABLE IF EXISTS `bill`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
